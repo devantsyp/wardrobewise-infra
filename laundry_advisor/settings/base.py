@@ -111,5 +111,6 @@ LOGIN_REDIRECT_URL = '/wardrobe/'
 LOGOUT_REDIRECT_URL = '/login/'
 
 # Tailwind CSS v4 via django-tailwind-cli
-TAILWIND_CLI_SRC_CSS = 'src/main.css'
+# SRC_CSS is relative to BASE_DIR; DIST_CSS is relative to STATICFILES_DIRS[0]
+TAILWIND_CLI_SRC_CSS = 'assets/src/main.css'
 TAILWIND_CLI_DIST_CSS = 'css/app.css'

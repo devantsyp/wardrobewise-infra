@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  /* Reset default Tailwind colors — use only custom palette */
+  --color-*: initial;
+
+  /* Deep Space Blue (PRIMARY brand color) */
+  --color-deep-space-50: #e9f6fb;
+  --color-deep-space-100: #c8e8f5;
+  --color-deep-space-200: #a0d4ec;
+  --color-deep-space-300: #72bce0;
+  --color-deep-space-400: #4aa1d1;
+  --color-deep-space-500: #2b83bc;
+  --color-deep-space-600: #1f6696;
+  --color-deep-space-700: #174d74;
+  --color-deep-space-800: #0f3450;
+  --color-deep-space-900: #081e30;
+  --color-deep-space-950: #05161f;
+
+  /* Dark Teal (success/positive) */
+  --color-dark-teal-50: #e9fafb;
+  --color-dark-teal-100: #c4f1f4;
+  --color-dark-teal-200: #96e4e9;
+  --color-dark-teal-300: #5dd1da;
+  --color-dark-teal-400: #2db8c5;
+  --color-dark-teal-500: #1c9aa8;
+  --color-dark-teal-600: #147a86;
+  --color-dark-teal-700: #0f5d66;
+  --color-dark-teal-800: #093f46;
+  --color-dark-teal-900: #052829;
+  --color-dark-teal-950: #051d1f;
+
+  /* Lavender (hover/focus states) */
+  --color-lavender-50: #edecf8;
+  --color-lavender-100: #d6d4f0;
+  --color-lavender-200: #b8b5e4;
+  --color-lavender-300: #9490d5;
+  --color-lavender-400: #736ec3;
+  --color-lavender-500: #5752ae;
+  --color-lavender-600: #433f8a;
+  --color-lavender-700: #322f68;
+  --color-lavender-800: #221f46;
+  --color-lavender-900: #141228;
+  --color-lavender-950: #0b091b;
+
+  /* Thistle (muted/secondary text) */
+  --color-thistle-50: #f3f0f4;
+  --color-thistle-100: #e3dde5;
+  --color-thistle-200: #c9c1cc;
+  --color-thistle-300: #ab9fb0;
+  --color-thistle-400: #8e7e93;
+  --color-thistle-500: #736176;
+  --color-thistle-600: #594a5b;
+  --color-thistle-700: #413541;
+  --color-thistle-800: #2a222b;
+  --color-thistle-900: #1c151d;
+  --color-thistle-950: #130f15;
+
+  /* Lilac Ash (muted/secondary text) */
+  --color-lilac-ash-50: #f2f1f3;
+  --color-lilac-ash-100: #e0dde2;
+  --color-lilac-ash-200: #c4c0c8;
+  --color-lilac-ash-300: #a49fa9;
+  --color-lilac-ash-400: #857f8a;
+  --color-lilac-ash-500: #68626d;
+  --color-lilac-ash-600: #504b54;
+  --color-lilac-ash-700: #3a363d;
+  --color-lilac-ash-800: #252228;
+  --color-lilac-ash-900: #181619;
+  --color-lilac-ash-950: #121013;
+
+  /* Keep white and black available */
+  --color-white: #ffffff;
+  --color-black: #000000;
+}
