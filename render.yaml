@@ -1,0 +1,27 @@
+databases:
+  - name: laundryadvisor-db
+    plan: free
+    databaseName: laundryadvisor
+    user: laundryadvisor
+
+services:
+  - type: web
+    name: laundryadvisor
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn laundry_advisor.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: laundry_advisor.settings.prod
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: laundryadvisor-db
+          property: connectionURI
+      - key: RENDER_EXTERNAL_HOSTNAME
+        fromService:
+          type: web
+          name: laundryadvisor
+          property: host
