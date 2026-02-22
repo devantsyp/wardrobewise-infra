@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Decode a confusing care label and tell the user exactly how to wash a specific garment — so they never ruin a piece of clothing again.
-**Current focus:** Phase 1 - Scaffolding and Auth
+**Current focus:** Phase 2 - Wardrobe CRUD with S3
 
 ## Current Position
 
-Phase: 1 of 5 (Scaffolding and Auth)
-Plan: 3 of 3 in current phase
-Status: In progress — stopped at checkpoint (Task 2: Deploy to Render)
-Last activity: 2026-02-22 - 01-03 Task 1 complete (prod settings, render.yaml, build.sh committed as 6377d3e)
+Phase: 2 of 5 (Wardrobe CRUD with S3)
+Plan: 0 of 3 in current phase
+Status: Phase 1 complete — ready to plan Phase 2
+Last activity: 2026-02-22 - Phase 1 complete; Render deployed, full auth flow verified on live URL
 
-Progress: [██░░░░░░░░] 13% (2/15 plans complete)
+Progress: [███░░░░░░░] 20% (3/15 plans complete)
 
 ## Performance Metrics
 
@@ -27,11 +27,11 @@ Progress: [██░░░░░░░░] 13% (2/15 plans complete)
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-scaffolding-and-auth | 2/3 | 12 min | 6 min |
+| 01-scaffolding-and-auth | 3/3 | ~42 min | ~14 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (8 min), 01-02 (4 min)
-- Trend: improving
+- Last 5 plans: 01-01 (8 min), 01-02 (4 min), 01-03 (~30 min incl. deploy debug)
+- Trend: variable (deploy plans include human verification time)
 
 *Updated after each plan completion*
 
@@ -58,11 +58,12 @@ Recent decisions affecting current work:
 - Failed login: return fresh unbound LoginForm() + `login_error` context var — clean separation of auth error from form validation errors
 - Django test.Client uses SERVER_NAME='testserver' — not in ALLOWED_HOSTS; use Client(SERVER_NAME='localhost') for shell verification
 
-**From 01-03 execution (partial):**
+**From 01-03 execution:**
 - prod.py uses STORAGES dict (not deprecated STATICFILES_STORAGE) for WhiteNoise
 - TAILWIND_CLI_AUTOMATIC_DOWNLOAD = False in prod — binary installed via build.sh's `tailwind download_cli`
 - render.yaml uses `generateValue: true` for SECRET_KEY — Render generates it on first deploy
-- build.sh order: pip install -> tailwind download_cli -> tailwind build -> collectstatic -> migrate
+- build.sh order: pip install -> tailwind download_cli -> tailwind build -> rm -rf assets/src/ -> collectstatic -> migrate
+- CRITICAL: assets/src/main.css (Tailwind v4 source, contains `@import "tailwindcss"`) must be deleted before collectstatic — WhiteNoise's CompressedManifestStaticFilesStorage tries to resolve the import as a static file and fails with MissingFileError
 
 ### Pending Todos
 
@@ -78,5 +79,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: 01-03 checkpoint — Task 1 complete (prod settings, render.yaml, build.sh); awaiting user to push to GitHub and deploy via Render Blueprint
-Resume file: .planning/phases/01-scaffolding-and-auth/01-03-PLAN.md (Task 2 checkpoint)
+Stopped at: Phase 1 complete — all 3 plans done, Render deployed and verified
+Resume file: none — ready to plan Phase 2
