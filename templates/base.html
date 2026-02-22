@@ -5,9 +5,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}LaundryAdvisor{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   {% tailwind_css %}
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
 <body class="bg-deep-space-50 min-h-screen">
-  {% block content %}{% endblock %}
+
+  <!-- Nav bar -->
+  <nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="text-deep-space-700 font-bold text-xl tracking-tight">LaundryAdvisor</a>
+      <div class="flex items-center gap-6">
+        {% if user.is_authenticated %}
+          <span class="text-thistle-500 text-sm font-medium">{{ user.email }}</span>
+          <a href="/logout/" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">Logout</a>
+        {% else %}
+          <a href="/login/" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">Log in</a>
+          <a href="/register/" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Flash message toasts (top-right, fixed) -->
+  {% if messages %}
+  <div class="fixed top-4 right-4 z-50 space-y-2" id="toast-container">
+    {% for message in messages %}
+    <div class="flex items-start gap-3 px-4 py-3 rounded-lg shadow-lg border max-w-sm
+      {% if message.tags == 'success' %}bg-dark-teal-50 border-dark-teal-400 text-dark-teal-800
+      {% elif message.tags == 'error' %}bg-red-50 border-red-400 text-red-800
+      {% else %}bg-deep-space-50 border-deep-space-400 text-deep-space-800{% endif %}">
+      <span class="text-sm font-medium flex-1">{{ message }}</span>
+      <button onclick="this.parentElement.remove()"
+              class="text-current opacity-50 hover:opacity-100 text-lg leading-none font-bold flex-shrink-0"
+              aria-label="Close">&times;</button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Main content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
 </body>
 </html>

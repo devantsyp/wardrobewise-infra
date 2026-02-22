@@ -1,6 +1,23 @@
 {% extends "base.html" %}
-{% block title %}LaundryAdvisor{% endblock %}
+{% block title %}LaundryAdvisor — Make Laundry a No-Brainer{% endblock %}
+
 {% block content %}
-<h1>LaundryAdvisor</h1>
-<p>App is running.</p>
+<section class="py-28 px-6">
+  <div class="max-w-3xl mx-auto text-center">
+    <h1 class="text-4xl md:text-5xl font-bold text-deep-space-900 leading-tight mb-10">
+      Ready to make laundry a no-brainer?
+    </h1>
+    {% if user.is_authenticated %}
+      <a href="/wardrobe/"
+         class="inline-block bg-deep-space-600 hover:bg-lavender-500 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors">
+        Go to Your Wardrobe
+      </a>
+    {% else %}
+      <a href="/register/"
+         class="inline-block bg-deep-space-600 hover:bg-lavender-500 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors">
+        Get Started
+      </a>
+    {% endif %}
+  </div>
+</section>
 {% endblock %}

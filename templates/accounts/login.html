@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Log In — LaundryAdvisor{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-16 px-4 pb-16">
+  <div class="bg-white rounded-lg shadow-md p-8">
+    <h1 class="text-2xl font-bold text-deep-space-900 mb-6">Log in to your account</h1>
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+
+      <!-- Generic login error (shown on failed attempt; form fields cleared) -->
+      {% if login_error %}
+      <div class="mb-4">
+        <p class="text-red-600 text-sm">{{ login_error }}</p>
+      </div>
+      {% endif %}
+
+      <!-- Non-field form errors (fallback) -->
+      {% if form.non_field_errors %}
+      <div class="mb-4">
+        {% for error in form.non_field_errors %}
+        <p class="text-red-600 text-sm">{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Email field (username field relabeled) -->
+      <div class="mb-4">
+        <label for="{{ form.username.id_for_label }}"
+               class="block text-sm font-medium text-deep-space-800 mb-1">
+          {{ form.username.label }}
+        </label>
+        {{ form.username }}
+        {% if form.username.errors %}
+        <div class="mt-1">
+          {% for error in form.username.errors %}
+          <p class="text-red-600 text-sm">{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Password field -->
+      <div class="mb-6">
+        <label for="{{ form.password.id_for_label }}"
+               class="block text-sm font-medium text-deep-space-800 mb-1">
+          {{ form.password.label }}
+        </label>
+        {{ form.password }}
+        {% if form.password.errors %}
+        <div class="mt-1">
+          {% for error in form.password.errors %}
+          <p class="text-red-600 text-sm">{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+              class="w-full bg-deep-space-600 hover:bg-lavender-500 text-white font-semibold py-2.5 rounded-lg transition-colors">
+        Log in
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-thistle-500 text-sm">
+      Don't have an account?
+      <a href="/register/" class="text-deep-space-600 hover:text-lavender-500 font-medium transition-colors">Register</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
