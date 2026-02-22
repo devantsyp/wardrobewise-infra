@@ -30,12 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User can register a new account with email and password, log in, and log out from any page
   4. User's login session persists across browser refresh without requiring re-authentication
   5. The deployed Render app responds to HTTP requests and returns a non-error page (deployment baseline is confirmed working)
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 01-01: Project scaffolding — git repo, `.gitignore`, `.env.example`, venv, `requirements.txt`, split settings (base/dev/prod), health check endpoint
-- [ ] 01-02: Django auth — `accounts` app, register/login/logout views, session persistence, mobile-responsive base template
-- [ ] 01-03: Render deployment baseline — `render.yaml`, whitenoise static files, dj-database-url, PostgreSQL connection confirmed on Render
+- [ ] 01-01-PLAN.md — Django project scaffolding: split settings, custom user model, Tailwind CSS v4 with color palette, health check, .gitignore, .env.example
+- [ ] 01-02-PLAN.md — Auth flow and templates: registration/login/logout views, styled base template with nav, landing page hero, flash message toasts
+- [ ] 01-03-PLAN.md — Render deployment: production settings (WhiteNoise, dj-database-url), render.yaml Blueprint, build.sh, deploy verification
 
 ### Phase 2: Wardrobe CRUD with S3
 **Goal**: Users can build a persistent garment catalog — creating, viewing, editing, and deleting garments — with photos stored durably on AWS S3.
