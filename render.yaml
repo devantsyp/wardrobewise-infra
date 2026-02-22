@@ -19,7 +19,7 @@ services:
       - key: DATABASE_URL
         fromDatabase:
           name: laundryadvisor-db
-          property: connectionURI
+          property: connectionString
       - key: RENDER_EXTERNAL_HOSTNAME
         fromService:
           type: web
