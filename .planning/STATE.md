@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 1 of 5 (Scaffolding and Auth)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-02-22 - Completed 01-01-PLAN.md (Django scaffold + Tailwind CSS v4)
+Last activity: 2026-02-22 - Completed 01-02-PLAN.md (auth flow, landing page, styled templates)
 
-Progress: [█░░░░░░░░░] 7% (1/15 plans complete)
+Progress: [██░░░░░░░░] 13% (2/15 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 8 min
-- Total execution time: 8 min
+- Total plans completed: 2
+- Average duration: 6 min
+- Total execution time: 12 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-scaffolding-and-auth | 1/3 | 8 min | 8 min |
+| 01-scaffolding-and-auth | 2/3 | 12 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (8 min)
-- Trend: baseline
+- Last 5 plans: 01-01 (8 min), 01-02 (4 min)
+- Trend: improving
 
 *Updated after each plan completion*
 
@@ -53,6 +53,11 @@ Recent decisions affecting current work:
 - CustomUser must be created before first migration — done; cannot be changed without DB reset
 - Tailwind CLI binary downloads to `.django_tailwind_cli/` — excluded from git, re-downloaded on fresh clone
 
+**From 01-02 execution:**
+- Color names in templates must match main.css: `deep-space-*` not `deep-space-blue-*` (research docs had wrong name)
+- Failed login: return fresh unbound LoginForm() + `login_error` context var — clean separation of auth error from form validation errors
+- Django test.Client uses SERVER_NAME='testserver' — not in ALLOWED_HOSTS; use Client(SERVER_NAME='localhost') for shell verification
+
 ### Pending Todos
 
 None.
@@ -67,5 +72,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: 01-01 complete — Django scaffold with Tailwind CSS v4 and CustomUser model
-Resume file: .planning/phases/01-scaffolding-and-auth/01-02-PLAN.md
+Stopped at: 01-02 complete — auth flow, landing page, styled base template, toast notifications
+Resume file: .planning/phases/01-scaffolding-and-auth/01-03-PLAN.md
