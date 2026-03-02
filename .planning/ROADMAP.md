@@ -47,12 +47,12 @@ Plans:
   3. User can view their full wardrobe as a photo grid showing all their garments
   4. User can open a garment detail page showing all fields, both photos, and a placeholder for care instructions
   5. User can edit any garment field and delete a garment; deleted garments no longer appear in the wardrobe grid
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 02-01: `wardrobe` app models and admin — WardrobeItem model, ImageField with django-storages S3 backend, MIME type and size validation, Django admin registration
-- [ ] 02-02: Wardrobe views and templates — create/list/detail/edit/delete views, photo grid template, garment detail template, care instruction placeholder
-- [ ] 02-03: User-editable care instructions — WARD-08 editable instruction fields saved as final version, separate from AI output (model scaffold for Phase 3)
+- [ ] 02-01-PLAN.md — Wardrobe app foundation: Garment model, GarmentForm with file validation, S3 storage config (dev + prod), signals for file cleanup, Django admin
+- [ ] 02-02-PLAN.md — Views and templates: 5 FBVs (list/detail/create/edit/delete), responsive photo grid, garment detail page, shared create/edit form with floating labels and file upload preview
+- [ ] 02-03-PLAN.md — AWS S3 setup and verification: guide user through bucket creation + IAM credentials + Render env vars, then browser verification of full CRUD flow
 
 ### Phase 3: Care Label Analysis Pipeline
 **Goal**: Users can trigger a GPT-4o Vision analysis of a care label image and receive structured plain-English laundry instructions, with rate limiting, deduplication, budget protection, and admin visibility all enforced.
