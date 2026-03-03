@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 2 of 5 (Wardrobe CRUD with S3)
-Plan: 1 of 3 in current phase
-Status: Plan 02-01 complete — wardrobe data layer, Garment model, S3 storage, GarmentForm ready
-Last activity: 2026-03-03 - Plan 02-01 complete; Garment model migrated, S3 storage configured
+Plan: 2 of 3 in current phase
+Status: Plan 02-02 complete — all 5 wardrobe CRUD views, 3 Tailwind templates, URL namespace wired at /wardrobe/
+Last activity: 2026-03-03 - Plan 02-02 complete; wardrobe CRUD interface fully functional in browser
 
-Progress: [████░░░░░░] 27% (4/15 plans complete)
+Progress: [█████░░░░░] 33% (5/15 plans complete)
 
 ## Performance Metrics
 
@@ -28,10 +28,10 @@ Progress: [████░░░░░░] 27% (4/15 plans complete)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-scaffolding-and-auth | 3/3 | ~42 min | ~14 min |
-| 02-wardrobe-crud-with-s3 | 1/3 | ~5 min | ~5 min |
+| 02-wardrobe-crud-with-s3 | 2/3 | ~10 min | ~5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (8 min), 01-02 (4 min), 01-03 (~30 min incl. deploy debug), 02-01 (5 min)
+- Last 5 plans: 01-02 (4 min), 01-03 (~30 min incl. deploy debug), 02-01 (5 min), 02-02 (5 min)
 - Trend: variable (deploy plans include human verification time)
 
 *Updated after each plan completion*
@@ -71,6 +71,12 @@ Recent decisions affecting current work:
 - prod.py extends STORAGES dict via `STORAGES["default"] = {...}` — reassigning `STORAGES = {...}` would wipe the WhiteNoise staticfiles entry
 - CATEGORY_CHOICES is a module-level list (not class attribute) — plan verify command needs django.setup() to import Garment
 
+**From 02-02 execution:**
+- User isolation: get_object_or_404(Garment, pk=pk, user=request.user) returns 404 (not 403) for cross-user access — per user decision
+- File replacement in garment_edit: call garment.garment_photo.delete(save=False) before form.save() to avoid orphan S3 files
+- Floating label CSS pattern: peer class + placeholder=" " (space) enables CSS-only label float animation — works for text/textarea, not select
+- tailwind build --force required when template classes change; "up to date" check can miss new classes from freshly created templates
+
 ### Pending Todos
 
 None.
@@ -86,5 +92,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Completed 02-wardrobe-crud-with-s3/02-01-PLAN.md
-Resume file: none — ready for Plan 02-02 (wardrobe views)
+Stopped at: Completed 02-wardrobe-crud-with-s3/02-02-PLAN.md
+Resume file: none — ready for Plan 02-03 (deploy verification)
