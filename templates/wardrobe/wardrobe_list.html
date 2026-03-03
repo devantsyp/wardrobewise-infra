@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}My Wardrobe — LaundryAdvisor{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 py-8">
+
+  <!-- Page header -->
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold text-deep-space-900">My Wardrobe</h1>
+    <a href="{% url 'wardrobe:garment_create' %}"
+       class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+      Add Clothing
+    </a>
+  </div>
+
+  {% if garments %}
+    <!-- Photo grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      {% for garment in garments %}
+      <a href="{% url 'wardrobe:garment_detail' garment.pk %}"
+         class="rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-colors group">
+        <!-- Image area -->
+        <div class="aspect-square overflow-hidden bg-deep-space-50">
+          {% if garment.garment_photo %}
+            <img src="{{ garment.garment_photo.url }}"
+                 alt="{{ garment.name }}"
+                 class="w-full h-full object-cover group-hover:opacity-90 transition-colors">
+          {% else %}
+            <!-- Placeholder with clothing hanger icon -->
+            <div class="w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-deep-space-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 3a2 2 0 0 0-2 2c0 .74.4 1.38 1 1.73V8L4 14h16l-7-6V6.73c.6-.35 1-.99 1-1.73a2 2 0 0 0-2-2z" />
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+        <!-- Garment name -->
+        <p class="text-sm font-medium text-deep-space-800 p-2 truncate">{{ garment.name }}</p>
+      </a>
+      {% endfor %}
+    </div>
+
+  {% else %}
+    <!-- Empty state -->
+    <div class="flex flex-col items-center justify-center py-28 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-deep-space-200 mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 3a2 2 0 0 0-2 2c0 .74.4 1.38 1 1.73V8L4 14h16l-7-6V6.73c.6-.35 1-.99 1-1.73a2 2 0 0 0-2-2z" />
+      </svg>
+      <h2 class="text-2xl font-bold text-deep-space-900 mb-3">Your wardrobe is empty</h2>
+      <p class="text-thistle-500 mb-8">Add your first piece of clothing to get started</p>
+      <a href="{% url 'wardrobe:garment_create' %}"
+         class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+        Add Clothing
+      </a>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
