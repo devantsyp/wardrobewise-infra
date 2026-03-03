@@ -38,6 +38,20 @@ STORAGES = {
     },
 }
 
+# S3 media storage — extends STORAGES without replacing the WhiteNoise staticfiles entry
+STORAGES["default"] = {
+    "BACKEND": "storages.backends.s3.S3Storage",
+    "OPTIONS": {
+        "bucket_name": env("AWS_STORAGE_BUCKET_NAME"),
+        "region_name": env("AWS_S3_REGION_NAME", default="us-east-1"),
+        "access_key": env("AWS_ACCESS_KEY_ID"),
+        "secret_key": env("AWS_SECRET_ACCESS_KEY"),
+        "querystring_auth": False,
+        "file_overwrite": True,
+        "default_acl": None,
+    },
+}
+
 # Tailwind CLI — do NOT auto-download in production (binary installed during build)
 TAILWIND_CLI_AUTOMATIC_DOWNLOAD = False
 
