@@ -1,4 +1,5 @@
 from django import forms
+from django.core.files.uploadedfile import UploadedFile
 
 from wardrobe.models import Garment
 
@@ -61,9 +62,10 @@ class GarmentForm(forms.ModelForm):
     def _validate_image(self, file, field_name):
         """
         Shared validation for image uploads.
+        Only validates newly uploaded files — skips existing ImageFieldFile objects.
         Checks content type (JPG/PNG only) and file size (max 10 MB).
         """
-        if file:
+        if isinstance(file, UploadedFile):
             allowed_types = ['image/jpeg', 'image/png']
             if file.content_type not in allowed_types:
                 raise forms.ValidationError('Only JPG and PNG files are accepted.')

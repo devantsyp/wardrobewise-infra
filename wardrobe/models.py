@@ -18,6 +18,7 @@ CATEGORY_CHOICES = [
     ("Socks", "Socks"),
     ("Activewear", "Activewear"),
     ("Sleepwear & Robes", "Sleepwear & Robes"),
+    ("Other", "Other"),
 ]
 
 

@@ -47,12 +47,12 @@ def garment_edit(request, pk):
     if request.method == 'POST':
         form = GarmentForm(request.POST, request.FILES, instance=garment)
         if form.is_valid():
-            # Delete old files before uploading replacements
-            if 'garment_photo' in request.FILES and garment.garment_photo:
-                garment.garment_photo.delete(save=False)
-            if 'care_label_photo' in request.FILES and garment.care_label_photo:
-                garment.care_label_photo.delete(save=False)
-            form.save()
+            updated = form.save(commit=False)
+            if 'garment_photo' in request.FILES:
+                updated.garment_photo = request.FILES['garment_photo']
+            if 'care_label_photo' in request.FILES:
+                updated.care_label_photo = request.FILES['care_label_photo']
+            updated.save()
             return redirect('wardrobe:garment_detail', pk=garment.pk)
     else:
         form = GarmentForm(instance=garment)

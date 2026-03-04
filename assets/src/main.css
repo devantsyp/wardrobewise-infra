@@ -69,7 +69,26 @@
   --color-lilac-ash-900: #181619;
   --color-lilac-ash-950: #121013;
 
+  /* Red (destructive actions) */
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
+  --color-red-950: #450a0a;
+
   /* Keep white and black available */
   --color-white: #ffffff;
   --color-black: #000000;
 }
+
+/* Force-compile all color utilities so any shade can be used in templates */
+@source inline("{bg,text,border,ring,shadow}-{deep-space,dark-teal,lavender,thistle,lilac-ash,red}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{bg,text,border}-{white,black}");
+@source inline("hover:{bg,text,border}-{deep-space,dark-teal,lavender,thistle,lilac-ash,red}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("hover:{bg,text}-{white,black}");
