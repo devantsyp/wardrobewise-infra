@@ -5,21 +5,21 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Decode a confusing care label and tell the user exactly how to wash a specific garment — so they never ruin a piece of clothing again.
-**Current focus:** Phase 2 - Wardrobe CRUD with S3
+**Current focus:** Phase 3 - AI Pipeline (care label analysis)
 
 ## Current Position
 
-Phase: 2 of 5 (Wardrobe CRUD with S3)
-Plan: 2 of 3 in current phase
-Status: Plan 02-02 complete — all 5 wardrobe CRUD views, 3 Tailwind templates, URL namespace wired at /wardrobe/
-Last activity: 2026-03-03 - Plan 02-02 complete; wardrobe CRUD interface fully functional in browser
+Phase: 2 of 5 (Wardrobe CRUD with S3) — COMPLETE
+Plan: Phase complete — ready for Phase 3 (AI Pipeline)
+Status: Plan 02-03 complete — AWS S3 configured in Render, all 8 browser tests passed; Phase 02 fully complete
+Last activity: 2026-03-26 - Plan 02-03 complete; full wardrobe CRUD with S3 production storage verified
 
-Progress: [█████░░░░░] 33% (5/15 plans complete)
+Progress: [██████░░░░] 40% (6/15 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
+- Total plans completed: 6
 - Average duration: ~8 min
 - Total execution time: ~47 min
 
@@ -28,11 +28,11 @@ Progress: [█████░░░░░] 33% (5/15 plans complete)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-scaffolding-and-auth | 3/3 | ~42 min | ~14 min |
-| 02-wardrobe-crud-with-s3 | 2/3 | ~10 min | ~5 min |
+| 02-wardrobe-crud-with-s3 | 3/3 | ~10 min + human-gated | ~5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (4 min), 01-03 (~30 min incl. deploy debug), 02-01 (5 min), 02-02 (5 min)
-- Trend: variable (deploy plans include human verification time)
+- Last 5 plans: 01-03 (~30 min incl. deploy debug), 02-01 (5 min), 02-02 (5 min), 02-03 (human-gated)
+- Trend: variable (deploy/verification plans include human action time)
 
 *Updated after each plan completion*
 
@@ -77,6 +77,11 @@ Recent decisions affecting current work:
 - Floating label CSS pattern: peer class + placeholder=" " (space) enables CSS-only label float animation — works for text/textarea, not select
 - tailwind build --force required when template classes change; "up to date" check can miss new classes from freshly created templates
 
+**From 02-03 execution:**
+- S3 bucket public read policy configured — garment photo URLs served directly without signed URLs
+- All 4 AWS env vars set in Render; S3 production storage active as of phase 02 completion
+- All 8 browser tests passed: empty state, create with upload, grid, detail, edit, delete, file validation, auth protection
+
 ### Pending Todos
 
 None.
@@ -87,10 +92,10 @@ None.
 - Phase 3: Confirm `response_format={"type": "json_object"}` still supported for Vision inputs (OpenAI iterates on this surface)
 - Phase 2: STORAGES dict configuration verified working against django-storages 1.14.6 (concern resolved)
 - All phases: Verify Django version — 5.2 LTS confirmed as of 2026-02-22
-- Phase 2: AWS S3 env vars (AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY) must be configured in Render before production photo uploads work
+- Phase 2: AWS S3 env vars configured in Render — RESOLVED (plan 02-03 complete)
 
 ## Session Continuity
 
-Last session: 2026-03-03
-Stopped at: Completed 02-wardrobe-crud-with-s3/02-02-PLAN.md
-Resume file: none — ready for Plan 02-03 (deploy verification)
+Last session: 2026-03-26
+Stopped at: Completed 02-wardrobe-crud-with-s3/02-03-PLAN.md — Phase 02 complete
+Resume file: none — ready for Phase 03 (AI pipeline)
