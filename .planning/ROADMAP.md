@@ -64,13 +64,12 @@ Plans:
   3. After reaching 10 analyses in a day, the user sees a clear UI message blocking further analysis and showing the daily limit; the counter resets at midnight and is visible in the UI at all times
   4. Submitting the same care label image a second time returns the stored result immediately without making a new API call
   5. When cumulative API spend approaches the $10 budget limit, all analysis calls are halted globally; the Django admin panel shows per-user usage logs and API call history
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 03-01: AnalysisResult and UsageLog models — discrete typed columns for structured output, raw JSON audit field, UsageLog with timestamp and cost tracking, budget guard logic, DB-backed rate limit check
-- [ ] 03-02: `services/openai_client.py` — GPT-4o Vision call, response parsing, AnalysisError handling, image SHA-256 deduplication hash, `gunicorn --timeout 60` configuration
-- [ ] 03-03: Analysis views and templates — sequential creation flow (ANLZ-01), Analyze button view, rate limit UI message and daily counter display (ANLZ-07, ANLZ-08), result display page, manual field edit/save
-- [ ] 03-04: Django admin integration — UsageLog and AnalysisResult registered in admin with per-user filters and API call history view
+- [ ] 03-01-PLAN.md — Models + service layer: CareAnalysis and UsageLog models, services/analysis.py with GPT-4o Vision call, rate limiting, budget guard, image dedup, context processor, requirements update
+- [ ] 03-02-PLAN.md — Analyze view + templates: analyze endpoint, garment detail care instructions display (all states), nav counter, wardrobe grid badge, rate limit UI with countdown
+- [ ] 03-03-PLAN.md — Edit instructions + admin: edit/reset/delete analysis views, edit form, Django admin for CareAnalysis and UsageLog with read-only audit
 
 ### Phase 4: Laundry Basket
 **Goal**: Users can select multiple analyzed garments and receive a multi-load washing plan that groups compatible garments and separates incompatible ones.
@@ -111,6 +110,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Scaffolding and Auth | 3/3 | Complete | 2026-02-22 |
 | 2. Wardrobe CRUD with S3 | 0/3 | Not started | - |
-| 3. Care Label Analysis Pipeline | 0/4 | Not started | - |
+| 3. Care Label Analysis Pipeline | 0/3 | Not started | - |
 | 4. Laundry Basket | 0/2 | Not started | - |
 | 5. Production Deployment | 0/2 | Not started | - |
