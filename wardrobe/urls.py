@@ -10,4 +10,5 @@ urlpatterns = [
     path('add/', views.garment_create, name='garment_create'),
     path('<int:pk>/edit/', views.garment_edit, name='garment_edit'),
     path('<int:pk>/delete/', views.garment_delete, name='garment_delete'),
+    path('<int:pk>/analyze/', views.analyze_care_label_view, name='analyze_care_label'),
 ]
