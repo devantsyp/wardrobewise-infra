@@ -28,14 +28,14 @@
 - [ ] **ANLZ-01**: User follows a sequential garment creation flow: upload item photo → provide optional details → upload care label photo → click "Analyze" button
 - [ ] **ANLZ-02**: Clicking "Analyze" triggers a synchronous GPT-4o Vision API call using the uploaded care label image and any optional text provided
 - [ ] **ANLZ-03**: Analysis returns structured JSON containing: wash temperature/cycle, drying method, ironing guidance, bleach warnings, delicates/special-care flag, confidence score per field, and confirmation prompts for uncertain fields
-- [ ] **ANLZ-04**: Raw GPT-4o JSON response is stored immutably in the database as an audit log
+- [x] **ANLZ-04**: Raw GPT-4o JSON response is stored immutably in the database as an audit log
 - [ ] **ANLZ-05**: User-edited final instructions are stored separately from the raw AI output
 - [ ] **ANLZ-06**: Each user is limited to 10 care label analyses per day, resetting at midnight
 - [ ] **ANLZ-07**: User is shown a clear UI message when their daily analysis limit is reached
 - [ ] **ANLZ-08**: Remaining daily analysis count is visible in the UI
 - [ ] **ANLZ-09**: Repeat analysis calls for the same care label image are deduplicated using a content hash — stored results are returned without a new API call
 - [ ] **ANLZ-10**: A global API budget guard halts all analysis calls when cumulative API spend approaches the $10 limit
-- [ ] **ANLZ-11**: Django admin panel displays per-user analysis usage logs and API call history for monitoring
+- [x] **ANLZ-11**: Django admin panel displays per-user analysis usage logs and API call history for monitoring
 
 ### Laundry Basket (BSKT)
 
@@ -118,14 +118,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ANLZ-01 | Phase 3 | Pending |
 | ANLZ-02 | Phase 3 | Pending |
 | ANLZ-03 | Phase 3 | Pending |
-| ANLZ-04 | Phase 3 | Pending |
+| ANLZ-04 | Phase 3 | Complete |
 | ANLZ-05 | Phase 3 | Pending |
 | ANLZ-06 | Phase 3 | Pending |
 | ANLZ-07 | Phase 3 | Pending |
 | ANLZ-08 | Phase 3 | Pending |
 | ANLZ-09 | Phase 3 | Pending |
 | ANLZ-10 | Phase 3 | Pending |
-| ANLZ-11 | Phase 3 | Pending |
+| ANLZ-11 | Phase 3 | Complete |
 | BSKT-01 | Phase 4 | Pending |
 | BSKT-02 | Phase 4 | Pending |
 | BSKT-03 | Phase 4 | Pending |

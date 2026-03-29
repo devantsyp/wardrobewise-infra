@@ -2,13 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-last_updated: "2026-03-29T23:33:48.934Z"
+status: unknown
+stopped_at: Completed 03-care-label-analysis-pipeline/03-03-PLAN.md — edit instructions flow and admin integration complete
+last_updated: "2026-03-29T23:53:55.375Z"
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -22,12 +23,8 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 
 ## Current Position
 
-Phase: 3 of 5 (AI Pipeline - care label analysis)
-Plan: 2 of 4 in phase — Plan 03-02 complete
-Status: In progress — analysis view and templates complete; edit instructions (03-03) is next
-Last activity: 2026-03-29 - Plan 03-02 complete; analyze endpoint, 5-state garment detail UI, nav counter, grid badge
-
-Progress: [████████░░] 53% (8/15 plans complete)
+Phase: 03 (care-label-analysis-pipeline) — EXECUTING
+Plan: 1 of 3
 
 ## Performance Metrics
 
@@ -51,6 +48,7 @@ Progress: [████████░░] 53% (8/15 plans complete)
 
 *Updated after each plan completion*
 | Phase 03-care-label-analysis-pipeline P02 | 3 | 2 tasks | 5 files |
+| Phase 03-care-label-analysis-pipeline P03 | 10min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -113,10 +111,14 @@ Recent decisions affecting current work:
 - Context processor daily_usage_counter gated on `resolver_match.app_name == 'wardrobe'` — no unnecessary queries on admin/auth pages
 
 **From 03-02 execution:**
+
 - Sentinel message strings ("daily_limit_reached", "budget_guard_tripped", "analysis_failed") passed via Django messages — templates check specific strings to render appropriate UI
 - Explicit analysis context: garment_detail view does try/except CareAnalysis.DoesNotExist and passes analysis=None — reverse OneToOne in templates is unreliable (raises DoesNotExist instead of being falsy)
 - Exists() subquery annotation for has_analysis on garment_list queryset — single query, no N+1, no DoesNotExist issues in templates
 - href="#" placeholder for Edit Instructions link — Plan 03-03 will replace with wardrobe:edit_instructions URL
+- [Phase 03-care-label-analysis-pipeline]: CareInstructionsForm uses TextInput for care instruction fields, Textarea only for personal_notes
+- [Phase 03-care-label-analysis-pipeline]: Reset to AI version as separate form element (not nested inside edit form) to avoid invalid HTML
+- [Phase 03-care-label-analysis-pipeline]: UsageLogAdmin fully immutable (has_add/change/delete_permission all return False) — append-only audit log
 
 ### Pending Todos
 
@@ -133,6 +135,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-29
-Stopped at: Completed 03-care-label-analysis-pipeline/03-02-PLAN.md — analysis view and templates complete
-Resume file: .planning/phases/03-care-label-analysis-pipeline/03-03-PLAN.md
+Last session: 2026-03-29T23:53:55.372Z
+Stopped at: Completed 03-care-label-analysis-pipeline/03-03-PLAN.md — edit instructions flow and admin integration complete
+Resume file: None
