@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.conf import settings
 from django.db import models
 
@@ -69,3 +71,67 @@ class Garment(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CareAnalysis(models.Model):
+    garment = models.OneToOneField(
+        'Garment',
+        on_delete=models.CASCADE,
+        related_name='care_analysis',
+    )
+    image_hash = models.CharField(max_length=64, db_index=True)
+
+    # Immutable AI output fields — never updated after creation
+    raw_ai_json = models.JSONField()
+    ai_washing = models.TextField()
+    ai_drying = models.TextField()
+    ai_ironing = models.TextField()
+    ai_bleach = models.TextField()
+    ai_is_delicate = models.BooleanField(default=False)
+    ai_summary = models.TextField()
+
+    # User-editable copy fields — start as copy of ai_* fields
+    washing = models.TextField()
+    drying = models.TextField()
+    ironing = models.TextField()
+    bleach = models.TextField()
+    is_delicate = models.BooleanField(default=False)
+    summary = models.TextField()
+    personal_notes = models.TextField(blank=True)
+    is_user_edited = models.BooleanField(default=False)
+
+    # Timestamps
+    analyzed_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    from_cache = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Analysis for {self.garment.name}"
+
+
+class UsageLog(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='usage_logs',
+    )
+    garment = models.ForeignKey(
+        'Garment',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='usage_logs',
+    )
+    prompt_tokens = models.IntegerField()
+    completion_tokens = models.IntegerField()
+    cost_usd = models.DecimalField(max_digits=10, decimal_places=8)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['user', 'created_at']),
+            models.Index(fields=['created_at']),
+        ]
+
+    def __str__(self):
+        return f"Usage {self.user} - {self.created_at:%Y-%m-%d}"
