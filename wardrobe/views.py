@@ -1,21 +1,36 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from wardrobe.forms import GarmentForm
-from wardrobe.models import Garment
+from wardrobe.models import CareAnalysis, Garment
+from wardrobe.services.analysis import (
+    AnalysisError,
+    BudgetGuardTripped,
+    RateLimitExceeded,
+    analyze_care_label,
+)
 
 
 @login_required
 def garment_list(request):
-    garments = Garment.objects.filter(user=request.user)
+    from django.db.models import Exists, OuterRef
+    garments = Garment.objects.filter(user=request.user).annotate(
+        has_analysis=Exists(CareAnalysis.objects.filter(garment=OuterRef('pk')))
+    )
     return render(request, 'wardrobe/wardrobe_list.html', {'garments': garments})
 
 
 @login_required
 def garment_detail(request, pk):
     garment = get_object_or_404(Garment, pk=pk, user=request.user)
-    return render(request, 'wardrobe/garment_detail.html', {'garment': garment})
+    try:
+        analysis = garment.care_analysis
+    except CareAnalysis.DoesNotExist:
+        analysis = None
+    context = {'garment': garment, 'analysis': analysis}
+    return render(request, 'wardrobe/garment_detail.html', context)
 
 
 @login_required
@@ -65,3 +80,24 @@ def garment_delete(request, pk):
     garment = get_object_or_404(Garment, pk=pk, user=request.user)
     garment.delete()
     return redirect('wardrobe:garment_list')
+
+
+@login_required
+@require_POST
+def analyze_care_label_view(request, pk):
+    garment = get_object_or_404(Garment, pk=pk, user=request.user)
+
+    if not garment.care_label_photo:
+        messages.error(request, "Please upload a care label photo first.")
+        return redirect('wardrobe:garment_detail', pk=pk)
+
+    try:
+        analyze_care_label(garment, request.user)
+        messages.success(request, "Care instructions analyzed successfully.")
+    except RateLimitExceeded:
+        messages.error(request, "daily_limit_reached")
+    except BudgetGuardTripped:
+        messages.error(request, "budget_guard_tripped")
+    except AnalysisError:
+        messages.error(request, "analysis_failed")
+    return redirect('wardrobe:garment_detail', pk=pk)

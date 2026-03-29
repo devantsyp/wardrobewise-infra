@@ -99,7 +99,7 @@
 
   <!-- Care label dropdown (only if it exists) -->
   {% if garment.care_label_photo %}
-  <div class="rounded-lg shadow-sm overflow-hidden">
+  <div class="rounded-lg shadow-sm overflow-hidden mb-6">
     <button
       type="button"
       id="care-label-toggle"
@@ -156,9 +156,171 @@
   </script>
   {% endif %}
 
-  <!-- Care instructions placeholder -->
-  <div class="bg-deep-space-50 rounded-lg p-4 mb-6">
-    <p class="text-thistle-500 italic text-sm">Care instructions coming soon</p>
+  <!-- Care Instructions Section -->
+  <div class="mb-6">
+    <h2 class="text-lg font-semibold text-deep-space-800 mb-3">Care Instructions</h2>
+
+    <!-- Error state: analysis failed -->
+    {% for message in messages %}
+      {% if 'analysis_failed' in message.message %}
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+        <p class="text-red-800 font-medium">Analysis failed. Please try again.</p>
+        <form method="POST" action="{% url 'wardrobe:analyze_care_label' garment.pk %}" class="mt-2">
+          {% csrf_token %}
+          <button type="submit"
+            class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors">
+            Retry
+          </button>
+        </form>
+      </div>
+      {% endif %}
+    {% endfor %}
+
+    {% if budget_guard_tripped %}
+      <!-- State D: Budget guard tripped -->
+      <div class="bg-deep-space-50 rounded-lg p-4 mb-4">
+        <p class="text-deep-space-500 font-medium">Analysis temporarily unavailable.</p>
+      </div>
+
+    {% elif daily_usage_count >= daily_usage_limit %}
+      <!-- State C: Rate limit reached -->
+      <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+        <p class="text-amber-800 font-medium">
+          Daily limit reached ({{ daily_usage_count }} / {{ daily_usage_limit }}).
+          Resets in <span id="midnight-countdown" class="font-mono"></span>
+        </p>
+      </div>
+      <script>
+        (function() {
+          function getMsUntilMidnight() {
+            var now = new Date();
+            var midnight = new Date(now);
+            midnight.setHours(24, 0, 0, 0);
+            return midnight - now;
+          }
+          function formatCountdown(ms) {
+            var totalSeconds = Math.floor(ms / 1000);
+            var h = Math.floor(totalSeconds / 3600);
+            var m = Math.floor((totalSeconds % 3600) / 60);
+            var s = totalSeconds % 60;
+            return h + 'h ' + m + 'm ' + s + 's';
+          }
+          function tick() {
+            var el = document.getElementById('midnight-countdown');
+            if (!el) return;
+            el.textContent = formatCountdown(getMsUntilMidnight());
+            setTimeout(tick, 1000);
+          }
+          tick();
+        })();
+      </script>
+
+    {% elif analysis %}
+      <!-- State E: Analysis exists — show results -->
+      <div class="bg-white rounded-lg shadow-sm p-4">
+        <!-- Summary sentence -->
+        <p class="text-deep-space-900 font-semibold">{{ analysis.summary }}</p>
+
+        <!-- Bullet list of care instructions -->
+        <ul class="list-disc list-inside space-y-2 text-deep-space-800 mt-3">
+          <li><strong>Washing:</strong> {{ analysis.washing }}</li>
+          <li><strong>Drying:</strong> {{ analysis.drying }}</li>
+          <li><strong>Ironing:</strong> {{ analysis.ironing }}</li>
+          <li class="{% if 'not' in analysis.bleach|lower or 'no' in analysis.bleach|lower %}text-red-700 font-medium{% endif %}">
+            <strong>Bleach:</strong> {{ analysis.bleach }}
+          </li>
+        </ul>
+
+        <!-- Delicates badge -->
+        {% if analysis.is_delicate %}
+        <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full mt-3">
+          &#9888; Delicate Item
+        </span>
+        {% endif %}
+
+        <!-- Personal notes -->
+        {% if analysis.personal_notes %}
+        <p class="text-deep-space-600 text-sm mt-3 italic">
+          <strong>Notes:</strong> {{ analysis.personal_notes }}
+        </p>
+        {% endif %}
+
+        <!-- Care label thumbnail cross-reference -->
+        {% if garment.care_label_photo %}
+        <img src="{{ garment.care_label_photo.url }}" alt="Care label"
+          class="w-20 h-auto rounded mt-3 border border-deep-space-100">
+        {% endif %}
+
+        <!-- Timestamp -->
+        <p class="text-thistle-400 text-xs mt-3">
+          Analyzed {{ analysis.analyzed_at|timesince }} ago
+          {% if analysis.from_cache %}
+          <span class="text-thistle-300"> — (from previous analysis)</span>
+          {% endif %}
+        </p>
+
+        <!-- Action buttons -->
+        <div class="flex items-center gap-3 mt-4">
+          <a href="#"
+            class="bg-deep-space-100 hover:bg-deep-space-200 text-deep-space-800 font-semibold px-4 py-2 rounded-lg transition-colors text-sm">
+            {# TODO: Plan 03-03 will wire this to wardrobe:edit_instructions #}
+            Edit Instructions
+          </a>
+          <form method="POST" action="{% url 'wardrobe:analyze_care_label' garment.pk %}"
+            {% if analysis.is_user_edited %}
+            onsubmit="return confirm('Re-analyzing will replace your edited instructions. Continue?');"
+            {% endif %}>
+            {% csrf_token %}
+            <button type="submit"
+              class="bg-deep-space-100 hover:bg-deep-space-200 text-deep-space-800 font-semibold px-4 py-2 rounded-lg transition-colors text-sm">
+              Re-analyze
+            </button>
+          </form>
+        </div>
+      </div>
+
+    {% else %}
+      <!-- State A/B: No analysis yet — show placeholder -->
+      <div class="bg-deep-space-50 rounded-lg p-4 mb-4">
+        {% if garment.care_label_photo %}
+        <p class="text-thistle-500 italic text-sm">
+          Care label uploaded. Click "Analyze Care Label" to get structured care instructions.
+        </p>
+        {% else %}
+        <p class="text-thistle-500 italic text-sm">
+          No care instructions yet. Upload a care label photo and click Analyze to get started.
+        </p>
+        {% endif %}
+      </div>
+
+      {% if garment.care_label_photo %}
+        <!-- State B: Has photo, not rate limited — show active Analyze button -->
+        <form method="POST" action="{% url 'wardrobe:analyze_care_label' garment.pk %}" id="analyze-form">
+          {% csrf_token %}
+          <button type="submit" id="analyze-btn"
+            class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+            Analyze Care Label
+          </button>
+        </form>
+        <script>
+          document.getElementById('analyze-form').addEventListener('submit', function() {
+            var btn = document.getElementById('analyze-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<svg class="animate-spin inline-block w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Analyzing...';
+            btn.classList.remove('hover:bg-dark-teal-700');
+            btn.classList.add('bg-deep-space-400', 'cursor-wait');
+          });
+        </script>
+      {% else %}
+        <!-- State A: No photo — show disabled Analyze button with tooltip -->
+        <button disabled
+          title="Upload a care label photo first to enable analysis"
+          class="bg-deep-space-200 text-deep-space-400 font-semibold px-6 py-3 rounded-lg cursor-not-allowed">
+          Analyze Care Label
+        </button>
+      {% endif %}
+
+    {% endif %}
   </div>
 
   <!-- Action buttons -->

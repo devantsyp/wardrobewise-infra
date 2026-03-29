@@ -22,6 +22,13 @@
       <div class="flex items-center gap-6">
         {% if user.is_authenticated %}
           <a href="{% url 'wardrobe:garment_list' %}" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">My Wardrobe</a>
+          {% if daily_usage_count is not None %}
+          <div class="flex items-center gap-2 text-sm">
+            <span class="{% if daily_usage_count >= daily_usage_limit %}text-red-600 font-bold{% elif daily_usage_count >= 7 %}text-amber-600 font-medium{% else %}text-deep-space-500{% endif %}">
+              {{ daily_usage_count }} / {{ daily_usage_limit }} today
+            </span>
+          </div>
+          {% endif %}
           <span class="text-thistle-500 text-sm font-medium">{{ user.email }}</span>
           <a href="/logout/" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">Logout</a>
         {% else %}
