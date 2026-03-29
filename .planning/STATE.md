@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 
 ## Current Position
 
-Phase: 2 of 5 (Wardrobe CRUD with S3) — COMPLETE
-Plan: Phase complete — ready for Phase 3 (AI Pipeline)
-Status: Plan 02-03 complete — AWS S3 configured in Render, all 8 browser tests passed; Phase 02 fully complete
-Last activity: 2026-03-26 - Plan 02-03 complete; full wardrobe CRUD with S3 production storage verified
+Phase: 3 of 5 (AI Pipeline - care label analysis)
+Plan: 1 of 4 in phase — Plan 03-01 complete
+Status: In progress — backend data/service layer complete; analysis view (03-02) is next
+Last activity: 2026-03-29 - Plan 03-01 complete; CareAnalysis/UsageLog models, GPT-4o Vision service, context processor
 
-Progress: [██████░░░░] 40% (6/15 plans complete)
+Progress: [███████░░░] 47% (7/15 plans complete)
 
 ## Performance Metrics
 
@@ -82,20 +82,28 @@ Recent decisions affecting current work:
 - All 4 AWS env vars set in Render; S3 production storage active as of phase 02 completion
 - All 8 browser tests passed: empty state, create with upload, grid, detail, edit, delete, file validation, auth protection
 
+**From 03-01 execution:**
+- Module-level `OpenAI()` raises at import time without OPENAI_API_KEY — use lazy `_get_client()` pattern instead
+- CareAnalysis uses OneToOneField with Garment; SHA-256 image_hash enables cross-garment dedup (same label, different garment — skip API call, copy AI fields)
+- UsageLog is append-only audit trail; rate limit is count query per user per day — resets at midnight UTC
+- Cost is always Decimal: `Decimal(token_count) * Decimal('0.0000025')` — never float
+- Context processor daily_usage_counter gated on `resolver_match.app_name == 'wardrobe'` — no unnecessary queries on admin/auth pages
+
 ### Pending Todos
 
 None.
 
 ### Blockers/Concerns
 
-- Phase 3: Verify current GPT-4o model identifier on platform.openai.com before writing service layer (naming conventions change; may be versioned)
-- Phase 3: Confirm `response_format={"type": "json_object"}` still supported for Vision inputs (OpenAI iterates on this surface)
+- Phase 3: OPENAI_API_KEY must be configured in Render env vars before end-to-end analysis testing in production (user action required)
+- Phase 3: Verify current GPT-4o model identifier on platform.openai.com before writing service layer (naming conventions change; may be versioned) — RESOLVED: used "gpt-4o" in 03-01
+- Phase 3: Confirm `response_format={"type": "json_object"}` still supported for Vision inputs — RESOLVED: used in 03-01 analysis.py
 - Phase 2: STORAGES dict configuration verified working against django-storages 1.14.6 (concern resolved)
 - All phases: Verify Django version — 5.2 LTS confirmed as of 2026-02-22
 - Phase 2: AWS S3 env vars configured in Render — RESOLVED (plan 02-03 complete)
 
 ## Session Continuity
 
-Last session: 2026-03-26
-Stopped at: Completed 02-wardrobe-crud-with-s3/02-03-PLAN.md — Phase 02 complete
-Resume file: none — ready for Phase 03 (AI pipeline)
+Last session: 2026-03-29
+Stopped at: Completed 03-care-label-analysis-pipeline/03-01-PLAN.md — backend service layer complete
+Resume file: .planning/phases/03-care-label-analysis-pipeline/03-02-PLAN.md
