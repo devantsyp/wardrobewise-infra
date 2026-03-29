@@ -1,7 +1,7 @@
 from django import forms
 from django.core.files.uploadedfile import UploadedFile
 
-from wardrobe.models import Garment
+from wardrobe.models import CareAnalysis, Garment
 
 INPUT_CLASSES = (
     'w-full px-4 py-3 rounded-lg border border-gray-300 '
@@ -81,3 +81,54 @@ class GarmentForm(forms.ModelForm):
     def clean_care_label_photo(self):
         file = self.cleaned_data.get('care_label_photo')
         return self._validate_image(file, 'care_label_photo')
+
+
+class CareInstructionsForm(forms.ModelForm):
+    class Meta:
+        model = CareAnalysis
+        fields = ['washing', 'drying', 'ironing', 'bleach', 'is_delicate', 'personal_notes']
+        widgets = {
+            'washing': forms.TextInput(attrs={
+                'class': (
+                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
+                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                ),
+                'placeholder': 'e.g., Machine wash cold',
+            }),
+            'drying': forms.TextInput(attrs={
+                'class': (
+                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
+                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                ),
+                'placeholder': 'e.g., Tumble dry low',
+            }),
+            'ironing': forms.TextInput(attrs={
+                'class': (
+                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
+                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                ),
+                'placeholder': 'e.g., Iron on medium heat',
+            }),
+            'bleach': forms.TextInput(attrs={
+                'class': (
+                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
+                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                ),
+                'placeholder': 'e.g., Do not bleach',
+            }),
+            'is_delicate': forms.CheckboxInput(attrs={
+                'class': 'h-4 w-4 rounded border-gray-300 text-dark-teal-600 focus:ring-dark-teal-500',
+            }),
+            'personal_notes': forms.Textarea(attrs={
+                'class': (
+                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
+                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                ),
+                'rows': 3,
+                'placeholder': 'Your personal care notes...',
+            }),
+        }
+        labels = {
+            'is_delicate': 'Delicate item',
+            'personal_notes': 'Personal notes',
+        }

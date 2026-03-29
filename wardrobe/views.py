@@ -101,3 +101,69 @@ def analyze_care_label_view(request, pk):
     except AnalysisError:
         messages.error(request, "analysis_failed")
     return redirect('wardrobe:garment_detail', pk=pk)
+
+
+@login_required
+def edit_instructions_view(request, pk):
+    garment = get_object_or_404(Garment, pk=pk, user=request.user)
+    try:
+        analysis = garment.care_analysis
+    except CareAnalysis.DoesNotExist:
+        messages.error(request, "No analysis to edit.")
+        return redirect('wardrobe:garment_detail', pk=pk)
+
+    if request.method == 'POST':
+        from wardrobe.forms import CareInstructionsForm
+        form = CareInstructionsForm(request.POST, instance=analysis)
+        if form.is_valid():
+            form.save()
+            analysis.is_user_edited = True
+            analysis.save(update_fields=['is_user_edited'])
+            messages.success(request, "Instructions updated.")
+            return redirect('wardrobe:garment_detail', pk=pk)
+    else:
+        from wardrobe.forms import CareInstructionsForm
+        form = CareInstructionsForm(instance=analysis)
+
+    return render(request, 'wardrobe/garment_detail.html', {
+        'garment': garment,
+        'analysis': analysis,
+        'editing': True,
+        'edit_form': form,
+    })
+
+
+@login_required
+@require_POST
+def reset_instructions_view(request, pk):
+    garment = get_object_or_404(Garment, pk=pk, user=request.user)
+    try:
+        analysis = garment.care_analysis
+    except CareAnalysis.DoesNotExist:
+        messages.error(request, "No analysis to reset.")
+        return redirect('wardrobe:garment_detail', pk=pk)
+
+    analysis.washing = analysis.ai_washing
+    analysis.drying = analysis.ai_drying
+    analysis.ironing = analysis.ai_ironing
+    analysis.bleach = analysis.ai_bleach
+    analysis.is_delicate = analysis.ai_is_delicate
+    analysis.summary = analysis.ai_summary
+    analysis.personal_notes = ''
+    analysis.is_user_edited = False
+    analysis.save()
+    messages.success(request, "Instructions reset to AI version.")
+    return redirect('wardrobe:garment_detail', pk=pk)
+
+
+@login_required
+@require_POST
+def delete_analysis_view(request, pk):
+    garment = get_object_or_404(Garment, pk=pk, user=request.user)
+    try:
+        analysis = garment.care_analysis
+        analysis.delete()
+        messages.success(request, "Analysis deleted.")
+    except CareAnalysis.DoesNotExist:
+        messages.error(request, "No analysis to delete.")
+    return redirect('wardrobe:garment_detail', pk=pk)
