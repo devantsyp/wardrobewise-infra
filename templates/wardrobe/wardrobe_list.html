@@ -21,7 +21,7 @@
       <a href="{% url 'wardrobe:garment_detail' garment.pk %}"
          class="rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-colors group">
         <!-- Image area -->
-        <div class="aspect-square overflow-hidden bg-deep-space-50">
+        <div class="aspect-square overflow-hidden bg-deep-space-50 relative">
           {% if garment.garment_photo %}
             <img src="{{ garment.garment_photo.url }}"
                  alt="{{ garment.name }}"
@@ -34,6 +34,12 @@
                       d="M12 3a2 2 0 0 0-2 2c0 .74.4 1.38 1 1.73V8L4 14h16l-7-6V6.73c.6-.35 1-.99 1-1.73a2 2 0 0 0-2-2z" />
               </svg>
             </div>
+          {% endif %}
+          <!-- Analysis badge: shown for garments with analyzed care labels -->
+          {% if garment.has_analysis %}
+          <span class="absolute top-2 right-2 bg-dark-teal-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center" title="Care label analyzed">
+            &#10003;
+          </span>
           {% endif %}
         </div>
         <!-- Garment name -->
