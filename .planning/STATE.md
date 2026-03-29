@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
+status: executing
 last_updated: "2026-03-29T23:33:48.934Z"
 progress:
-  total_phases: 3
+  total_phases: 5
   completed_phases: 2
   total_plans: 9
   completed_plans: 8
@@ -18,7 +18,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Decode a confusing care label and tell the user exactly how to wash a specific garment — so they never ruin a piece of clothing again.
-**Current focus:** Phase 3 - AI Pipeline (care label analysis)
+**Current focus:** Phase 03 — care-label-analysis-pipeline
 
 ## Current Position
 
@@ -32,6 +32,7 @@ Progress: [████████░░] 53% (8/15 plans complete)
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 6
 - Average duration: ~8 min
 - Total execution time: ~47 min
@@ -44,6 +45,7 @@ Progress: [████████░░] 53% (8/15 plans complete)
 | 02-wardrobe-crud-with-s3 | 3/3 | ~10 min + human-gated | ~5 min |
 
 **Recent Trend:**
+
 - Last 5 plans: 01-03 (~30 min incl. deploy debug), 02-01 (5 min), 02-02 (5 min), 02-03 (human-gated)
 - Trend: variable (deploy/verification plans include human action time)
 
@@ -64,16 +66,19 @@ Recent decisions affecting current work:
 - Phase 3: Budget guard halts at $9.00 cumulative spend — protects $10 API budget
 
 **From 01-01 execution:**
+
 - TAILWIND_CLI_SRC_CSS is relative to BASE_DIR (not STATICFILES_DIRS[0]) in django-tailwind-cli 4.5.1 — use `'assets/src/main.css'` not `'src/main.css'`
 - CustomUser must be created before first migration — done; cannot be changed without DB reset
 - Tailwind CLI binary downloads to `.django_tailwind_cli/` — excluded from git, re-downloaded on fresh clone
 
 **From 01-02 execution:**
+
 - Color names in templates must match main.css: `deep-space-*` not `deep-space-blue-*` (research docs had wrong name)
 - Failed login: return fresh unbound LoginForm() + `login_error` context var — clean separation of auth error from form validation errors
 - Django test.Client uses SERVER_NAME='testserver' — not in ALLOWED_HOSTS; use Client(SERVER_NAME='localhost') for shell verification
 
 **From 01-03 execution:**
+
 - prod.py uses STORAGES dict (not deprecated STATICFILES_STORAGE) for WhiteNoise
 - TAILWIND_CLI_AUTOMATIC_DOWNLOAD = False in prod — binary installed via build.sh's `tailwind download_cli`
 - render.yaml uses `generateValue: true` for SECRET_KEY — Render generates it on first deploy
@@ -81,22 +86,26 @@ Recent decisions affecting current work:
 - CRITICAL: assets/src/main.css (Tailwind v4 source, contains `@import "tailwindcss"`) must be deleted before collectstatic — WhiteNoise's CompressedManifestStaticFilesStorage tries to resolve the import as a static file and fails with MissingFileError
 
 **From 02-01 execution:**
+
 - upload_to callables (garment_photo_path, care_label_path) require instance.pk — create view MUST do two-step save: save Garment record first (without files), then assign file fields and save again
 - prod.py extends STORAGES dict via `STORAGES["default"] = {...}` — reassigning `STORAGES = {...}` would wipe the WhiteNoise staticfiles entry
 - CATEGORY_CHOICES is a module-level list (not class attribute) — plan verify command needs django.setup() to import Garment
 
 **From 02-02 execution:**
+
 - User isolation: get_object_or_404(Garment, pk=pk, user=request.user) returns 404 (not 403) for cross-user access — per user decision
 - File replacement in garment_edit: call garment.garment_photo.delete(save=False) before form.save() to avoid orphan S3 files
 - Floating label CSS pattern: peer class + placeholder=" " (space) enables CSS-only label float animation — works for text/textarea, not select
 - tailwind build --force required when template classes change; "up to date" check can miss new classes from freshly created templates
 
 **From 02-03 execution:**
+
 - S3 bucket public read policy configured — garment photo URLs served directly without signed URLs
 - All 4 AWS env vars set in Render; S3 production storage active as of phase 02 completion
 - All 8 browser tests passed: empty state, create with upload, grid, detail, edit, delete, file validation, auth protection
 
 **From 03-01 execution:**
+
 - Module-level `OpenAI()` raises at import time without OPENAI_API_KEY — use lazy `_get_client()` pattern instead
 - CareAnalysis uses OneToOneField with Garment; SHA-256 image_hash enables cross-garment dedup (same label, different garment — skip API call, copy AI fields)
 - UsageLog is append-only audit trail; rate limit is count query per user per day — resets at midnight UTC
