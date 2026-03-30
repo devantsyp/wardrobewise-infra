@@ -25,3 +25,5 @@ services:
           type: web
           name: laundryadvisor
           property: host
+      - key: OPENAI_API_KEY
+        sync: false
