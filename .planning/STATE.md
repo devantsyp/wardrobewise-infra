@@ -49,6 +49,7 @@ Plan: 1 of 3
 *Updated after each plan completion*
 | Phase 03-care-label-analysis-pipeline P02 | 3 | 2 tasks | 5 files |
 | Phase 03-care-label-analysis-pipeline P03 | 10min | 3 tasks | 5 files |
+| Phase 03-care-label-analysis-pipeline P04 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -61,7 +62,9 @@ Recent decisions affecting current work:
 - Phase 1: Split settings (base/dev/prod) from day one — prevents DEBUG=True in production
 - Phase 2: S3 configured before AI pipeline — Render ephemeral filesystem cannot hold media
 - Phase 3: DB-backed rate limit (UsageLog model) — in-memory counters reset on Render restart
-- Phase 3: Budget guard halts at $9.00 cumulative spend — protects $10 API budget
+- Phase 3: Budget guard halts at $9.00 cumulative spend — protects ### Decisions
+
+0 API budget
 
 **From 01-01 execution:**
 
@@ -119,6 +122,8 @@ Recent decisions affecting current work:
 - [Phase 03-care-label-analysis-pipeline]: CareInstructionsForm uses TextInput for care instruction fields, Textarea only for personal_notes
 - [Phase 03-care-label-analysis-pipeline]: Reset to AI version as separate form element (not nested inside edit form) to avoid invalid HTML
 - [Phase 03-care-label-analysis-pipeline]: UsageLogAdmin fully immutable (has_add/change/delete_permission all return False) — append-only audit log
+- [Phase 03-care-label-analysis-pipeline]: extra_tags carries raw token as logic hook; message body is human-readable copy for users — separates display from machine-readable identifiers
+- [Phase 03-care-label-analysis-pipeline]: analysis_failed suppressed globally in base.html toast loop — safe because analyze view always redirects to garment_detail where inline Retry block renders it
 
 ### Pending Todos
 
@@ -135,6 +140,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-29T23:53:55.372Z
-Stopped at: Completed 03-care-label-analysis-pipeline/03-03-PLAN.md — edit instructions flow and admin integration complete
+Last session: 2026-03-30T00:38:27Z
+Stopped at: Completed 03-care-label-analysis-pipeline/03-04-PLAN.md — error message copy fix and base toast suppression complete
 Resume file: None
