@@ -64,12 +64,13 @@ Plans:
   3. After reaching 10 analyses in a day, the user sees a clear UI message blocking further analysis and showing the daily limit; the counter resets at midnight and is visible in the UI at all times
   4. Submitting the same care label image a second time returns the stored result immediately without making a new API call
   5. When cumulative API spend approaches the $10 budget limit, all analysis calls are halted globally; the Django admin panel shows per-user usage logs and API call history
-**Plans:** 3/3 plans complete
+**Plans:** 4 plans
 
 Plans:
 - [ ] 03-01-PLAN.md — Models + service layer: CareAnalysis and UsageLog models, services/analysis.py with GPT-4o Vision call, rate limiting, budget guard, image dedup, context processor, requirements update
 - [ ] 03-02-PLAN.md — Analyze view + templates: analyze endpoint, garment detail care instructions display (all states), nav counter, wardrobe grid badge, rate limit UI with countdown
 - [ ] 03-03-PLAN.md — Edit instructions + admin: edit/reset/delete analysis views, edit form, Django admin for CareAnalysis and UsageLog with read-only audit
+- [ ] 03-04-PLAN.md — Gap closure: replace raw error tokens with human-readable messages; suppress analysis_failed from base toast
 
 ### Phase 4: Laundry Basket
 **Goal**: Users can select multiple analyzed garments and receive a multi-load washing plan that groups compatible garments and separates incompatible ones.
@@ -110,6 +111,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Scaffolding and Auth | 3/3 | Complete | 2026-02-22 |
 | 2. Wardrobe CRUD with S3 | 0/3 | Not started | - |
-| 3. Care Label Analysis Pipeline | 3/3 | Complete   | 2026-03-29 |
+| 3. Care Label Analysis Pipeline | 3/4 | Gap closure in progress | 2026-03-29 |
 | 4. Laundry Basket | 0/2 | Not started | - |
 | 5. Production Deployment | 0/2 | Not started | - |
