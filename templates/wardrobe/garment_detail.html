@@ -214,7 +214,7 @@
 
     <!-- Error state: analysis failed -->
     {% for message in messages %}
-      {% if 'analysis_failed' in message.message %}
+      {% if 'analysis_failed' in message.extra_tags %}
       <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
         <p class="text-red-800 font-medium">Analysis failed. Please try again.</p>
         <form method="POST" action="{% url 'wardrobe:analyze_care_label' garment.pk %}" class="mt-2">
