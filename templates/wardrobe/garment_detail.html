@@ -245,10 +245,16 @@
       </div>
       <script>
         (function() {
-          function getMsUntilMidnight() {
+          function getMsUntilUtcMidnight() {
             var now = new Date();
-            var midnight = new Date(now);
-            midnight.setHours(24, 0, 0, 0);
+            // Compute next UTC midnight using UTC date components so the countdown
+            // aligns with the backend rate limit reset (which resets at UTC midnight).
+            var midnight = new Date(Date.UTC(
+              now.getUTCFullYear(),
+              now.getUTCMonth(),
+              now.getUTCDate() + 1,
+              0, 0, 0, 0
+            ));
             return midnight - now;
           }
           function formatCountdown(ms) {
@@ -261,7 +267,13 @@
           function tick() {
             var el = document.getElementById('midnight-countdown');
             if (!el) return;
-            el.textContent = formatCountdown(getMsUntilMidnight());
+            var ms = getMsUntilUtcMidnight();
+            if (ms <= 0) {
+              // UTC midnight has passed — reload so the server re-evaluates the rate limit.
+              window.location.reload();
+              return;
+            }
+            el.textContent = formatCountdown(ms);
             setTimeout(tick, 1000);
           }
           tick();
