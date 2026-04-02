@@ -212,11 +212,12 @@
     {% else %}
     <h2 class="text-lg font-semibold text-deep-space-800 mb-3">Care Instructions</h2>
 
-    <!-- Error state: analysis failed -->
+    <!-- Error state: hard analysis failure (AnalysisError exception) -->
     {% for message in messages %}
       {% if 'analysis_failed' in message.extra_tags %}
       <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-        <p class="text-red-800 font-medium">Analysis failed. Please try again.</p>
+        <p class="text-red-800 font-semibold mb-1">Analysis failed.</p>
+        <p class="text-red-700 text-sm mb-3">There was a problem connecting to the analysis service. Please try again in a moment.</p>
         <form method="POST" action="{% url 'wardrobe:analyze_care_label' garment.pk %}" class="mt-2">
           {% csrf_token %}
           <button type="submit"
@@ -267,8 +268,51 @@
         })();
       </script>
 
+    {% elif analysis and analysis.failure_reason %}
+      <!-- State F: Soft failure — analysis ran but label was unreadable -->
+      <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+        <p class="text-amber-900 font-semibold mb-1">Could not read the care label</p>
+        <p class="text-amber-800 text-sm mb-3">{{ analysis.failure_reason }}.</p>
+
+        <p class="text-amber-900 text-sm font-medium mb-2">Tips for a better photo:</p>
+        <ul class="list-disc list-inside text-amber-800 text-sm space-y-1 mb-4">
+          <li>Make sure the care label is fully in frame and not cut off</li>
+          <li>Use good, even lighting — avoid harsh shadows or glare</li>
+          <li>Hold the camera steady and wait for it to focus before shooting</li>
+          <li>Get closer so the label text fills most of the frame</li>
+          <li>Flatten the label against a flat surface to avoid folds</li>
+        </ul>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <form method="POST" action="{% url 'wardrobe:upload_care_label' garment.pk %}"
+                enctype="multipart/form-data" id="retry-upload-form">
+            {% csrf_token %}
+            <label for="retry-upload-input"
+                   class="inline-flex items-center gap-2 bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-3 3m3-3l3 3" />
+              </svg>
+              Upload New Photo
+            </label>
+            <input type="file" id="retry-upload-input" name="care_label_photo"
+                   accept="image/jpeg,image/png" class="hidden"
+                   onchange="document.getElementById('retry-upload-form').submit()">
+          </form>
+
+          <form method="POST" action="{% url 'wardrobe:analyze_care_label' garment.pk %}">
+            {% csrf_token %}
+            <button type="submit"
+              class="bg-amber-100 hover:bg-amber-200 text-amber-900 font-semibold px-4 py-2 rounded-lg text-sm transition-colors border border-amber-300">
+              Retry with Current Photo
+            </button>
+          </form>
+        </div>
+      </div>
+
     {% elif analysis %}
-      <!-- State E: Analysis exists — show results -->
+      <!-- State E: Analysis exists and succeeded — show results -->
       <div class="bg-white rounded-lg shadow-sm p-4">
         <!-- Summary sentence -->
         <p class="text-deep-space-900 font-semibold">{{ analysis.summary }}</p>

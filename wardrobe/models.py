@@ -106,6 +106,11 @@ class CareAnalysis(models.Model):
 
     from_cache = models.BooleanField(default=False)
 
+    # Set when the AI could not read the label (soft failure).
+    # Examples: "Care label text was not readable", "No care label detected".
+    # None means the analysis succeeded.
+    failure_reason = models.TextField(blank=True, null=True, default=None)
+
     def __str__(self):
         return f"Analysis for {self.garment.name}"
 

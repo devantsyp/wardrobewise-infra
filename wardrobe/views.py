@@ -96,8 +96,9 @@ def analyze_care_label_view(request, pk):
         return redirect('wardrobe:garment_detail', pk=pk)
 
     try:
-        analyze_care_label(garment, request.user)
-        messages.success(request, "Care instructions analyzed successfully.")
+        analysis = analyze_care_label(garment, request.user)
+        if not analysis.failure_reason:
+            messages.success(request, "Care instructions analyzed successfully.")
     except RateLimitExceeded:
         messages.error(request, "Daily analysis limit reached. Try again tomorrow.", extra_tags="daily_limit_reached")
     except BudgetGuardTripped:

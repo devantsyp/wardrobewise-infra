@@ -87,10 +87,16 @@ def _call_api(image_bytes: bytes, fabric_hint: str = "") -> tuple:
     system_prompt = (
         "You are a laundry care expert. Analyze the care label in the image. "
         "Return a JSON object with exactly these keys: summary, washing, drying, ironing, "
-        "bleach, is_delicate. For any field you cannot determine from the label, use the "
-        "string 'Unable to determine'. is_delicate must be a boolean (true if the item "
-        "requires special/delicate handling, false otherwise). Return clean, direct "
-        "instructions only — no caveats about image quality."
+        "bleach, is_delicate, failure_reason. "
+        "For any care field you cannot determine from the label, use the string 'Unable to determine'. "
+        "is_delicate must be a boolean (true if the item requires special/delicate handling, false otherwise). "
+        "failure_reason must be null when the care label was successfully read. "
+        "If the label cannot be read at all, set failure_reason to one of these exact strings: "
+        "'No care label detected in image', "
+        "'Care label text was not readable', "
+        "'Image is too blurry to read the label', "
+        "'Care label is partially obscured or cut off'. "
+        "Return clean, direct instructions only."
     )
 
     user_content = "Analyze this care label."
@@ -190,6 +196,8 @@ def analyze_care_label(garment, user) -> CareAnalysis:
         # Delete existing analysis for this garment (re-analyze case)
         CareAnalysis.objects.filter(garment=garment).delete()
 
+        failure_reason = parsed_dict.get('failure_reason') or None
+
         analysis = CareAnalysis.objects.create(
             garment=garment,
             image_hash=img_hash,
@@ -209,6 +217,7 @@ def analyze_care_label(garment, user) -> CareAnalysis:
             is_delicate=bool(parsed_dict.get('is_delicate', False)),
             summary=parsed_dict.get('summary', 'Unable to determine'),
             from_cache=from_cache,
+            failure_reason=failure_reason,
         )
 
         # Log usage only for real API calls (not cache hits)
