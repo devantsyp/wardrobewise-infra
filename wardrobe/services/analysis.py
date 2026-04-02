@@ -198,24 +198,31 @@ def analyze_care_label(garment, user) -> CareAnalysis:
 
         failure_reason = parsed_dict.get('failure_reason') or None
 
+        _na = 'Unable to determine'
+        ai_washing  = parsed_dict.get('washing')  or _na
+        ai_drying   = parsed_dict.get('drying')   or _na
+        ai_ironing  = parsed_dict.get('ironing')  or _na
+        ai_bleach   = parsed_dict.get('bleach')   or _na
+        ai_summary  = parsed_dict.get('summary')  or _na
+
         analysis = CareAnalysis.objects.create(
             garment=garment,
             image_hash=img_hash,
             raw_ai_json=parsed_dict,
             # Immutable AI fields
-            ai_washing=parsed_dict.get('washing', 'Unable to determine'),
-            ai_drying=parsed_dict.get('drying', 'Unable to determine'),
-            ai_ironing=parsed_dict.get('ironing', 'Unable to determine'),
-            ai_bleach=parsed_dict.get('bleach', 'Unable to determine'),
+            ai_washing=ai_washing,
+            ai_drying=ai_drying,
+            ai_ironing=ai_ironing,
+            ai_bleach=ai_bleach,
             ai_is_delicate=bool(parsed_dict.get('is_delicate', False)),
-            ai_summary=parsed_dict.get('summary', 'Unable to determine'),
+            ai_summary=ai_summary,
             # User-editable fields — initial copy of AI values
-            washing=parsed_dict.get('washing', 'Unable to determine'),
-            drying=parsed_dict.get('drying', 'Unable to determine'),
-            ironing=parsed_dict.get('ironing', 'Unable to determine'),
-            bleach=parsed_dict.get('bleach', 'Unable to determine'),
+            washing=ai_washing,
+            drying=ai_drying,
+            ironing=ai_ironing,
+            bleach=ai_bleach,
             is_delicate=bool(parsed_dict.get('is_delicate', False)),
-            summary=parsed_dict.get('summary', 'Unable to determine'),
+            summary=ai_summary,
             from_cache=from_cache,
             failure_reason=failure_reason,
         )

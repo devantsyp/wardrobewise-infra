@@ -105,6 +105,8 @@ def analyze_care_label_view(request, pk):
         messages.error(request, "Analysis temporarily unavailable.", extra_tags="budget_guard_tripped")
     except AnalysisError:
         messages.error(request, "Analysis failed. Please try again.", extra_tags="analysis_failed")
+    except Exception:
+        messages.error(request, "Analysis failed. Please try again.", extra_tags="analysis_failed")
     return redirect('wardrobe:garment_detail', pk=pk)
 
 
