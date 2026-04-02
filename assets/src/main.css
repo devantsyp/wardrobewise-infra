@@ -82,6 +82,32 @@
   --color-red-900: #7f1d1d;
   --color-red-950: #450a0a;
 
+  /* Green (analysis complete border) */
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+  --color-green-950: #052e16;
+
+  /* Amber (delicate badge) */
+  --color-amber-50: #fffbeb;
+  --color-amber-100: #fef3c7;
+  --color-amber-200: #fde68a;
+  --color-amber-300: #fcd34d;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+  --color-amber-800: #92400e;
+  --color-amber-900: #78350f;
+  --color-amber-950: #451a03;
+
   /* Keep white and black available */
   --color-white: #ffffff;
   --color-black: #000000;
@@ -92,3 +118,5 @@
 @source inline("{bg,text,border}-{white,black}");
 @source inline("hover:{bg,text,border}-{deep-space,dark-teal,lavender,thistle,lilac-ash,red}-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("hover:{bg,text}-{white,black}");
+@source inline("{bg,text,border,ring}-{green,amber}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("hover:{bg,text,border}-{green,amber}-{50,100,200,300,400,500,600,700,800,900,950}");
