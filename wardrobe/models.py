@@ -5,22 +5,14 @@ from django.db import models
 
 
 CATEGORY_CHOICES = [
-    ("T-Shirts & Tops", "T-Shirts & Tops"),
-    ("Shirts", "Shirts"),
-    ("Jeans", "Jeans"),
-    ("Pants", "Pants"),
-    ("Dresses", "Dresses"),
-    ("Skirts", "Skirts"),
-    ("Jackets & Blazers", "Jackets & Blazers"),
-    ("Coats & Outerwear", "Coats & Outerwear"),
-    ("Shorts", "Shorts"),
-    ("Sweaters & Knitwear", "Sweaters & Knitwear"),
-    ("Hoodies & Sweatshirts", "Hoodies & Sweatshirts"),
-    ("Underwear & Loungewear", "Underwear & Loungewear"),
-    ("Socks", "Socks"),
-    ("Activewear", "Activewear"),
-    ("Sleepwear & Robes", "Sleepwear & Robes"),
-    ("Other", "Other"),
+    ("shirts", "Shirts"),
+    ("bottoms", "Bottoms (pants, shorts)"),
+    ("outerwear", "Outerwear (jackets, coats)"),
+    ("dresses_skirts", "Dresses & Skirts"),
+    ("undergarments", "Undergarments (underwear, socks)"),
+    ("sweaters_knitwear", "Sweaters & Knitwear"),
+    ("hoodies_sweatshirts", "Hoodies & Sweatshirts"),
+    ("other", "Other"),
 ]
 
 
