@@ -39,7 +39,7 @@ Declared values (must be multiples of 4):
 | lg | 24px | Section padding, between header and grid (`mb-6`, `gap-6`) |
 | xl | 32px | Page section breaks (`py-8`, `mb-8`) |
 | 2xl | 48px | Major page-level vertical rhythm (`py-12`) |
-| 3xl | 64px | Empty-state vertical centering (`py-28` equivalent) |
+| 3xl | 64px | Empty-state vertical centering (`py-16` equivalent) |
 
 Exceptions:
 - Sticky bottom bar: fixed bottom-0, full viewport width, `py-4 px-6` inner padding
@@ -52,16 +52,20 @@ Exceptions:
 
 | Role | Size | Weight | Line Height | Tailwind Class |
 |------|------|--------|-------------|----------------|
-| Display | 30px (text-3xl) | 700 (font-bold) | 1.2 | `text-3xl font-bold` |
+| Display | 30px (text-3xl) | 600 (font-semibold) | 1.2 | `text-3xl font-semibold` |
 | Heading | 20px (text-xl) | 600 (font-semibold) | 1.3 | `text-xl font-semibold` |
 | Body | 16px (text-base) | 400 (font-normal) | 1.5 | `text-base` |
-| Label / Caption | 14px (text-sm) | 500 (font-medium) | 1.5 | `text-sm font-medium` |
+| Label / Caption | 14px (text-sm) | 600 (font-semibold) | 1.5 | `text-sm font-semibold` |
+
+Declared weights: 400 (normal) for Body only; 600 (semibold) for Display, Heading, and Label/Caption.
 
 Source: established pattern from `wardrobe_list.html` (`text-3xl font-bold` for page titles, `text-sm font-medium` for labels).
 
 ---
 
 ## Color
+
+Primary focal point: the sticky "Create Laundry Plan (X)" bar — all layout decisions are subordinate to keeping this element visible and accessible at all times.
 
 | Role | Value | Tailwind Class | Usage |
 |------|-------|----------------|-------|
@@ -73,12 +77,13 @@ Source: established pattern from `wardrobe_list.html` (`text-3xl font-bold` for 
 | Selection highlight | #4aa1d1 (deep-space-400) | `border-deep-space-400` | Selected garment card border ring |
 | Muted text | #736176 (thistle-500) | `text-thistle-500` | Subtitle, helper text, count labels |
 | Disabled state | deep-space-200 | `bg-deep-space-200 text-deep-space-400` | Greyed-out sticky button when <2 garments selected |
+| Nav link hover | #8b5cf6 (lavender-500) | `hover:text-lavender-500` | Nav link hover state (existing pattern from phases 1-3) |
 
 Accent (dark-teal-600) reserved for:
 1. "Create Laundry Plan (X)" sticky button (primary CTA, enabled state)
 2. "Save Plan" button in plan results section
-3. "Create basket" button in empty-state prompt and new basket modal
-4. "Plan Laundry" nav link hover state (use `hover:text-lavender-500` per existing nav pattern)
+3. "Create Basket" button in empty-state prompt and new basket modal
+4. "+ New Basket" trigger link text
 
 Source: `main.css` color palette, `wardrobe_list.html` button classes, `base.html` nav classes.
 
@@ -93,7 +98,7 @@ All components follow established patterns from phases 1-3.
 - Selected state: add `ring-2 ring-deep-space-400 border-2 border-deep-space-400`
 - Checkbox: `absolute top-2 left-2`, 20px square, `accent-deep-space-500` or custom SVG checkmark
 - Unselectable (no analysis): hidden from DOM entirely per BSKT-02 decision
-- Card info: aspect-square photo + garment name (`text-sm font-medium text-deep-space-800 px-2 pt-2 truncate`) + category (`text-xs text-thistle-500 px-2 pb-2`)
+- Card info: aspect-square photo + garment name (`text-sm font-semibold text-deep-space-800 px-2 pt-2 truncate`) + category (`text-xs text-thistle-500 px-2 pb-2`)
 - No click navigation — clicking card toggles checkbox only
 
 ### Controls Row (above grid)
@@ -101,7 +106,7 @@ All components follow established patterns from phases 1-3.
 - Left cluster: [Category `<select>`] [Select All `<button>`] [Clear All `<button>`]
 - Right cluster: `ml-auto text-sm text-thistle-500` — "X selected / Y available"
 - Category select: `border border-deep-space-200 rounded-md px-3 py-2 text-sm bg-white text-deep-space-800`
-- Select All / Clear All: `text-sm font-medium text-deep-space-600 hover:text-deep-space-900 underline` (text buttons, no border)
+- Select All / Clear All: `text-sm font-semibold text-deep-space-600 hover:text-deep-space-900 underline` (text buttons, no border)
 - Inline notice for 21st garment: amber toast inline below controls row — `text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2`
 
 ### Sticky Bottom Bar
@@ -125,23 +130,23 @@ All components follow established patterns from phases 1-3.
 - Body: `px-4 py-4`
   - Thumbnail row: `flex flex-wrap gap-3 mb-4`
   - Each thumbnail: `w-16 h-16 rounded-md object-cover` + garment name `text-xs text-deep-space-700 text-center mt-1 w-16 truncate`
-  - Warning badge on thumbnail: `absolute top-0 right-0 bg-amber-400 text-amber-900 text-xs font-bold px-1 rounded`
+  - Warning badge on thumbnail: `absolute top-0 right-0 bg-amber-400 text-amber-900 text-xs font-semibold px-1 rounded`
   - Grouping rationale: `text-xs text-thistle-500 mb-3` — "Grouped by: Color (Darks) | Temp (30°C)"
   - Wash settings: `text-sm text-deep-space-800` per setting line
-  - Summary warnings: `mt-3 pt-3 border-t border-deep-space-100` — `flex flex-wrap gap-2`, each warning as `text-xs font-medium bg-amber-100 text-amber-800 px-2 py-1 rounded-full`
+  - Summary warnings: `mt-3 pt-3 border-t border-deep-space-100` — `flex flex-wrap gap-2`, each warning as `text-xs font-semibold bg-amber-100 text-amber-800 px-2 py-1 rounded-full`
 
 ### Special Care Card
 - Identical structure to Load Card except:
   - Header: `bg-amber-500 text-white` (amber instead of deep-space-700)
   - Header text: "Special Care ([X garments])"
   - Body: flat list `flex flex-col gap-3`, each row `flex items-center gap-3`
-  - Row: `w-12 h-12 rounded-md object-cover` + garment name `text-sm font-medium text-deep-space-800` + care method `text-xs text-thistle-500`
+  - Row: `w-12 h-12 rounded-md object-cover` + garment name `text-sm font-semibold text-deep-space-800` + care method `text-xs text-thistle-500`
 
 ### Basket Selector Dropdown (near page heading)
 - Layout: `flex items-center gap-3 mb-2`
-- Label: `text-sm font-medium text-thistle-500`
-- Select: `border border-deep-space-200 rounded-md px-3 py-2 text-sm bg-white text-deep-space-800 font-medium`
-- "+ New Basket" trigger: `text-sm font-medium text-dark-teal-600 hover:text-dark-teal-700 underline ml-2`
+- Label: `text-sm font-semibold text-thistle-500`
+- Select: `border border-deep-space-200 rounded-md px-3 py-2 text-sm bg-white text-deep-space-800 font-semibold`
+- "+ New Basket" trigger: `text-sm font-semibold text-dark-teal-600 hover:text-dark-teal-700 underline ml-2`
 - "Manage Baskets" link: `text-sm text-thistle-500 hover:text-deep-space-700 underline ml-2`
 
 ### Modal (new basket + manage baskets + delete confirmation)
@@ -150,7 +155,7 @@ All components follow established patterns from phases 1-3.
 - Title: `text-xl font-semibold text-deep-space-900 mb-4`
 - Input (name field): `w-full border border-deep-space-200 rounded-lg px-3 py-2 text-sm text-deep-space-800 focus:outline-none focus:ring-2 focus:ring-deep-space-400`
 - Actions: `flex justify-end gap-3 mt-6`
-- Cancel: `text-sm font-medium text-thistle-500 hover:text-deep-space-700 px-4 py-2`
+- Cancel/Discard: `text-sm font-semibold text-thistle-500 hover:text-deep-space-700 px-4 py-2`
 - Confirm (create/rename): `bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-4 py-2 rounded-lg text-sm`
 - Delete confirm: `bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg text-sm`
 
@@ -181,8 +186,8 @@ All components follow established patterns from phases 1-3.
 | New basket modal title | New Basket |
 | New basket name label | Basket name |
 | New basket name placeholder | e.g. This week's laundry |
-| New basket confirm button | Create |
-| New basket cancel button | Cancel |
+| New basket confirm button | Create Basket |
+| New basket cancel button | Discard |
 | Manage Baskets link/page title | Manage Baskets |
 | Delete basket confirmation | Are you sure you want to delete "[Name]"? This cannot be undone. |
 | Delete basket confirm button | Delete Basket |
