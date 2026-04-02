@@ -15,9 +15,13 @@ from wardrobe.services.analysis import (
 
 @login_required
 def garment_list(request):
-    from django.db.models import Exists, OuterRef
+    from django.db.models import BooleanField, Exists, OuterRef, Subquery
     garments = Garment.objects.filter(user=request.user).annotate(
-        has_analysis=Exists(CareAnalysis.objects.filter(garment=OuterRef('pk')))
+        has_analysis=Exists(CareAnalysis.objects.filter(garment=OuterRef('pk'))),
+        is_delicate=Subquery(
+            CareAnalysis.objects.filter(garment=OuterRef('pk')).values('is_delicate')[:1],
+            output_field=BooleanField(),
+        ),
     )
     return render(request, 'wardrobe/wardrobe_list.html', {'garments': garments})
 
