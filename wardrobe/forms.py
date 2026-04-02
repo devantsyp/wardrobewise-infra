@@ -83,6 +83,27 @@ class GarmentForm(forms.ModelForm):
         return self._validate_image(file, 'care_label_photo')
 
 
+class CareLabelUploadForm(forms.Form):
+    """Minimal form for uploading just the care label photo."""
+    care_label_photo = forms.ImageField(
+        widget=forms.ClearableFileInput(attrs={
+            'class': FILE_INPUT_CLASSES,
+            'accept': 'image/jpeg,image/png',
+        })
+    )
+
+    def clean_care_label_photo(self):
+        file = self.cleaned_data.get('care_label_photo')
+        if isinstance(file, UploadedFile):
+            allowed_types = ['image/jpeg', 'image/png']
+            if file.content_type not in allowed_types:
+                raise forms.ValidationError('Only JPG and PNG files are accepted.')
+            max_size = 10 * 1024 * 1024  # 10 MB
+            if file.size > max_size:
+                raise forms.ValidationError('File size must not exceed 10 MB.')
+        return file
+
+
 class CareInstructionsForm(forms.ModelForm):
     class Meta:
         model = CareAnalysis

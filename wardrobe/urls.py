@@ -14,4 +14,5 @@ urlpatterns = [
     path('<int:pk>/instructions/edit/', views.edit_instructions_view, name='edit_instructions'),
     path('<int:pk>/instructions/reset/', views.reset_instructions_view, name='reset_instructions'),
     path('<int:pk>/analysis/delete/', views.delete_analysis_view, name='delete_analysis'),
+    path('<int:pk>/care-label/upload/', views.upload_care_label_view, name='upload_care_label'),
 ]

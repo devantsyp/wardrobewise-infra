@@ -328,7 +328,7 @@
             </button>
           </form>
           <form method="POST" action="{% url 'wardrobe:delete_analysis' garment.pk %}"
-            onsubmit="return confirm('Delete this analysis? This will remove all care instructions for this garment.');"
+            onsubmit="return confirm('Delete this analysis? This will also delete the uploaded care label image. All care instructions for this garment will be removed.');"
             class="inline">
             {% csrf_token %}
             <button type="submit"
@@ -372,10 +372,26 @@
           });
         </script>
       {% else %}
-        <!-- State A: No photo — show disabled Analyze button with tooltip -->
+        <!-- State A: No photo — inline upload prompt + disabled Analyze button -->
+        <form method="POST" action="{% url 'wardrobe:upload_care_label' garment.pk %}"
+              enctype="multipart/form-data" id="care-label-upload-form">
+          {% csrf_token %}
+          <label for="care-label-upload-input"
+                 class="inline-flex items-center gap-2 bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-3 3m3-3l3 3" />
+            </svg>
+            Upload Care Label
+          </label>
+          <input type="file" id="care-label-upload-input" name="care_label_photo"
+                 accept="image/jpeg,image/png" class="hidden"
+                 onchange="document.getElementById('care-label-upload-form').submit()">
+        </form>
         <button disabled
           title="Upload a care label photo first to enable analysis"
-          class="bg-deep-space-200 text-deep-space-400 font-semibold px-6 py-3 rounded-lg cursor-not-allowed">
+          class="mt-3 bg-deep-space-200 text-deep-space-400 font-semibold px-6 py-3 rounded-lg cursor-not-allowed">
           Analyze Care Label
         </button>
       {% endif %}

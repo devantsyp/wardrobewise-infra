@@ -167,7 +167,37 @@ def delete_analysis_view(request, pk):
     try:
         analysis = garment.care_analysis
         analysis.delete()
-        messages.success(request, "Analysis deleted.")
+        # Also delete the care label image from storage and clear the field.
+        if garment.care_label_photo:
+            garment.care_label_photo.delete(save=False)
+            garment.care_label_photo = None
+            garment.save(update_fields=['care_label_photo'])
+        messages.success(request, "Analysis and care label image deleted.")
     except CareAnalysis.DoesNotExist:
         messages.error(request, "No analysis to delete.")
+    return redirect('wardrobe:garment_detail', pk=pk)
+
+
+@login_required
+@require_POST
+def upload_care_label_view(request, pk):
+    """Upload (or replace) just the care label photo for a garment."""
+    garment = get_object_or_404(Garment, pk=pk, user=request.user)
+    if 'care_label_photo' not in request.FILES:
+        messages.error(request, "No image was selected.")
+        return redirect('wardrobe:garment_detail', pk=pk)
+
+    from wardrobe.forms import CareLabelUploadForm
+    form = CareLabelUploadForm(request.POST, request.FILES)
+    if form.is_valid():
+        # Delete any existing care label image before replacing.
+        if garment.care_label_photo:
+            garment.care_label_photo.delete(save=False)
+        garment.care_label_photo = request.FILES['care_label_photo']
+        garment.save(update_fields=['care_label_photo'])
+        messages.success(request, "Care label image uploaded.")
+    else:
+        for error_list in form.errors.values():
+            for error in error_list:
+                messages.error(request, error)
     return redirect('wardrobe:garment_detail', pk=pk)
