@@ -19,7 +19,7 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
       {% for garment in garments %}
       <a href="{% url 'wardrobe:garment_detail' garment.pk %}"
-         class="rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-colors group{% if garment.has_analysis %} border-2 border-green-500{% endif %}">
+         class="rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-colors group">
         <!-- Image area -->
         <div class="aspect-square overflow-hidden bg-deep-space-50 relative">
           {% if garment.garment_photo %}
@@ -37,7 +37,7 @@
           {% endif %}
           <!-- Analysis badge: shown for garments with analyzed care labels -->
           {% if garment.has_analysis %}
-          <span class="absolute top-2 right-2 bg-dark-teal-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center" title="Care label analyzed">
+          <span class="absolute bottom-2 left-2 bg-green-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center" title="Care label analyzed">
             &#10003;
           </span>
           {% endif %}
