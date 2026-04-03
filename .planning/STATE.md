@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 04-laundry-basket-01-PLAN.md
-last_updated: "2026-04-03T15:14:42.424Z"
+stopped_at: Completed 04-laundry-basket-02-PLAN.md
+last_updated: "2026-04-03T15:33:47.679Z"
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 04 (laundry-basket) — EXECUTING
-Plan: 1 of 2
+Plan: 2 of 2
 
 ## Performance Metrics
 
@@ -51,6 +51,7 @@ Plan: 1 of 2
 | Phase 03-care-label-analysis-pipeline P03 | 10min | 3 tasks | 5 files |
 | Phase 03-care-label-analysis-pipeline P04 | 2min | 2 tasks | 3 files |
 | Phase 04-laundry-basket P01 | 12min | 1 tasks | 11 files |
+| Phase 04-laundry-basket P02 | 6min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -128,6 +129,8 @@ Recent decisions affecting current work:
 - [Phase 04-laundry-basket]: group_into_loads() is pure Python with no ORM calls — view layer assembles garment dicts, service layer handles only algorithm
 - [Phase 04-laundry-basket]: Temperature null/unparseable defaults to bucket 30 with display label 'Coolest wash' to ensure groupability
 - [Phase 04-laundry-basket]: Delicates separation only when mixed in same (color_group, temp_bucket) bucket — all-delicate groups stay as single load with cycle=delicate
+- [Phase 04-laundry-basket]: json_script Django template tag used for XSS-safe basket.saved_plan and basket.garment_pks injection into inline JS
+- [Phase 04-laundry-basket]: basket_view uses Exists() subquery annotation to filter analyzed-only garments — consistent with wardrobe garment_list pattern
 
 ### Pending Todos
 
@@ -144,6 +147,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T15:14:42.421Z
-Stopped at: Completed 04-laundry-basket-01-PLAN.md
+Last session: 2026-04-03T15:33:47.676Z
+Stopped at: Completed 04-laundry-basket-02-PLAN.md
 Resume file: None
