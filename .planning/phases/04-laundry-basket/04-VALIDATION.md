@@ -39,9 +39,8 @@ created: 2026-04-02
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
 | 04-01-* | 01 | 0 | BSKT-02, BSKT-03 | unit | `python manage.py test laundry.tests.test_grouping` | ❌ W0 | ⬜ pending |
-| 04-01-* | 01 | 1 | BSKT-02 | unit | `python manage.py test laundry.tests.test_grouping.EligibilityQueryTest` | ❌ W0 | ⬜ pending |
 | 04-01-* | 01 | 1 | BSKT-03 | unit | `python manage.py test laundry.tests.test_grouping.GroupingLogicTest` | ❌ W0 | ⬜ pending |
-| 04-02-* | 02 | 2 | BSKT-01 | integration | `python manage.py test laundry.tests.test_views.BasketSelectionTest` | ❌ W0 | ⬜ pending |
+| 04-02-* | 02 | 2 | BSKT-01, BSKT-02 | integration | `python manage.py test laundry.tests.test_views.BasketSelectionTest` | ❌ W0 | ⬜ pending |
 | 04-02-* | 02 | 2 | BSKT-04 | integration | `python manage.py test laundry.tests.test_views.PlanDisplayTest` | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
