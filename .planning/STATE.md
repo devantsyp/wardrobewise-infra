@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Decode a confusing care label and tell the user exactly how to wash a specific garment — so they never ruin a piece of clothing again.
-**Current focus:** Phase 03 — care-label-analysis-pipeline
+**Current focus:** Phase 04 — laundry-basket
 
 ## Current Position
 
-Phase: 03 (care-label-analysis-pipeline) — EXECUTING
-Plan: 2 of 3
+Phase: 04 (laundry-basket) — EXECUTING
+Plan: 1 of 2
 
 ## Performance Metrics
 
