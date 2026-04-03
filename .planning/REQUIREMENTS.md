@@ -40,8 +40,8 @@
 ### Laundry Basket (BSKT)
 
 - [ ] **BSKT-01**: User can select multiple analyzed garments from their wardrobe to add to a laundry basket
-- [ ] **BSKT-02**: Only garments with a completed analysis are eligible for basket selection
-- [ ] **BSKT-03**: App generates a multi-load washing plan, grouping garments by temperature compatibility, color group (whites/lights/darks), and fabric sensitivity (delicates vs. normal)
+- [x] **BSKT-02**: Only garments with a completed analysis are eligible for basket selection
+- [x] **BSKT-03**: App generates a multi-load washing plan, grouping garments by temperature compatibility, color group (whites/lights/darks), and fabric sensitivity (delicates vs. normal)
 - [ ] **BSKT-04**: Each load in the plan displays the list of included garments, recommended wash settings, and applicable warnings (e.g., "do not wash together", "air dry only", "no bleach")
 
 ### Project Setup (SETUP)
@@ -127,8 +127,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ANLZ-10 | Phase 3 | Pending |
 | ANLZ-11 | Phase 3 | Complete |
 | BSKT-01 | Phase 4 | Pending |
-| BSKT-02 | Phase 4 | Pending |
-| BSKT-03 | Phase 4 | Pending |
+| BSKT-02 | Phase 4 | Complete |
+| BSKT-03 | Phase 4 | Complete |
 | BSKT-04 | Phase 4 | Pending |
 | DEPLOY-01 | Phase 5 | Pending |
 | DEPLOY-02 | Phase 5 | Pending |

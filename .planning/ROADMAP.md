@@ -83,7 +83,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — laundry app scaffold, Basket model, group_into_loads() pure-Python grouping with 20+ unit tests
+- [x] 04-01-PLAN.md — laundry app scaffold, Basket model, group_into_loads() pure-Python grouping with 20+ unit tests
 - [ ] 04-02-PLAN.md — Basket views, URLs, plan API, basket CRUD, basket.html template with selection grid, load cards, modals, inline JS, integration tests
 
 ### Phase 5: Production Deployment
@@ -112,5 +112,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Scaffolding and Auth | 3/3 | Complete | 2026-02-22 |
 | 2. Wardrobe CRUD with S3 | 0/3 | Not started | - |
 | 3. Care Label Analysis Pipeline | 3/4 | Gap closure in progress | 2026-03-29 |
-| 4. Laundry Basket | 0/2 | Not started | - |
+| 4. Laundry Basket | 1/2 | In Progress|  |
 | 5. Production Deployment | 0/2 | Not started | - |
