@@ -80,11 +80,11 @@ Plans:
   1. User can select multiple garments from their wardrobe to add to a laundry basket; only garments with a completed analysis appear as selectable options
   2. The app produces a multi-load washing plan that groups garments by temperature compatibility, color group (whites/lights/darks), and fabric sensitivity (delicates vs. normal)
   3. Each load in the plan displays the included garments, recommended wash settings, and any applicable warnings (e.g., "air dry only", "no bleach", "do not wash together")
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: `laundry` app and `group_into_loads()` — pure Python grouping function with unit tests covering edge cases (null temperatures, dry-clean-only, delicates conflicts)
-- [ ] 04-02: Basket views and templates — basket selection UI (multi-select from wardrobe), load plan display template with per-load items, settings, and warnings
+- [ ] 04-01-PLAN.md — laundry app scaffold, Basket model, group_into_loads() pure-Python grouping with 20+ unit tests
+- [ ] 04-02-PLAN.md — Basket views, URLs, plan API, basket CRUD, basket.html template with selection grid, load cards, modals, inline JS, integration tests
 
 ### Phase 5: Production Deployment
 **Goal**: The app is live, publicly accessible on Render, with PostgreSQL and S3 fully operational in the production environment and all secrets properly isolated from the repository.
@@ -96,7 +96,7 @@ Plans:
   3. AWS S3 is configured and functional in the production environment; uploaded images survive a Render redeploy and are served via presigned URLs
   4. No secrets or environment variable values are present in the git repository; all production secrets are confirmed to exist only in the Render dashboard
   5. `GET /healthz/` returns HTTP 200, confirming the app is up and suitable for uptime monitoring
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 05-01: Production environment audit — verify all env vars are in Render dashboard, confirm no secrets in repo (`git grep` audit), final `requirements.txt` pin, `render.yaml` verified
