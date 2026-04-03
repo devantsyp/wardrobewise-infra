@@ -33,6 +33,7 @@ media/
 # Tailwind CLI binary
 *.tailwindcss*
 tailwindcss
+.django_tailwind_cli/
 
 # Node (if ever added)
 node_modules/
