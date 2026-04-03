@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'wardrobe',
+    'laundry',
 ]
 
 MIDDLEWARE = [
