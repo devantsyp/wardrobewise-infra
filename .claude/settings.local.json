@@ -4,7 +4,9 @@
       "Bash(cd:*)",
       "Bash(grep:*)",
       "Bash(tail:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(node __TRACKED_VAR__/.claude/get-shit-done/bin/gsd-tools.cjs state load)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('commit_docs', True\\)\\)\")"
     ]
   }
 }

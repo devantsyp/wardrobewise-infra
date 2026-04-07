@@ -98,7 +98,10 @@ def analyze_care_label_view(request, pk):
     try:
         analysis = analyze_care_label(garment, request.user)
         if not analysis.failure_reason:
-            messages.success(request, "Care instructions analyzed successfully.")
+            if analysis.from_cache:
+                messages.success(request, "Using previous analysis — image was already processed.")
+            else:
+                messages.success(request, "Care instructions analyzed successfully.")
     except RateLimitExceeded:
         messages.error(request, "Daily analysis limit reached. Try again tomorrow.", extra_tags="daily_limit_reached")
     except BudgetGuardTripped:

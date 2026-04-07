@@ -9,15 +9,17 @@
     <h1 class="text-3xl font-semibold text-deep-space-900">Plan Your Laundry Basket</h1>
 
     {% if baskets %}
-    <div class="flex items-center gap-3">
-      <span class="text-sm font-semibold text-thistle-500">Active basket</span>
-      <select id="basket-selector" class="border border-deep-space-200 rounded-md px-3 py-2 text-sm bg-white text-deep-space-800 font-semibold">
-        {% for b in baskets %}
-        <option value="{{ b.pk }}" {% if basket and b.pk == basket.pk %}selected{% endif %}>{{ b.name }}</option>
-        {% endfor %}
-      </select>
-      <a href="#" id="new-basket-trigger" class="text-sm font-semibold text-dark-teal-600 hover:text-dark-teal-700 underline ml-2">+ New Basket</a>
-      <a href="#" id="manage-baskets-trigger" class="text-sm text-thistle-500 hover:text-deep-space-700 underline ml-2">Manage Baskets</a>
+    <div class="flex flex-col items-end gap-1">
+      <div class="flex items-center gap-3">
+        <span class="text-sm font-semibold text-thistle-500">Active basket</span>
+        <select id="basket-selector" class="border border-deep-space-200 rounded-md px-3 py-2 text-sm bg-white text-deep-space-800 font-semibold">
+          {% for b in baskets %}
+          <option value="{{ b.pk }}" {% if basket and b.pk == basket.pk %}selected{% endif %}>{{ b.name }}</option>
+          {% endfor %}
+        </select>
+        <a href="#" id="new-basket-trigger" class="text-sm font-semibold text-dark-teal-600 hover:text-dark-teal-700 underline ml-2">+ New Basket</a>
+      </div>
+      <a href="#" id="manage-baskets-trigger" class="text-sm text-thistle-500 hover:text-deep-space-700 underline">Manage Baskets</a>
     </div>
     {% endif %}
   </div>
@@ -101,13 +103,12 @@
   <div id="plan-section" class="mt-8 {% if not basket.saved_plan %}hidden{% endif %}">
     <div class="flex items-center justify-between mb-4">
       <h2 class="text-xl font-semibold text-deep-space-900">Your Laundry Plan</h2>
-      <button type="button" id="save-plan-btn" class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors">Save Plan</button>
     </div>
 
     <!-- Stale plan notice -->
     {% if plan_is_stale %}
     <div class="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mb-4" id="stale-notice">
-      Plan may be outdated — garment analyses were updated since this plan was saved. Re-generate for latest results.
+      Plan may be outdated — garment analyses were updated since this plan was saved. Adjust your selection to refresh.
     </div>
     {% endif %}
 
@@ -131,12 +132,7 @@
      {% if not garments or not basket %}style="display:none"{% endif %}>
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <span class="text-sm text-thistle-500" id="sticky-count">0 selected</span>
-    <button type="button" id="create-plan-btn"
-            class="bg-deep-space-200 text-deep-space-400 font-semibold px-6 py-3 rounded-lg cursor-not-allowed"
-            disabled
-            title="Select at least 2 garments to plan">
-      Create Laundry Plan (0)
-    </button>
+    <span class="text-sm text-thistle-400 italic" id="plan-auto-hint">Plan updates automatically as you select garments.</span>
   </div>
 </div>
 
@@ -169,11 +165,11 @@
       <div class="flex items-center justify-between border border-deep-space-100 rounded-lg px-3 py-2">
         <span class="text-sm font-semibold text-deep-space-800">{{ b.name }}</span>
         <div class="flex items-center gap-2">
-          <form method="post" action="{% url 'laundry:basket_rename' b.pk %}" class="inline-flex items-center gap-1">
-            {% csrf_token %}
-            <input type="text" name="name" value="{{ b.name }}" class="text-sm border border-deep-space-200 rounded px-2 py-1 w-28" maxlength="100">
-            <button type="submit" class="text-xs text-dark-teal-600 hover:text-dark-teal-700 font-semibold">Rename</button>
-          </form>
+          <button type="button"
+                  class="text-xs text-dark-teal-600 hover:text-dark-teal-700 font-semibold"
+                  data-rename-pk="{{ b.pk }}"
+                  data-rename-name="{{ b.name }}"
+                  data-rename-action="{% url 'laundry:basket_rename' b.pk %}">Rename</button>
           <form method="post" action="{% url 'laundry:basket_delete' b.pk %}" class="inline"
                 onsubmit="return confirm('Are you sure you want to delete &quot;{{ b.name }}&quot;? This cannot be undone.')">
             {% csrf_token %}
@@ -186,6 +182,24 @@
     <div class="flex justify-end">
       <button type="button" id="manage-baskets-close" class="text-sm font-semibold text-thistle-500 hover:text-deep-space-700 px-4 py-2">Close</button>
     </div>
+  </div>
+</div>
+
+<!-- Rename basket modal -->
+<div id="rename-basket-modal" class="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center hidden" role="dialog" aria-modal="true" aria-labelledby="rename-basket-title">
+  <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
+    <h3 id="rename-basket-title" class="text-xl font-semibold text-deep-space-900 mb-4">Rename Basket</h3>
+    <form id="rename-basket-form" method="post" action="">
+      {% csrf_token %}
+      <label for="rename-basket-name" class="text-sm font-semibold text-deep-space-700 block mb-1">New name</label>
+      <input type="text" name="name" id="rename-basket-name"
+             class="w-full border border-deep-space-200 rounded-lg px-3 py-2 text-sm text-deep-space-800 focus:outline-none focus:ring-2 focus:ring-deep-space-400 mb-6"
+             maxlength="100">
+      <div class="flex justify-end gap-3">
+        <button type="button" id="rename-basket-cancel" class="text-sm font-semibold text-thistle-500 hover:text-deep-space-700 px-4 py-2">Cancel</button>
+        <button type="submit" class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-4 py-2 rounded-lg text-sm">Confirm</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -204,7 +218,6 @@ const SAVED_PKS = new Set(JSON.parse(document.getElementById('basket-garment-pks
 
 // === State ===
 let selectedPks = new Set(SAVED_PKS);
-let planGenerated = SAVED_PLAN !== null;
 let currentPlan = SAVED_PLAN;
 let debounceTimer;
 
@@ -212,7 +225,6 @@ let debounceTimer;
 const grid = document.getElementById('garment-grid');
 const selectionCountEl = document.getElementById('selection-count');
 const stickyCountEl = document.getElementById('sticky-count');
-const createPlanBtn = document.getElementById('create-plan-btn');
 const planSection = document.getElementById('plan-section');
 const planSkeleton = document.getElementById('plan-skeleton');
 const planResults = document.getElementById('plan-results');
@@ -221,7 +233,6 @@ const maxNotice = document.getElementById('max-notice');
 const categoryFilter = document.getElementById('category-filter');
 const selectAllBtn = document.getElementById('select-all-btn');
 const clearAllBtn = document.getElementById('clear-all-btn');
-const savePlanBtn = document.getElementById('save-plan-btn');
 const basketSelector = document.getElementById('basket-selector');
 
 // === Initialization ===
@@ -262,18 +273,6 @@ function updateCounters() {
   if (stickyCountEl) {
     stickyCountEl.textContent = `${count} selected`;
   }
-  if (createPlanBtn) {
-    createPlanBtn.textContent = `Create Laundry Plan (${count})`;
-    if (count >= MIN_SELECTION) {
-      createPlanBtn.disabled = false;
-      createPlanBtn.className = 'bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-6 py-3 rounded-lg cursor-pointer transition-colors';
-      createPlanBtn.title = '';
-    } else {
-      createPlanBtn.disabled = true;
-      createPlanBtn.className = 'bg-deep-space-200 text-deep-space-400 font-semibold px-6 py-3 rounded-lg cursor-not-allowed';
-      createPlanBtn.title = 'Select at least 2 garments to plan';
-    }
-  }
 }
 
 // === Toggle garment selection ===
@@ -299,7 +298,7 @@ function toggleGarment(pk, card, checkbox, forceState) {
 
   updateCounters();
   persistSelection();
-  if (planGenerated) triggerDebouncedPlanUpdate();
+  triggerDebouncedPlanUpdate();
 }
 
 // === Card click handler ===
@@ -346,7 +345,7 @@ if (selectAllBtn) {
     });
     updateCounters();
     persistSelection();
-    if (planGenerated) triggerDebouncedPlanUpdate();
+    triggerDebouncedPlanUpdate();
   });
 }
 
@@ -381,20 +380,15 @@ if (categoryFilter) {
   });
 }
 
-// === Create Laundry Plan button ===
-if (createPlanBtn) {
-  createPlanBtn.addEventListener('click', function() {
-    if (this.disabled) return;
-    if (planSection) planSection.classList.remove('hidden');
-    if (planSection) planSection.scrollIntoView({ behavior: 'smooth' });
-    fetchAndRenderPlan();
-    planGenerated = true;
-  });
-}
-
 // === Fetch and render plan ===
 async function fetchAndRenderPlan() {
   if (!planSection || !planSkeleton || !planResults) return;
+  if (selectedPks.size < MIN_SELECTION) {
+    planSection.classList.add('hidden');
+    return;
+  }
+
+  planSection.classList.remove('hidden');
   planSkeleton.classList.remove('hidden');
   planResults.innerHTML = '';
   planSection.setAttribute('aria-busy', 'true');
@@ -416,6 +410,7 @@ async function fetchAndRenderPlan() {
       const data = await response.json();
       currentPlan = data;
       renderPlan(data);
+      autoSavePlan(data);
     }
   } catch (err) {
     planResults.innerHTML = `<p class="text-red-600 text-sm">An error occurred. Please try again.</p>`;
@@ -423,6 +418,19 @@ async function fetchAndRenderPlan() {
     planSkeleton.classList.add('hidden');
     planSection.setAttribute('aria-busy', 'false');
   }
+}
+
+// === Auto-save plan (silent, fire-and-forget) ===
+function autoSavePlan(plan) {
+  if (!BASKET_ID) return;
+  fetch('/basket/save-plan/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': CSRF_TOKEN,
+    },
+    body: JSON.stringify({ basket_id: BASKET_ID, plan: plan }),
+  }).catch(() => {});
 }
 
 // === Debounced plan update ===
@@ -531,28 +539,6 @@ function persistSelection() {
   }).catch(() => {});
 }
 
-// === Save plan ===
-if (savePlanBtn) {
-  savePlanBtn.addEventListener('click', async function() {
-    if (!currentPlan || !BASKET_ID) return;
-    try {
-      const response = await fetch('/basket/save-plan/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': CSRF_TOKEN,
-        },
-        body: JSON.stringify({ basket_id: BASKET_ID, plan: currentPlan }),
-      });
-      if (response.ok) {
-        showToast('Laundry plan saved');
-      }
-    } catch (err) {
-      showToast('Failed to save plan. Please try again.', 'error');
-    }
-  });
-}
-
 // === Toast notification ===
 function showToast(message, type) {
   const container = document.getElementById('toast-container') || createToastContainer();
@@ -591,22 +577,49 @@ const newBasketTrigger = document.getElementById('new-basket-trigger');
 const newBasketCancel = document.getElementById('new-basket-cancel');
 const manageBasketsTrigger = document.getElementById('manage-baskets-trigger');
 const manageBasketsClose = document.getElementById('manage-baskets-close');
+const renameBasketsCancel = document.getElementById('rename-basket-cancel');
+const renameBasketForm = document.getElementById('rename-basket-form');
+const renameBasketName = document.getElementById('rename-basket-name');
 
 if (newBasketTrigger) newBasketTrigger.addEventListener('click', e => { e.preventDefault(); showModal('new-basket-modal'); });
 if (newBasketCancel) newBasketCancel.addEventListener('click', () => hideModal('new-basket-modal'));
 if (manageBasketsTrigger) manageBasketsTrigger.addEventListener('click', e => { e.preventDefault(); showModal('manage-baskets-modal'); });
 if (manageBasketsClose) manageBasketsClose.addEventListener('click', () => hideModal('manage-baskets-modal'));
 
+// Rename buttons inside manage modal
+document.querySelectorAll('[data-rename-pk]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const action = this.dataset.renameAction;
+    const name = this.dataset.renameName;
+    if (renameBasketForm) renameBasketForm.action = action;
+    if (renameBasketName) {
+      renameBasketName.value = name;
+      renameBasketName.select();
+    }
+    hideModal('manage-baskets-modal');
+    showModal('rename-basket-modal');
+  });
+});
+
+// Cancel on rename modal — go back to manage baskets
+if (renameBasketsCancel) {
+  renameBasketsCancel.addEventListener('click', () => {
+    hideModal('rename-basket-modal');
+    showModal('manage-baskets-modal');
+  });
+}
+
 // ESC key to close modals
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     hideModal('new-basket-modal');
     hideModal('manage-baskets-modal');
+    hideModal('rename-basket-modal');
   }
 });
 
 // Overlay click to close modals
-['new-basket-modal', 'manage-baskets-modal'].forEach(id => {
+['new-basket-modal', 'manage-baskets-modal', 'rename-basket-modal'].forEach(id => {
   const modal = document.getElementById(id);
   if (modal) {
     modal.addEventListener('click', function(e) {

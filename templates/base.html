@@ -18,7 +18,7 @@
   <!-- Nav bar -->
   <nav class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="/" class="text-deep-space-700 font-bold text-xl tracking-tight">LaundryAdvisor</a>
+      <a href="{% if user.is_authenticated %}{% url 'wardrobe:garment_list' %}{% else %}/{% endif %}" class="text-deep-space-700 font-bold text-xl tracking-tight">LaundryAdvisor</a>
       <div class="flex items-center gap-6">
         {% if user.is_authenticated %}
           <a href="{% url 'wardrobe:garment_list' %}" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">My Wardrobe</a>
