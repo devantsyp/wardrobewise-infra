@@ -4,7 +4,7 @@
 {% block content %}
 <div class="max-w-md mx-auto mt-16 px-4 pb-16">
   <div class="bg-white rounded-lg shadow-md p-8">
-    <h1 class="text-2xl font-bold text-deep-space-900 mb-6">Log in to your account</h1>
+    <h1 class="text-2xl font-bold text-secondary-900 mb-6">Log in to your account</h1>
 
     <form method="POST" novalidate>
       {% csrf_token %}
@@ -29,7 +29,7 @@
       <!-- Email field (username field relabeled) -->
       <div class="mb-4">
         <label for="{{ form.username.id_for_label }}"
-               class="block text-sm font-medium text-deep-space-800 mb-1">
+               class="block text-sm font-medium text-secondary-800 mb-1">
           {{ form.username.label }}
         </label>
         {{ form.username }}
@@ -45,7 +45,7 @@
       <!-- Password field -->
       <div class="mb-6">
         <label for="{{ form.password.id_for_label }}"
-               class="block text-sm font-medium text-deep-space-800 mb-1">
+               class="block text-sm font-medium text-secondary-800 mb-1">
           {{ form.password.label }}
         </label>
         {{ form.password }}
@@ -60,14 +60,14 @@
 
       <!-- Submit -->
       <button type="submit"
-              class="w-full bg-deep-space-600 hover:bg-lavender-500 text-white font-semibold py-2.5 rounded-lg transition-colors">
+              class="w-full bg-primary-700 hover:bg-primary-600 text-white font-semibold py-2.5 rounded-lg transition-colors">
         Log in
       </button>
     </form>
 
-    <p class="mt-6 text-center text-thistle-500 text-sm">
+    <p class="mt-6 text-center text-accent-500 text-sm">
       Don't have an account?
-      <a href="/register/" class="text-deep-space-600 hover:text-lavender-500 font-medium transition-colors">Register</a>
+      <a href="/register/" class="text-primary-700 hover:text-primary-600 font-medium transition-colors">Register</a>
     </p>
   </div>
 </div>

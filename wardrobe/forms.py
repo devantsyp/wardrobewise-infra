@@ -4,13 +4,13 @@ from django.core.files.uploadedfile import UploadedFile
 from wardrobe.models import CareAnalysis, Garment
 
 INPUT_CLASSES = (
-    'w-full px-4 py-3 rounded-lg border border-gray-300 '
-    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+    'w-full px-4 py-3 rounded-lg border border-accent-500 '
+    'focus:ring-2 focus:ring-primary-700 focus:border-transparent transition'
 )
 
 SELECT_CLASSES = (
-    'w-full px-4 py-3 rounded-lg border border-gray-300 '
-    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+    'w-full px-4 py-3 rounded-lg border border-accent-500 '
+    'focus:ring-2 focus:ring-primary-700 focus:border-transparent transition'
 )
 
 FILE_INPUT_CLASSES = 'hidden'
@@ -111,39 +111,39 @@ class CareInstructionsForm(forms.ModelForm):
         widgets = {
             'washing': forms.TextInput(attrs={
                 'class': (
-                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
-                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                    'w-full px-4 py-3 rounded-lg border border-accent-500 '
+                    'focus:ring-2 focus:ring-primary-700 focus:border-transparent transition'
                 ),
                 'placeholder': 'e.g., Machine wash cold',
             }),
             'drying': forms.TextInput(attrs={
                 'class': (
-                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
-                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                    'w-full px-4 py-3 rounded-lg border border-accent-500 '
+                    'focus:ring-2 focus:ring-primary-700 focus:border-transparent transition'
                 ),
                 'placeholder': 'e.g., Tumble dry low',
             }),
             'ironing': forms.TextInput(attrs={
                 'class': (
-                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
-                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                    'w-full px-4 py-3 rounded-lg border border-accent-500 '
+                    'focus:ring-2 focus:ring-primary-700 focus:border-transparent transition'
                 ),
                 'placeholder': 'e.g., Iron on medium heat',
             }),
             'bleach': forms.TextInput(attrs={
                 'class': (
-                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
-                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                    'w-full px-4 py-3 rounded-lg border border-accent-500 '
+                    'focus:ring-2 focus:ring-primary-700 focus:border-transparent transition'
                 ),
                 'placeholder': 'e.g., Do not bleach',
             }),
             'is_delicate': forms.CheckboxInput(attrs={
-                'class': 'h-4 w-4 rounded border-gray-300 text-dark-teal-600 focus:ring-dark-teal-500',
+                'class': 'h-4 w-4 rounded border-accent-500 text-primary-700 focus:ring-primary-700',
             }),
             'personal_notes': forms.Textarea(attrs={
                 'class': (
-                    'w-full px-4 py-3 rounded-lg border border-gray-300 '
-                    'focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition'
+                    'w-full px-4 py-3 rounded-lg border border-accent-500 '
+                    'focus:ring-2 focus:ring-primary-700 focus:border-transparent transition'
                 ),
                 'rows': 3,
                 'placeholder': 'Your personal care notes...',
