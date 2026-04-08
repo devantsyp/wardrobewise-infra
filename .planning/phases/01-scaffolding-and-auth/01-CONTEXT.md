@@ -49,7 +49,7 @@ A running Django app deployed on Render with Tailwind CSS v4 styling, user regis
 
 ### Base template & nav
 - Top horizontal nav bar with light/white background and colored text/accents
-- App name "Wardrobe Wise" as styled text (no icon/logo)
+- App name "LaundryAdvisor" as styled text (no icon/logo)
 - Desktop-first layout (mobile responsiveness deferred)
 - Page background: very light tint (one of the 50-shade palette colors)
 

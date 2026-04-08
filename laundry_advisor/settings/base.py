@@ -1,5 +1,5 @@
 """
-Base settings for wardrobe_wise project.
+Base settings for laundry_advisor project.
 Shared across all environments (dev, prod).
 """
 

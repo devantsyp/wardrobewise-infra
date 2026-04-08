@@ -1,4 +1,4 @@
-# Requirements: Wardrobe Wise
+# Requirements: LaundryAdvisor
 
 **Defined:** 2026-02-19
 **Core Value:** Decode a confusing care label and tell the user exactly how to wash a specific garment — so they never ruin a piece of clothing again.

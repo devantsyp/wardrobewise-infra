@@ -1,13 +1,13 @@
 # Project Research Summary
 
-**Project:** Wardrobe Wise
+**Project:** LaundryAdvisor
 **Domain:** Laundry Care Advisor / Wardrobe Management Web App
 **Researched:** 2026-02-19
 **Confidence:** MEDIUM-HIGH (training data through August 2025; web search unavailable during research session)
 
 ## Executive Summary
 
-Wardrobe Wise is a server-rendered Django web application that uses GPT-4o Vision to decode ISO 3758 care label symbols into plain-English laundry instructions, and groups a user's garments into compatible wash loads. The recommended approach is a straightforward three-app Django project (accounts, wardrobe, laundry) deployed on Render with AWS S3 for file storage, PostgreSQL as the database, and the OpenAI Python SDK for AI analysis — no async task queue, no SPA frontend, no native mobile app. All four research files converge on the same clean build order: auth first, then wardrobe CRUD with S3, then AI analysis pipeline, then laundry basket grouping, then deploy polish.
+LaundryAdvisor is a server-rendered Django web application that uses GPT-4o Vision to decode ISO 3758 care label symbols into plain-English laundry instructions, and groups a user's garments into compatible wash loads. The recommended approach is a straightforward three-app Django project (accounts, wardrobe, laundry) deployed on Render with AWS S3 for file storage, PostgreSQL as the database, and the OpenAI Python SDK for AI analysis — no async task queue, no SPA frontend, no native mobile app. All four research files converge on the same clean build order: auth first, then wardrobe CRUD with S3, then AI analysis pipeline, then laundry basket grouping, then deploy polish.
 
 The primary technical risks are not architectural — they are operational. Budget exhaustion from unguarded OpenAI calls, secrets committed to git before a `.gitignore` is in place, and media files lost to Render's ephemeral filesystem are the three failure modes most likely to derail the project during development. All three must be addressed in Phase 1 and Phase 2 before any feature work begins. The stack is mature and well-understood; the pitfalls are team-discipline and configuration issues, not hard technical problems.
 

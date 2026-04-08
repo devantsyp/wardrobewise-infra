@@ -1,8 +1,8 @@
-# Roadmap: Wardrobe Wise
+# Roadmap: LaundryAdvisor
 
 ## Overview
 
-Wardrobe Wise is built in five phases that follow strict technical dependencies: secure scaffolding and auth must exist before any user data is created, real S3 storage must be working before the AI pipeline can use genuine image URLs, the AI analysis pipeline must produce real AnalysisResult rows before the basket grouping algorithm can be validated, and a dedicated final phase confirms the production environment is fully operational before the app is handed to any external audience. Each phase delivers a coherent, independently verifiable capability.
+LaundryAdvisor is built in five phases that follow strict technical dependencies: secure scaffolding and auth must exist before any user data is created, real S3 storage must be working before the AI pipeline can use genuine image URLs, the AI analysis pipeline must produce real AnalysisResult rows before the basket grouping algorithm can be validated, and a dedicated final phase confirms the production environment is fully operational before the app is handed to any external audience. Each phase delivers a coherent, independently verifiable capability.
 
 ## Phases
 

@@ -1,8 +1,8 @@
-# Wardrobe Wise
+# LaundryAdvisor
 
 ## What This Is
 
-Wardrobe Wise is a full-stack web application that helps users build a persistent wardrobe catalog by uploading garment photos and care label images. The app uses GPT-4o Vision to decode care label symbols into structured, plain-English laundry instructions. Users can then assemble a "Laundry Basket" from saved garments and receive a combined washing plan — grouping what can go together and separating what can't.
+LaundryAdvisor is a full-stack web application that helps users build a persistent wardrobe catalog by uploading garment photos and care label images. The app uses GPT-4o Vision to decode care label symbols into structured, plain-English laundry instructions. Users can then assemble a "Laundry Basket" from saved garments and receive a combined washing plan — grouping what can go together and separating what can't.
 
 ## Core Value
 

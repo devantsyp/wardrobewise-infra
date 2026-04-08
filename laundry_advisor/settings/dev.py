@@ -1,5 +1,5 @@
 """
-Development settings for wardrobe_wise project.
+Development settings for laundry_advisor project.
 Uses SQLite, DEBUG=True, and relaxed security settings.
 """
 

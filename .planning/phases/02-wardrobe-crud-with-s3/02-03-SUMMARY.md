@@ -33,7 +33,7 @@ key-files:
 
 key-decisions:
   - "S3 bucket uses public read bucket policy — allows garment photo URLs to be served directly without signed URLs"
-  - "IAM user scoped to wardrobe-wise-s3 with AmazonS3FullAccess — narrow scope preferred but accepted for simplicity"
+  - "IAM user scoped to laundryadvisor-s3 with AmazonS3FullAccess — narrow scope preferred but accepted for simplicity"
 
 patterns-established: []
 
@@ -89,7 +89,7 @@ None. All 8 browser tests passed on first attempt.
 
 Completed in this plan:
 - AWS S3 bucket created with public read policy
-- IAM user `wardrobe-wise-s3` created with access credentials
+- IAM user `laundryadvisor-s3` created with access credentials
 - 4 env vars added to Render: `AWS_STORAGE_BUCKET_NAME`, `AWS_S3_REGION_NAME`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
 
 ## Next Phase Readiness

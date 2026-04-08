@@ -1,7 +1,7 @@
 # Domain Pitfalls
 
 **Domain:** Django + OpenAI Vision + AWS S3 + Render (Group Project)
-**Project:** Wardrobe Wise
+**Project:** LaundryAdvisor
 **Researched:** 2026-02-19
 **Confidence:** HIGH (training data through Aug 2025, all pitfalls are well-established in this stack's community)
 

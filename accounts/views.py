@@ -11,7 +11,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Welcome to Wardrobe Wise!')
+            messages.success(request, 'Welcome to LaundryAdvisor!')
             return redirect('/wardrobe/')
     else:
         form = RegistrationForm()

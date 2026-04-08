@@ -1,5 +1,5 @@
 """
-WSGI config for wardrobe_wise project.
+WSGI config for laundry_advisor project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

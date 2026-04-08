@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {% if action == 'edit' %}Edit {{ garment.name }}{% else %}Add Clothing{% endif %} — Wardrobe Wise
+  {% if action == 'edit' %}Edit {{ garment.name }}{% else %}Add Clothing{% endif %} — LaundryAdvisor
 {% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto px-3 py-8">
+<div class="max-w-2xl mx-auto px-6 py-8">
 
   <!-- Back link (edit only) -->
   {% if action == 'edit' %}
   <a href="{% url 'wardrobe:garment_detail' garment.pk %}"
-     class="inline-flex items-center gap-2 text-primary-700 hover:text-primary-600 text-sm font-medium mb-6 transition-colors">
+     class="inline-flex items-center gap-2 text-deep-space-600 hover:text-deep-space-800 text-sm font-medium mb-6 transition-colors">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
     </svg>
@@ -19,7 +19,7 @@
   {% endif %}
 
   <!-- Page title -->
-  <h1 class="text-3xl font-bold text-secondary-700 mb-8">
+  <h1 class="text-3xl font-bold text-deep-space-900 mb-8">
     {% if action == 'edit' %}Edit {{ garment.name }}{% else %}Add Clothing{% endif %}
   </h1>
 
@@ -34,7 +34,7 @@
     {% csrf_token %}
 
     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-      <h2 class="text-lg font-semibold text-secondary-700 mb-6">Garment Details</h2>
+      <h2 class="text-lg font-semibold text-deep-space-900 mb-6">Garment Details</h2>
 
       <!-- Name (required, floating label) -->
       <div class="relative mb-6">
@@ -43,11 +43,11 @@
                id="{{ form.name.id_for_label }}"
                value="{{ form.name.value|default:'' }}"
                placeholder=" "
-               class="peer w-full px-4 pt-6 pb-2 rounded-lg border border-accent-500 focus:ring-2 focus:ring-primary-700 focus:border-transparent transition text-secondary-700 bg-white"
+               class="peer w-full px-4 pt-6 pb-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition text-deep-space-800 bg-white"
                {% if not form.name.field.required == False %}required{% endif %}>
         <label for="{{ form.name.id_for_label }}"
-               class="absolute left-4 top-4 text-accent-500 text-sm transition-all
-                      peer-focus:-translate-y-2 peer-focus:scale-75 peer-focus:text-primary-700
+               class="absolute left-4 top-4 text-thistle-500 text-sm transition-all
+                      peer-focus:-translate-y-2 peer-focus:scale-75 peer-focus:text-dark-teal-600
                       peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:scale-75
                       origin-left pointer-events-none">
           Name <span class="text-red-500">*</span>
@@ -60,12 +60,12 @@
       <!-- Category (required, standard label + select) -->
       <div class="mb-6">
         <label for="{{ form.category.id_for_label }}"
-               class="block text-sm font-medium text-secondary-700 mb-1">
+               class="block text-sm font-medium text-deep-space-800 mb-1">
           Category <span class="text-red-500">*</span>
         </label>
         <select name="{{ form.category.html_name }}"
                 id="{{ form.category.id_for_label }}"
-                class="w-full px-4 py-3 rounded-lg border border-accent-500 focus:ring-2 focus:ring-primary-700 focus:border-transparent transition text-secondary-700 bg-white"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition text-deep-space-800 bg-white"
                 required>
           <option value="">Select a category...</option>
           {% for value, label in form.category.field.choices %}
@@ -86,10 +86,10 @@
                id="{{ form.color.id_for_label }}"
                value="{{ form.color.value|default:'' }}"
                placeholder=" "
-               class="peer w-full px-4 pt-6 pb-2 rounded-lg border border-accent-500 focus:ring-2 focus:ring-primary-700 focus:border-transparent transition text-secondary-700 bg-white">
+               class="peer w-full px-4 pt-6 pb-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition text-deep-space-800 bg-white">
         <label for="{{ form.color.id_for_label }}"
-               class="absolute left-4 top-4 text-accent-500 text-sm transition-all
-                      peer-focus:-translate-y-2 peer-focus:scale-75 peer-focus:text-primary-700
+               class="absolute left-4 top-4 text-thistle-500 text-sm transition-all
+                      peer-focus:-translate-y-2 peer-focus:scale-75 peer-focus:text-dark-teal-600
                       peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:scale-75
                       origin-left pointer-events-none">
           Color
@@ -106,10 +106,10 @@
                id="{{ form.fabric.id_for_label }}"
                value="{{ form.fabric.value|default:'' }}"
                placeholder=" "
-               class="peer w-full px-4 pt-6 pb-2 rounded-lg border border-accent-500 focus:ring-2 focus:ring-primary-700 focus:border-transparent transition text-secondary-700 bg-white">
+               class="peer w-full px-4 pt-6 pb-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition text-deep-space-800 bg-white">
         <label for="{{ form.fabric.id_for_label }}"
-               class="absolute left-4 top-4 text-accent-500 text-sm transition-all
-                      peer-focus:-translate-y-2 peer-focus:scale-75 peer-focus:text-primary-700
+               class="absolute left-4 top-4 text-thistle-500 text-sm transition-all
+                      peer-focus:-translate-y-2 peer-focus:scale-75 peer-focus:text-dark-teal-600
                       peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:scale-75
                       origin-left pointer-events-none">
           Fabric
@@ -125,10 +125,10 @@
                   id="{{ form.notes.id_for_label }}"
                   rows="3"
                   placeholder=" "
-                  class="peer w-full px-4 pt-6 pb-2 rounded-lg border border-accent-500 focus:ring-2 focus:ring-primary-700 focus:border-transparent transition text-secondary-700 bg-white resize-none">{{ form.notes.value|default:'' }}</textarea>
+                  class="peer w-full px-4 pt-6 pb-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-dark-teal-500 focus:border-transparent transition text-deep-space-800 bg-white resize-none">{{ form.notes.value|default:'' }}</textarea>
         <label for="{{ form.notes.id_for_label }}"
-               class="absolute left-4 top-4 text-accent-500 text-sm transition-all
-                      peer-focus:-translate-y-2 peer-focus:scale-75 peer-focus:text-primary-700
+               class="absolute left-4 top-4 text-thistle-500 text-sm transition-all
+                      peer-focus:-translate-y-2 peer-focus:scale-75 peer-focus:text-dark-teal-600
                       peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:scale-75
                       origin-left pointer-events-none">
           Notes
@@ -141,12 +141,12 @@
 
     <!-- Photos section -->
     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-      <h2 class="text-lg font-semibold text-secondary-700 mb-6">Photos</h2>
+      <h2 class="text-lg font-semibold text-deep-space-900 mb-6">Photos</h2>
 
       <!-- Garment Photo -->
       <div class="mb-6">
-        <label class="block text-sm font-medium text-secondary-700 mb-1">Garment Photo</label>
-        <p class="text-sm text-accent-500 mb-3">JPG or PNG, max 10 MB</p>
+        <label class="block text-sm font-medium text-deep-space-800 mb-1">Garment Photo</label>
+        <p class="text-sm text-thistle-500 mb-3">JPG or PNG, max 10 MB</p>
 
         {% if action == 'edit' and garment.garment_photo %}
         <!-- Show current photo thumbnail in edit mode -->
@@ -155,7 +155,7 @@
                id="preview_garment_photo"
                alt="Current garment photo"
                class="w-32 h-32 object-cover rounded-lg shadow-sm">
-          <p class="text-xs text-accent-500 mt-1">Current photo — click Replace to upload a new one</p>
+          <p class="text-xs text-thistle-500 mt-1">Current photo — click Replace to upload a new one</p>
         </div>
         {% else %}
         <!-- Preview placeholder for create mode -->
@@ -171,7 +171,7 @@
 
         <!-- Styled upload button -->
         <div onclick="document.getElementById('{{ form.garment_photo.id_for_label }}').click()"
-             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-primary-700 text-primary-700 text-sm font-medium cursor-pointer hover:bg-primary-50 transition-colors">
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-deep-space-300 text-deep-space-700 text-sm font-medium cursor-pointer hover:bg-deep-space-50 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
@@ -184,8 +184,8 @@
 
       <!-- Care Label Photo -->
       <div class="mb-2">
-        <label class="block text-sm font-medium text-secondary-700 mb-1">Care Label Photo</label>
-        <p class="text-sm text-accent-500 mb-3">JPG or PNG, max 10 MB</p>
+        <label class="block text-sm font-medium text-deep-space-800 mb-1">Care Label Photo</label>
+        <p class="text-sm text-thistle-500 mb-3">JPG or PNG, max 10 MB</p>
 
         {% if action == 'edit' and garment.care_label_photo %}
         <!-- Show current care label in edit mode -->
@@ -194,7 +194,7 @@
                id="preview_care_label_photo"
                alt="Current care label photo"
                class="w-32 h-32 object-cover rounded-lg shadow-sm">
-          <p class="text-xs text-accent-500 mt-1">Current photo — click Replace to upload a new one</p>
+          <p class="text-xs text-thistle-500 mt-1">Current photo — click Replace to upload a new one</p>
         </div>
         {% else %}
         <!-- Preview placeholder for create mode -->
@@ -210,7 +210,7 @@
 
         <!-- Styled upload button -->
         <div onclick="document.getElementById('{{ form.care_label_photo.id_for_label }}').click()"
-             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-primary-700 text-primary-700 text-sm font-medium cursor-pointer hover:bg-primary-50 transition-colors">
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-deep-space-300 text-deep-space-700 text-sm font-medium cursor-pointer hover:bg-deep-space-50 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
@@ -225,12 +225,12 @@
     <!-- Form action buttons -->
     <div class="flex items-center gap-3">
       <button type="submit" id="submit-btn"
-              class="bg-primary-700 hover:bg-primary-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+              class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
         {% if action == 'edit' %}Save Changes{% else %}Add Clothing{% endif %}
       </button>
       {% if action == 'edit' %}
       <a href="{% url 'wardrobe:garment_detail' garment.pk %}"
-         class="bg-bg-300 hover:bg-bg-400 text-secondary-700 font-semibold px-6 py-3 rounded-lg transition-colors">
+         class="bg-deep-space-100 hover:bg-deep-space-200 text-deep-space-800 font-semibold px-6 py-3 rounded-lg transition-colors">
         Cancel
       </a>
       {% endif %}
