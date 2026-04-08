@@ -1,5 +1,5 @@
 """
-Production settings for laundry_advisor project.
+Production settings for wardrobe_wise project.
 Deployed to Render. Completed in Plan 01-03.
 """
 

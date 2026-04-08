@@ -575,7 +575,7 @@ Phase 5: Polish + Deployment
 # render.yaml
 services:
   - type: web
-    name: laundryadvisor
+    name: wardrobe-wise
     env: python
     buildCommand: "pip install -r requirements/production.txt && python manage.py collectstatic --noinput && python manage.py migrate"
     startCommand: "gunicorn config.wsgi:application --workers 4 --timeout 60"
@@ -586,7 +586,7 @@ services:
         sync: false
       - key: DATABASE_URL
         fromDatabase:
-          name: laundryadvisor-db
+          name: wardrobe-wise-db
           property: connectionString
       - key: AWS_ACCESS_KEY_ID
         sync: false
@@ -598,9 +598,9 @@ services:
         sync: false
 
 databases:
-  - name: laundryadvisor-db
-    databaseName: laundryadvisor
-    user: laundryadvisor
+  - name: wardrobe-wise-db
+    databaseName: wardrobe-wise
+    user: wardrobe-wise
 ```
 
 Key Render constraints:

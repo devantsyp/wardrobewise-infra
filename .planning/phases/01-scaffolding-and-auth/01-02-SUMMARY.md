@@ -69,7 +69,7 @@ completed: 2026-02-22
 ## Accomplishments
 
 - `accounts/forms.py`: `RegistrationForm` (UserCreationForm) with email uniqueness check in `clean_email()`, Tailwind widget attrs on all fields, plain-English labels. `LoginForm` (AuthenticationForm) with email label and matching widget attrs.
-- `accounts/views.py`: `register_view` auto-logs in user after registration and flashes "Welcome to LaundryAdvisor!". `login_view` clears all fields on failure by returning fresh unbound form + `login_error` context var. `logout_view` flashes info message and redirects to `/login/`.
+- `accounts/views.py`: `register_view` auto-logs in user after registration and flashes "Welcome to Wardrobe Wise!". `login_view` clears all fields on failure by returning fresh unbound form + `login_error` context var. `logout_view` flashes info message and redirects to `/login/`.
 - `accounts/urls.py`: `/register/`, `/login/`, `/logout/` at root level with `app_name = 'accounts'`.
 - `laundry_advisor/urls.py`: accounts URLs included at root (no prefix).
 - `core/views.py` + `core/urls.py`: `wardrobe_placeholder` with `@login_required`; redirects unauthenticated users to `/login/?next=/wardrobe/`.

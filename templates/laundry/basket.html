@@ -1,47 +1,47 @@
 {% extends "base.html" %}
-{% block title %}Plan Your Laundry — LaundryAdvisor{% endblock %}
+{% block title %}Plan Your Laundry — Wardrobe Wise{% endblock %}
 {% block content %}
 
-<div class="max-w-7xl mx-auto px-6 py-8 pb-24">
+<div class="max-w-7xl mx-auto px-3 py-8 pb-24">
 
   <!-- Page header with basket selector -->
   <div class="flex flex-wrap items-start justify-between gap-4 mb-2">
-    <h1 class="text-3xl font-semibold text-deep-space-900">Plan Your Laundry Basket</h1>
+    <h1 class="text-3xl font-semibold text-secondary-700">Plan Your Laundry Basket</h1>
 
     {% if baskets %}
     <div class="flex flex-col items-end gap-1">
       <div class="flex items-center gap-3">
-        <span class="text-sm font-semibold text-thistle-500">Active basket</span>
-        <select id="basket-selector" class="border border-deep-space-200 rounded-md px-3 py-2 text-sm bg-white text-deep-space-800 font-semibold">
+        <span class="text-sm font-semibold text-accent-500">Active basket</span>
+        <select id="basket-selector" class="border border-secondary-400 rounded-md px-3 py-2 text-sm bg-white text-secondary-700 font-semibold">
           {% for b in baskets %}
           <option value="{{ b.pk }}" {% if basket and b.pk == basket.pk %}selected{% endif %}>{{ b.name }}</option>
           {% endfor %}
         </select>
-        <a href="#" id="new-basket-trigger" class="text-sm font-semibold text-dark-teal-600 hover:text-dark-teal-700 underline ml-2">+ New Basket</a>
+        <a href="#" id="new-basket-trigger" class="text-sm font-semibold text-primary-700 hover:text-primary-600 underline ml-2">+ New Basket</a>
       </div>
-      <a href="#" id="manage-baskets-trigger" class="text-sm text-thistle-500 hover:text-deep-space-700 underline">Manage Baskets</a>
+      <a href="#" id="manage-baskets-trigger" class="text-sm text-accent-500 hover:text-secondary-700 underline">Manage Baskets</a>
     </div>
     {% endif %}
   </div>
 
-  <p class="text-thistle-500 text-base mb-6">Select garments with analyzed care labels, then generate a load plan that groups compatible items together.</p>
+  <p class="text-accent-500 text-base mb-6">Select garments with analyzed care labels, then generate a load plan that groups compatible items together.</p>
 
   <!-- Empty state: no analyzed garments -->
   {% if not garments %}
   <div class="flex flex-col items-center justify-center py-16 text-center">
-    <h2 class="text-2xl font-semibold text-deep-space-900 mb-3">No analyzed garments yet</h2>
-    <p class="text-thistle-500 mb-8">Analyze your garments' care labels first, then come back to plan a laundry load.</p>
-    <a href="{% url 'wardrobe:garment_list' %}" class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">Go to My Wardrobe</a>
+    <h2 class="text-2xl font-semibold text-secondary-700 mb-3">No analyzed garments yet</h2>
+    <p class="text-accent-500 mb-8">Analyze your garments' care labels first, then come back to plan a laundry load.</p>
+    <a href="{% url 'wardrobe:garment_list' %}" class="bg-primary-700 hover:bg-primary-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">Go to My Wardrobe</a>
   </div>
 
   <!-- First visit: garments exist but no baskets -->
   {% elif garments and not baskets %}
   <div class="flex flex-col items-center justify-center py-16 text-center">
-    <h2 class="text-2xl font-semibold text-deep-space-900 mb-3">Create your first basket to get started.</h2>
+    <h2 class="text-2xl font-semibold text-secondary-700 mb-3">Create your first basket to get started.</h2>
     <form method="post" action="{% url 'laundry:basket_create' %}">
       {% csrf_token %}
       <input type="hidden" name="name" value="My Basket">
-      <button type="submit" class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors">Create Basket</button>
+      <button type="submit" class="bg-primary-700 hover:bg-primary-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">Create Basket</button>
     </form>
   </div>
 
@@ -52,15 +52,15 @@
 
   <!-- Controls row -->
   <div class="flex flex-wrap items-center gap-4 mb-4">
-    <select id="category-filter" class="border border-deep-space-200 rounded-md px-3 py-2 text-sm bg-white text-deep-space-800" aria-label="Filter by category">
+    <select id="category-filter" class="border border-secondary-400 rounded-md px-3 py-2 text-sm bg-white text-secondary-700" aria-label="Filter by category">
       <option value="">All categories</option>
       {% for value, label in categories %}
       <option value="{{ value }}">{{ label }}</option>
       {% endfor %}
     </select>
-    <button type="button" id="select-all-btn" class="text-sm font-semibold text-deep-space-600 hover:text-deep-space-900 underline">Select All</button>
-    <button type="button" id="clear-all-btn" class="text-sm font-semibold text-deep-space-600 hover:text-deep-space-900 underline">Clear All</button>
-    <span class="ml-auto text-sm text-thistle-500" id="selection-count">0 selected / {{ garments|length }} available</span>
+    <button type="button" id="select-all-btn" class="text-sm font-semibold text-primary-700 hover:text-secondary-700 underline">Select All</button>
+    <button type="button" id="clear-all-btn" class="text-sm font-semibold text-primary-700 hover:text-secondary-700 underline">Clear All</button>
+    <span class="ml-auto text-sm text-accent-500" id="selection-count">0 selected / {{ garments|length }} available</span>
   </div>
 
   <!-- Max selection notice (hidden by default) -->
@@ -75,23 +75,23 @@
          data-pk="{{ garment.pk }}"
          data-category="{{ garment.category }}"
          id="card-{{ garment.pk }}">
-      <div class="aspect-square overflow-hidden bg-deep-space-50 relative">
+      <div class="aspect-square overflow-hidden bg-bg-300 relative">
         {% if garment.garment_photo %}
         <img src="{{ garment.garment_photo.url }}" alt="{{ garment.name }}" class="w-full h-full object-cover">
         {% else %}
         <div class="w-full h-full flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-deep-space-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3a2 2 0 0 0-2 2c0 .74.4 1.38 1 1.73V8L4 14h16l-7-6V6.73c.6-.35 1-.99 1-1.73a2 2 0 0 0-2-2z" />
           </svg>
         </div>
         {% endif %}
-        <input type="checkbox" class="garment-checkbox absolute top-2 left-2 w-5 h-5 accent-deep-space-500"
+        <input type="checkbox" class="garment-checkbox absolute top-2 left-2 w-5 h-5 accent-primary-700"
                aria-label="Select {{ garment.name }}"
                data-pk="{{ garment.pk }}"
                {% if garment.pk in basket.garment_pks %}checked{% endif %}>
       </div>
-      <p class="text-sm font-semibold text-deep-space-800 px-2 pt-2 truncate">{{ garment.name }}</p>
-      <p class="text-xs text-thistle-500 px-2 pb-2">{{ garment.get_category_display }}</p>
+      <p class="text-sm font-semibold text-secondary-700 px-2 pt-2 truncate">{{ garment.name }}</p>
+      <p class="text-xs text-accent-500 px-2 pb-2">{{ garment.get_category_display }}</p>
     </div>
     {% endfor %}
   </div>
@@ -102,7 +102,7 @@
   <!-- Section 3: Plan results -->
   <div id="plan-section" class="mt-8 {% if not basket.saved_plan %}hidden{% endif %}">
     <div class="flex items-center justify-between mb-4">
-      <h2 class="text-xl font-semibold text-deep-space-900">Your Laundry Plan</h2>
+      <h2 class="text-xl font-semibold text-secondary-700">Your Laundry Plan</h2>
     </div>
 
     <!-- Stale plan notice -->
@@ -112,13 +112,13 @@
     </div>
     {% endif %}
 
-    <p id="plan-summary" class="text-thistle-500 text-sm mb-4"></p>
+    <p id="plan-summary" class="text-accent-500 text-sm mb-4"></p>
 
     <!-- Loading skeleton -->
     <div id="plan-skeleton" class="hidden">
-      <div class="rounded-lg bg-deep-space-100 animate-pulse h-32 mb-4"></div>
-      <div class="rounded-lg bg-deep-space-100 animate-pulse h-32 mb-4"></div>
-      <div class="rounded-lg bg-deep-space-100 animate-pulse h-32 mb-4"></div>
+      <div class="rounded-lg bg-bg-300 animate-pulse h-32 mb-4"></div>
+      <div class="rounded-lg bg-bg-300 animate-pulse h-32 mb-4"></div>
+      <div class="rounded-lg bg-bg-300 animate-pulse h-32 mb-4"></div>
     </div>
 
     <!-- Plan results container -->
@@ -128,11 +128,11 @@
 </div>
 
 <!-- Section 4: Sticky bottom bar -->
-<div class="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-deep-space-100 shadow-lg" id="sticky-bar"
+<div class="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-bg-400 shadow-lg" id="sticky-bar"
      {% if not garments or not basket %}style="display:none"{% endif %}>
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <span class="text-sm text-thistle-500" id="sticky-count">0 selected</span>
-    <span class="text-sm text-thistle-400 italic" id="plan-auto-hint">Plan updates automatically as you select garments.</span>
+  <div class="max-w-7xl mx-auto px-3 py-4 flex items-center justify-between">
+    <span class="text-sm text-accent-500" id="sticky-count">0 selected</span>
+    <span class="text-sm text-accent-400 italic" id="plan-auto-hint">Plan updates automatically as you select garments.</span>
   </div>
 </div>
 
@@ -141,16 +141,16 @@
 <!-- New basket modal -->
 <div id="new-basket-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden" role="dialog" aria-modal="true" aria-labelledby="new-basket-title">
   <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
-    <h3 id="new-basket-title" class="text-xl font-semibold text-deep-space-900 mb-4">New Basket</h3>
+    <h3 id="new-basket-title" class="text-xl font-semibold text-secondary-700 mb-4">New Basket</h3>
     <form method="post" action="{% url 'laundry:basket_create' %}">
       {% csrf_token %}
-      <label for="new-basket-name" class="text-sm font-semibold text-deep-space-700 block mb-1">Basket name</label>
+      <label for="new-basket-name" class="text-sm font-semibold text-secondary-700 block mb-1">Basket name</label>
       <input type="text" name="name" id="new-basket-name" placeholder="e.g. This week's laundry"
-             class="w-full border border-deep-space-200 rounded-lg px-3 py-2 text-sm text-deep-space-800 focus:outline-none focus:ring-2 focus:ring-deep-space-400 mb-6"
+             class="w-full border border-secondary-400 rounded-lg px-3 py-2 text-sm text-secondary-700 focus:outline-none focus:ring-2 focus:ring-primary-700 mb-6"
              maxlength="100">
       <div class="flex justify-end gap-3">
-        <button type="button" id="new-basket-cancel" class="text-sm font-semibold text-thistle-500 hover:text-deep-space-700 px-4 py-2">Discard</button>
-        <button type="submit" class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-4 py-2 rounded-lg text-sm">Create Basket</button>
+        <button type="button" id="new-basket-cancel" class="text-sm font-semibold text-accent-500 hover:text-secondary-700 px-4 py-2">Discard</button>
+        <button type="submit" class="bg-primary-700 hover:bg-primary-600 text-white font-semibold px-4 py-2 rounded-lg text-sm">Create Basket</button>
       </div>
     </form>
   </div>
@@ -159,14 +159,14 @@
 <!-- Manage baskets modal -->
 <div id="manage-baskets-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden" role="dialog" aria-modal="true" aria-labelledby="manage-baskets-title">
   <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
-    <h3 id="manage-baskets-title" class="text-xl font-semibold text-deep-space-900 mb-4">Manage Baskets</h3>
+    <h3 id="manage-baskets-title" class="text-xl font-semibold text-secondary-700 mb-4">Manage Baskets</h3>
     <div class="space-y-3 mb-6">
       {% for b in baskets %}
-      <div class="flex items-center justify-between border border-deep-space-100 rounded-lg px-3 py-2">
-        <span class="text-sm font-semibold text-deep-space-800">{{ b.name }}</span>
+      <div class="flex items-center justify-between border border-bg-400 rounded-lg px-3 py-2">
+        <span class="text-sm font-semibold text-secondary-700">{{ b.name }}</span>
         <div class="flex items-center gap-2">
           <button type="button"
-                  class="text-xs text-dark-teal-600 hover:text-dark-teal-700 font-semibold"
+                  class="text-xs text-primary-700 hover:text-primary-600 font-semibold"
                   data-rename-pk="{{ b.pk }}"
                   data-rename-name="{{ b.name }}"
                   data-rename-action="{% url 'laundry:basket_rename' b.pk %}">Rename</button>
@@ -180,7 +180,7 @@
       {% endfor %}
     </div>
     <div class="flex justify-end">
-      <button type="button" id="manage-baskets-close" class="text-sm font-semibold text-thistle-500 hover:text-deep-space-700 px-4 py-2">Close</button>
+      <button type="button" id="manage-baskets-close" class="text-sm font-semibold text-accent-500 hover:text-secondary-700 px-4 py-2">Close</button>
     </div>
   </div>
 </div>
@@ -188,16 +188,16 @@
 <!-- Rename basket modal -->
 <div id="rename-basket-modal" class="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center hidden" role="dialog" aria-modal="true" aria-labelledby="rename-basket-title">
   <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
-    <h3 id="rename-basket-title" class="text-xl font-semibold text-deep-space-900 mb-4">Rename Basket</h3>
+    <h3 id="rename-basket-title" class="text-xl font-semibold text-secondary-700 mb-4">Rename Basket</h3>
     <form id="rename-basket-form" method="post" action="">
       {% csrf_token %}
-      <label for="rename-basket-name" class="text-sm font-semibold text-deep-space-700 block mb-1">New name</label>
+      <label for="rename-basket-name" class="text-sm font-semibold text-secondary-700 block mb-1">New name</label>
       <input type="text" name="name" id="rename-basket-name"
-             class="w-full border border-deep-space-200 rounded-lg px-3 py-2 text-sm text-deep-space-800 focus:outline-none focus:ring-2 focus:ring-deep-space-400 mb-6"
+             class="w-full border border-secondary-400 rounded-lg px-3 py-2 text-sm text-secondary-700 focus:outline-none focus:ring-2 focus:ring-primary-700 mb-6"
              maxlength="100">
       <div class="flex justify-end gap-3">
-        <button type="button" id="rename-basket-cancel" class="text-sm font-semibold text-thistle-500 hover:text-deep-space-700 px-4 py-2">Cancel</button>
-        <button type="submit" class="bg-dark-teal-600 hover:bg-dark-teal-700 text-white font-semibold px-4 py-2 rounded-lg text-sm">Confirm</button>
+        <button type="button" id="rename-basket-cancel" class="text-sm font-semibold text-accent-500 hover:text-secondary-700 px-4 py-2">Cancel</button>
+        <button type="submit" class="bg-primary-700 hover:bg-primary-600 text-white font-semibold px-4 py-2 rounded-lg text-sm">Confirm</button>
       </div>
     </form>
   </div>
@@ -256,9 +256,9 @@ function initSelection() {
 
 function applySelectedStyle(card, selected) {
   if (selected) {
-    card.classList.add('ring-2', 'ring-deep-space-400', 'border-2', 'border-deep-space-400');
+    card.classList.add('ring-2', 'ring-primary-700', 'border-2', 'border-primary-700');
   } else {
-    card.classList.remove('ring-2', 'ring-deep-space-400', 'border-2', 'border-deep-space-400');
+    card.classList.remove('ring-2', 'ring-primary-700', 'border-2', 'border-primary-700');
   }
 }
 
@@ -451,7 +451,7 @@ function renderPlan(data) {
   let html = '';
 
   if ((!data.loads || data.loads.length === 0) && data.special_care && data.special_care.length > 0) {
-    html += `<p class="text-sm text-thistle-500 mb-4">No machine-wash loads for your selection. These garments require special care.</p>`;
+    html += `<p class="text-sm text-accent-500 mb-4">No machine-wash loads for your selection. These garments require special care.</p>`;
   }
 
   // Render machine-wash loads
@@ -463,11 +463,11 @@ function renderPlan(data) {
 
     html += `
     <div class="rounded-lg shadow-sm overflow-hidden bg-white mb-4">
-      <div class="bg-deep-space-700 text-white px-4 py-3">
+      <div class="bg-secondary-700 text-white px-4 py-3">
         <h3 class="text-sm font-semibold">Load ${loadNum}: ${colorLabel} — ${tempLabel} (${garmentCount} garment${garmentCount !== 1 ? 's' : ''})</h3>
       </div>
       <div class="p-4">
-        <p class="text-xs text-thistle-500 mb-3">Grouped by: Color (${colorLabel}) | Temp (${tempLabel})</p>
+        <p class="text-xs text-accent-500 mb-3">Grouped by: Color (${colorLabel}) | Temp (${tempLabel})</p>
         <div class="flex flex-wrap gap-3 mb-4">
           ${(load.garments || []).map(g => {
             const warningBadges = (g.warnings || []).map(w =>
@@ -475,11 +475,11 @@ function renderPlan(data) {
             ).join('');
             const imgHtml = g.photo_url
               ? `<img src="${g.photo_url}" alt="${escapeHtml(g.name)}" class="w-16 h-16 rounded-md object-cover">`
-              : `<div class="w-16 h-16 rounded-md bg-deep-space-50 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-deep-space-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a2 2 0 0 0-2 2c0 .74.4 1.38 1 1.73V8L4 14h16l-7-6V6.73c.6-.35 1-.99 1-1.73a2 2 0 0 0-2-2z" /></svg></div>`;
+              : `<div class="w-16 h-16 rounded-md bg-bg-300 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a2 2 0 0 0-2 2c0 .74.4 1.38 1 1.73V8L4 14h16l-7-6V6.73c.6-.35 1-.99 1-1.73a2 2 0 0 0-2-2z" /></svg></div>`;
             return `
               <div class="flex flex-col items-center gap-1">
                 <div class="relative">${imgHtml}${warningBadges}</div>
-                <span class="text-xs text-deep-space-700 text-center w-16 truncate">${escapeHtml(g.name)}</span>
+                <span class="text-xs text-secondary-700 text-center w-16 truncate">${escapeHtml(g.name)}</span>
               </div>`;
           }).join('')}
         </div>
@@ -504,11 +504,11 @@ function renderPlan(data) {
           ${(data.special_care || []).map(g => {
             const imgHtml = g.photo_url
               ? `<img src="${g.photo_url}" alt="${escapeHtml(g.name)}" class="w-16 h-16 rounded-md object-cover">`
-              : `<div class="w-16 h-16 rounded-md bg-deep-space-50 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-deep-space-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a2 2 0 0 0-2 2c0 .74.4 1.38 1 1.73V8L4 14h16l-7-6V6.73c.6-.35 1-.99 1-1.73a2 2 0 0 0-2-2z" /></svg></div>`;
+              : `<div class="w-16 h-16 rounded-md bg-bg-300 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a2 2 0 0 0-2 2c0 .74.4 1.38 1 1.73V8L4 14h16l-7-6V6.73c.6-.35 1-.99 1-1.73a2 2 0 0 0-2-2z" /></svg></div>`;
             return `
               <div class="flex flex-col items-center gap-1">
                 <div class="relative">${imgHtml}</div>
-                <span class="text-xs text-deep-space-700 text-center w-16 truncate">${escapeHtml(g.name)}</span>
+                <span class="text-xs text-secondary-700 text-center w-16 truncate">${escapeHtml(g.name)}</span>
                 <span class="text-xs text-amber-700 text-center w-16 truncate">${escapeHtml(g.care_method || '')}</span>
               </div>`;
           }).join('')}
@@ -544,7 +544,7 @@ function showToast(message, type) {
   const container = document.getElementById('toast-container') || createToastContainer();
   const colorClass = type === 'error'
     ? 'bg-red-50 border-red-400 text-red-800'
-    : 'bg-dark-teal-50 border-dark-teal-400 text-dark-teal-800';
+    : 'bg-primary-50 border-primary-600 text-primary-900';
   const toast = document.createElement('div');
   toast.className = `flex items-start gap-3 px-4 py-3 rounded-lg shadow-lg border max-w-sm ${colorClass}`;
   toast.innerHTML = `

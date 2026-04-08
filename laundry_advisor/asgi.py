@@ -1,5 +1,5 @@
 """
-ASGI config for laundry_advisor project.
+ASGI config for wardrobe_wise project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

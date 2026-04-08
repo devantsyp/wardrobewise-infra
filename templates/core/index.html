@@ -1,21 +1,21 @@
-{% extends "base.html" %} {% block title %}LaundryAdvisor — Make Laundry a
+{% extends "base.html" %} {% block title %}Wardrobe Wise — Make Laundry a
 No-Brainer{% endblock %} {% block content %}
-<section class="py-28 px-6">
+<section class="py-28 px-3">
   <div class="max-w-3xl mx-auto text-center">
-    <h1 class="text-4xl font-bold text-deep-space-900 leading-tight mb-10">
+    <h1 class="text-4xl font-bold text-secondary-700 leading-tight mb-10">
       Ready to make laundry a no-brainer?
     </h1>
     {% if user.is_authenticated %}
     <a
       href="/wardrobe/"
-      class="inline-block bg-deep-space-600 hover:bg-lavender-500 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors"
+      class="inline-block bg-primary-700 hover:bg-primary-600 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors"
     >
       Go to Your Wardrobe
     </a>
     {% else %}
     <a
       href="/register/"
-      class="inline-block bg-deep-space-600 hover:bg-lavender-500 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors"
+      class="inline-block bg-primary-700 hover:bg-primary-600 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors"
     >
       Get Started
     </a>

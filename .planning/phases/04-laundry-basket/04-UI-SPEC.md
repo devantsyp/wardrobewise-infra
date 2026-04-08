@@ -165,7 +165,7 @@ All components follow established patterns from phases 1-3.
 
 | Element | Copy |
 |---------|------|
-| Page title (browser tab) | Plan Your Laundry — LaundryAdvisor |
+| Page title (browser tab) | Plan Your Laundry — Wardrobe Wise |
 | Page heading (h1) | Plan Your Laundry Basket |
 | Page subtitle | Select garments with analyzed care labels, then generate a load plan that groups compatible items together. |
 | Nav link | Plan Laundry |
@@ -235,7 +235,7 @@ These behaviors are locked by CONTEXT.md and must be implemented as specified.
 ## Page Layout
 
 ```
-[Nav: LaundryAdvisor | My Wardrobe | Plan Laundry | N/10 today | email | Logout]
+[Nav: Wardrobe Wise | My Wardrobe | Plan Laundry | N/10 today | email | Logout]
 
 [max-w-7xl mx-auto px-6 py-8]
   [h1: Plan Your Laundry Basket]       [Basket selector dropdown + New + Manage]

@@ -1,6 +1,6 @@
 # Technology Stack
 
-**Project:** LaundryAdvisor
+**Project:** Wardrobe Wise
 **Researched:** 2026-02-19
 **Confidence note:** Web search and Context7 were unavailable in this research session. All version claims are based on training data (cutoff August 2025) and are marked with confidence levels. Before pinning versions in requirements.txt, run `pip index versions <package>` or check PyPI for the latest patch release.
 

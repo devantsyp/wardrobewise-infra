@@ -47,7 +47,7 @@
 
 **Base template & nav:**
 - Top horizontal nav bar with light/white background and colored text/accents
-- App name "LaundryAdvisor" as styled text (no icon/logo)
+- App name "Wardrobe Wise" as styled text (no icon/logo)
 - Desktop-first layout (mobile responsiveness deferred)
 - Page background: very light tint (one of the 50-shade palette colors)
 
@@ -278,7 +278,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, "Welcome to LaundryAdvisor!")
+            messages.success(request, "Welcome to Wardrobe Wise!")
             return redirect("wardrobe:index")  # placeholder in Phase 1
         # Form is returned with errors; fields cleared via empty POST re-render
     else:
@@ -418,7 +418,7 @@ TAILWIND_CLI_DIST_CSS = "css/app.css"
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LaundryAdvisor</title>
+    <title>Wardrobe Wise</title>
     {% tailwind_css %}
 </head>
 ```
@@ -464,7 +464,7 @@ LOGOUT_REDIRECT_URL = "/login/"
 ```yaml
 services:
   - type: web
-    name: laundryadvisor
+    name: wardrobe-wise
     runtime: python
     buildCommand: "./build.sh"
     startCommand: "gunicorn laundry_advisor.wsgi:application"
@@ -476,7 +476,7 @@ services:
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
-          name: laundryadvisor-db
+          name: wardrobe-wise-db
           property: connectionString
       - key: WEB_CONCURRENCY
         value: 4
@@ -484,9 +484,9 @@ services:
         value: 3.13.5
 
 databases:
-  - name: laundryadvisor-db
+  - name: wardrobe-wise-db
     plan: free
-    databaseName: laundryadvisor
+    databaseName: wardrobe-wise
 ```
 
 **build.sh:**
