@@ -5,8 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 User = get_user_model()
 
 INPUT_CLASSES = (
-    'w-full px-3 py-2 border border-lilac-ash-200 rounded-lg '
-    'focus:outline-none focus:ring-2 focus:ring-lavender-400 focus:border-lavender-400'
+    'w-full px-3 py-2 border border-accent-400 rounded-lg '
+    'focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-primary-700'
 )
 
 

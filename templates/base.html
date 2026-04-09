@@ -13,7 +13,7 @@
     body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
-<body class="bg-deep-space-50 min-h-screen">
+<body class="bg-bg-400 min-h-screen">
 
   <!-- Nav bar -->
   <nav class="bg-white shadow-sm">
@@ -21,20 +21,20 @@
       <a href="{% if user.is_authenticated %}{% url 'wardrobe:garment_list' %}{% else %}/{% endif %}" class="text-deep-space-700 font-bold text-xl tracking-tight">WardrobeWise</a>
       <div class="flex items-center gap-6">
         {% if user.is_authenticated %}
-          <a href="{% url 'wardrobe:garment_list' %}" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">My Wardrobe</a>
-          <a href="{% url 'laundry:basket' %}" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">Plan Laundry</a>
+          <a href="{% url 'wardrobe:garment_list' %}" class="text-secondary-600 hover:text-accent-light-400 text-sm font-medium transition-colors">My Wardrobe</a>
+          <a href="{% url 'laundry:basket' %}" class="text-secondary-600 hover:text-accent-light-400 text-sm font-medium transition-colors">Plan Laundry</a>
           {% if daily_usage_count is not None %}
           <div class="flex items-center gap-2 text-sm">
-            <span class="{% if daily_usage_count >= daily_usage_limit %}text-red-600 font-bold{% elif daily_usage_count >= 7 %}text-amber-600 font-medium{% else %}text-deep-space-500{% endif %}">
+            <span class="{% if daily_usage_count >= daily_usage_limit %}text-red-600 font-bold{% elif daily_usage_count >= 7 %}text-amber-600 font-medium{% else %}text-secondary-500{% endif %}">
               {{ daily_usage_count }} / {{ daily_usage_limit }} today
             </span>
           </div>
           {% endif %}
-          <span class="text-thistle-500 text-sm font-medium">{{ user.email }}</span>
-          <a href="/logout/" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">Logout</a>
+          <span class="text-accent-500 text-sm font-medium">{{ user.email }}</span>
+          <a href="/logout/" class="text-secondary-600 hover:text-accent-light-400 text-sm font-medium transition-colors">Logout</a>
         {% else %}
-          <a href="/login/" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">Log in</a>
-          <a href="/register/" class="text-deep-space-600 hover:text-lavender-500 text-sm font-medium transition-colors">Register</a>
+          <a href="/login/" class="text-secondary-600 hover:text-accent-light-400 text-sm font-medium transition-colors">Log in</a>
+          <a href="/register/" class="text-secondary-600 hover:text-accent-light-400 text-sm font-medium transition-colors">Register</a>
         {% endif %}
       </div>
     </div>
@@ -46,9 +46,9 @@
     {% for message in messages %}
     {% if 'analysis_failed' not in message.extra_tags %}
     <div class="flex items-start gap-3 px-4 py-3 rounded-lg shadow-lg border max-w-sm
-      {% if message.tags == 'success' %}bg-dark-teal-50 border-dark-teal-400 text-dark-teal-800
+      {% if message.tags == 'success' %}bg-primary-50 border-primary-400 text-primary-800
       {% elif message.tags == 'error' %}bg-red-50 border-red-400 text-red-800
-      {% else %}bg-deep-space-50 border-deep-space-400 text-deep-space-800{% endif %}">
+      {% else %}bg-bg-100 border-bg-500 text-secondary-800{% endif %}">
       <span class="text-sm font-medium flex-1">{{ message }}</span>
       <button onclick="this.parentElement.remove()"
               class="text-current opacity-50 hover:opacity-100 text-lg leading-none font-bold flex-shrink-0"

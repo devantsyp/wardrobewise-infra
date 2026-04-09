@@ -4,73 +4,82 @@
   /* Reset default Tailwind colors — use only custom palette */
   --color-*: initial;
 
-  /* Deep Space Blue (PRIMARY brand color) */
-  --color-deep-space-50: #e9f6fb;
-  --color-deep-space-100: #c8e8f5;
-  --color-deep-space-200: #a0d4ec;
-  --color-deep-space-300: #72bce0;
-  --color-deep-space-400: #4aa1d1;
-  --color-deep-space-500: #2b83bc;
-  --color-deep-space-600: #1f6696;
-  --color-deep-space-700: #174d74;
-  --color-deep-space-800: #0f3450;
-  --color-deep-space-900: #081e30;
-  --color-deep-space-950: #05161f;
+  /* ============================================================
+   * BRAND PALETTE
+   * primary   = Deep Teal    #0F5257  (brand primary, CTAs)
+   * secondary = Dark Blue    #0B3142  (headings, dark surfaces)
+   * accent    = Muted Purple #9C92A3  (muted text, subtle accents)
+   * accent-light = Light Lavender #C6B9CD (hover accents, badges)
+   * background   = Soft Mist #D6D3F0  (page background)
+   * ============================================================ */
 
-  /* Dark Teal (success/positive) */
-  --color-dark-teal-50: #e9fafb;
-  --color-dark-teal-100: #c4f1f4;
-  --color-dark-teal-200: #96e4e9;
-  --color-dark-teal-300: #5dd1da;
-  --color-dark-teal-400: #2db8c5;
-  --color-dark-teal-500: #1c9aa8;
-  --color-dark-teal-600: #147a86;
-  --color-dark-teal-700: #0f5d66;
-  --color-dark-teal-800: #093f46;
-  --color-dark-teal-900: #052829;
-  --color-dark-teal-950: #051d1f;
+  /* Primary — Deep Teal (#0F5257) */
+  --color-primary-50:  #e8f4f5;
+  --color-primary-100: #c4e3e5;
+  --color-primary-200: #9dced1;
+  --color-primary-300: #6fb6bb;
+  --color-primary-400: #4aa2a8;
+  --color-primary-500: #2b8f96;
+  --color-primary-600: #1a7178;
+  --color-primary-700: #0f5257;   /* brand value */
+  --color-primary-800: #0a3b3f;
+  --color-primary-900: #062629;
+  --color-primary-950: #031415;
 
-  /* Lavender (hover/focus states) */
-  --color-lavender-50: #edecf8;
-  --color-lavender-100: #d6d4f0;
-  --color-lavender-200: #b8b5e4;
-  --color-lavender-300: #9490d5;
-  --color-lavender-400: #736ec3;
-  --color-lavender-500: #5752ae;
-  --color-lavender-600: #433f8a;
-  --color-lavender-700: #322f68;
-  --color-lavender-800: #221f46;
-  --color-lavender-900: #141228;
-  --color-lavender-950: #0b091b;
+  /* Secondary — Dark Blue (#0B3142) */
+  --color-secondary-50:  #e7edf1;
+  --color-secondary-100: #c1d1db;
+  --color-secondary-200: #97b2c2;
+  --color-secondary-300: #6a90a6;
+  --color-secondary-400: #46748f;
+  --color-secondary-500: #265a78;
+  --color-secondary-600: #164662;
+  --color-secondary-700: #0b3142;   /* brand value */
+  --color-secondary-800: #072131;
+  --color-secondary-900: #041421;
+  --color-secondary-950: #020a12;
 
-  /* Thistle (muted/secondary text) */
-  --color-thistle-50: #f3f0f4;
-  --color-thistle-100: #e3dde5;
-  --color-thistle-200: #c9c1cc;
-  --color-thistle-300: #ab9fb0;
-  --color-thistle-400: #8e7e93;
-  --color-thistle-500: #736176;
-  --color-thistle-600: #594a5b;
-  --color-thistle-700: #413541;
-  --color-thistle-800: #2a222b;
-  --color-thistle-900: #1c151d;
-  --color-thistle-950: #130f15;
+  /* Accent — Muted Purple (#9C92A3) */
+  --color-accent-50:  #f4f2f6;
+  --color-accent-100: #e5e1ea;
+  --color-accent-200: #d1cad7;
+  --color-accent-300: #b9b0c2;
+  --color-accent-400: #a89db0;
+  --color-accent-500: #9c92a3;   /* brand value */
+  --color-accent-600: #7d7485;
+  --color-accent-700: #5f5765;
+  --color-accent-800: #413b46;
+  --color-accent-900: #2a2530;
+  --color-accent-950: #181320;
 
-  /* Lilac Ash (muted/secondary text) */
-  --color-lilac-ash-50: #f2f1f3;
-  --color-lilac-ash-100: #e0dde2;
-  --color-lilac-ash-200: #c4c0c8;
-  --color-lilac-ash-300: #a49fa9;
-  --color-lilac-ash-400: #857f8a;
-  --color-lilac-ash-500: #68626d;
-  --color-lilac-ash-600: #504b54;
-  --color-lilac-ash-700: #3a363d;
-  --color-lilac-ash-800: #252228;
-  --color-lilac-ash-900: #181619;
-  --color-lilac-ash-950: #121013;
+  /* Accent Light — Light Lavender (#C6B9CD) */
+  --color-accent-light-50:  #faf8fb;
+  --color-accent-light-100: #f0ecf3;
+  --color-accent-light-200: #e2dae7;
+  --color-accent-light-300: #d4c8da;
+  --color-accent-light-400: #c6b9cd;   /* brand value */
+  --color-accent-light-500: #b0a1b8;
+  --color-accent-light-600: #917d9c;
+  --color-accent-light-700: #715e7c;
+  --color-accent-light-800: #4f415a;
+  --color-accent-light-900: #31273a;
+  --color-accent-light-950: #1c1521;
 
-  /* Red (destructive actions) */
-  --color-red-50: #fef2f2;
+  /* Background — Soft Mist (#D6D3F0) */
+  --color-bg-50:  #fdfcff;
+  --color-bg-100: #f8f7fd;
+  --color-bg-200: #edeaf8;
+  --color-bg-300: #e2dff4;
+  --color-bg-400: #d6d3f0;   /* brand value */
+  --color-bg-500: #b9b5e2;
+  --color-bg-600: #9790cd;
+  --color-bg-700: #736cb4;
+  --color-bg-800: #524e8a;
+  --color-bg-900: #333063;
+  --color-bg-950: #1e1c3e;
+
+  /* Red — destructive actions / error states */
+  --color-red-50:  #fef2f2;
   --color-red-100: #fee2e2;
   --color-red-200: #fecaca;
   --color-red-300: #fca5a5;
@@ -82,21 +91,8 @@
   --color-red-900: #7f1d1d;
   --color-red-950: #450a0a;
 
-  /* Green (analysis complete border) */
-  --color-green-50: #f0fdf4;
-  --color-green-100: #dcfce7;
-  --color-green-200: #bbf7d0;
-  --color-green-300: #86efac;
-  --color-green-400: #4ade80;
-  --color-green-500: #22c55e;
-  --color-green-600: #16a34a;
-  --color-green-700: #15803d;
-  --color-green-800: #166534;
-  --color-green-900: #14532d;
-  --color-green-950: #052e16;
-
-  /* Amber (delicate badge) */
-  --color-amber-50: #fffbeb;
+  /* Amber — warning / delicate badges */
+  --color-amber-50:  #fffbeb;
   --color-amber-100: #fef3c7;
   --color-amber-200: #fde68a;
   --color-amber-300: #fcd34d;
@@ -108,15 +104,35 @@
   --color-amber-900: #78350f;
   --color-amber-950: #451a03;
 
-  /* Keep white and black available */
+  /* Green — success / analysis-complete indicator */
+  --color-green-50:  #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+  --color-green-950: #052e16;
+
+  /* Surface / neutral white */
   --color-white: #ffffff;
   --color-black: #000000;
 }
 
 /* Force-compile all color utilities so any shade can be used in templates */
-@source inline("{bg,text,border,ring,shadow}-{deep-space,dark-teal,lavender,thistle,lilac-ash,red}-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("{bg,text,border}-{white,black}");
-@source inline("hover:{bg,text,border}-{deep-space,dark-teal,lavender,thistle,lilac-ash,red}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{bg,text,border,ring,shadow}-{primary,secondary,accent,bg}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{bg,text,border,ring}-accent-light-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{bg,text,border,ring,shadow}-{white,black}");
+@source inline("hover:{bg,text,border}-{primary,secondary,accent,bg}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("hover:{bg,text,border}-accent-light-{50,100,200,300,400,500,600,700,800,900,950}");
 @source inline("hover:{bg,text}-{white,black}");
-@source inline("{bg,text,border,ring}-{green,amber}-{50,100,200,300,400,500,600,700,800,900,950}");
-@source inline("hover:{bg,text,border}-{green,amber}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("{bg,text,border,ring}-{red,green,amber}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("hover:{bg,text,border}-{red,green,amber}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("focus:ring-{primary,secondary,accent,bg}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("focus:ring-accent-light-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("focus:border-{primary,secondary,accent,bg}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("peer-focus:text-{primary,secondary,accent,bg}-{50,100,200,300,400,500,600,700,800,900,950}");
+@source inline("animate-pulse");
