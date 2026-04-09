@@ -188,7 +188,7 @@ def group_into_loads(garments: list[dict]) -> dict:
         color_group = _classify_color(g.get('color', ''))
         raw_temp, explicit = _extract_temperature(g.get('washing', ''))
         temp_bucket = _normalise_bucket(raw_temp)
-        temp_label = f"{temp_bucket}°C" if raw_temp is not None else 'Coolest wash'
+        temp_label = f"{temp_bucket}°C"
         warnings = _extract_warnings(
             g.get('washing', ''),
             g.get('drying', ''),
@@ -203,10 +203,11 @@ def group_into_loads(garments: list[dict]) -> dict:
             'warnings': warnings,
             'garment': g,
         }
-        color_temp_groups[(color_group, temp_bucket, temp_label)].append(g['pk'])
+        color_temp_groups[(color_group, temp_bucket)].append(g['pk'])
 
     # --- Step 4 (continued): handle delicates splitting ---
-    for (color_group, temp_bucket, temp_label), pks in color_temp_groups.items():
+    for (color_group, temp_bucket), pks in color_temp_groups.items():
+        temp_label = f"{temp_bucket}°C"
         delicate_pks = [pk for pk in pks if garment_meta[pk]['is_delicate']]
         normal_pks = [pk for pk in pks if not garment_meta[pk]['is_delicate']]
 

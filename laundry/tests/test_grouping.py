@@ -147,14 +147,23 @@ class GroupingLogicTest(SimpleTestCase):
         result = group_into_loads([g])
         load = result['loads'][0]
         self.assertEqual(load['temperature'], 30)
-        self.assertEqual(load['temp_label'], 'Coolest wash')
+        self.assertEqual(load['temp_label'], '30°C')
 
     def test_temperature_empty_string(self):
         g = make_garment(washing='')
         result = group_into_loads([g])
         load = result['loads'][0]
         self.assertEqual(load['temperature'], 30)
-        self.assertEqual(load['temp_label'], 'Coolest wash')
+        self.assertEqual(load['temp_label'], '30°C')
+
+    def test_temperature_descriptive_phrase_grouped_with_explicit_30(self):
+        # "coolest wash" language and explicit 30°C must land in the same load
+        g1 = make_garment(pk=1, color='blue', washing='Wash at coolest wash')
+        g2 = make_garment(pk=2, color='blue', washing='Machine wash cold (30°C)')
+        result = group_into_loads([g1, g2])
+        self.assertEqual(len(result['loads']), 1)
+        self.assertEqual(result['loads'][0]['temperature'], 30)
+        self.assertEqual(result['loads'][0]['temp_label'], '30°C')
 
     # -------------------------------------------------------------------------
     # Delicates separation
