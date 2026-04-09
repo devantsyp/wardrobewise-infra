@@ -1,5 +1,5 @@
 ---
-status: awaiting_human_verify
+status: resolved
 trigger: "Multiple UI/UX issues on the Laundry Basket page plus one analysis-related bug (dedup notification)."
 created: 2026-04-07T00:00:00Z
 updated: 2026-04-07T00:00:00Z
