@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from wardrobe.forms import GarmentForm
-from wardrobe.models import CareAnalysis, Garment
+from wardrobe.models import CATEGORY_CHOICES, CareAnalysis, Garment
 from wardrobe.services.analysis import (
     AnalysisError,
     BudgetGuardTripped,
@@ -23,7 +23,26 @@ def garment_list(request):
             output_field=BooleanField(),
         ),
     )
-    return render(request, 'wardrobe/wardrobe_list.html', {'garments': garments})
+
+    category_filter = request.GET.get('category', '')
+    status_filter = request.GET.get('status', '')
+
+    if category_filter:
+        garments = garments.filter(category=category_filter)
+
+    if status_filter == 'analyzed':
+        garments = garments.filter(has_analysis=True)
+    elif status_filter == 'not_analyzed':
+        garments = garments.filter(has_analysis=False)
+
+    context = {
+        'garments': garments,
+        'category_filter': category_filter,
+        'status_filter': status_filter,
+        'category_choices': CATEGORY_CHOICES,
+        'filters_active': bool(category_filter or status_filter),
+    }
+    return render(request, 'wardrobe/wardrobe_list.html', context)
 
 
 @login_required
