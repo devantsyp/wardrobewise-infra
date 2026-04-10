@@ -2,6 +2,16 @@
 {% block title %}Plan Your Laundry — WardrobeWise{% endblock %}
 {% block content %}
 
+{# Override muted-purple text on the laundry page only. #}
+{# accent-500 (#9C92A3) and accent-400 (#a89db0) are replaced with #aa7ec2 #}
+{# for improved readability. Scoped to <main> so the nav bar is not affected. #}
+<style>
+  main .text-accent-500,
+  main .text-accent-400 {
+    color: #aa7ec2 !important;
+  }
+</style>
+
 <div class="max-w-7xl mx-auto px-4 py-8 pb-24">
 
   <!-- Page header with basket selector -->
