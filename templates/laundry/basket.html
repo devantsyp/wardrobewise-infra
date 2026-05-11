@@ -2,6 +2,16 @@
 {% block title %}Plan Your Laundry — WardrobeWise{% endblock %}
 {% block content %}
 
+{# Override muted-purple text on the laundry page only. #}
+{# accent-500 (#9C92A3) and accent-400 (#a89db0) are replaced with #aa7ec2 #}
+{# for improved readability. Scoped to <main> so the nav bar is not affected. #}
+<style>
+  main .text-accent-500,
+  main .text-accent-400 {
+    color: #aa7ec2 !important;
+  }
+</style>
+
 <div class="max-w-7xl mx-auto px-4 py-8 pb-24">
 
   <!-- Page header with basket selector -->
@@ -170,7 +180,7 @@
                   data-rename-pk="{{ b.pk }}"
                   data-rename-name="{{ b.name }}"
                   data-rename-action="{% url 'laundry:basket_rename' b.pk %}">Rename</button>
-          <form method="post" action="{% url 'laundry:basket_delete' b.pk %}" class="inline"
+          <form method="post" action="{% url 'laundry:basket_delete' b.pk %}" class="flex items-center"
                 onsubmit="return confirm('Are you sure you want to delete &quot;{{ b.name }}&quot;? This cannot be undone.')">
             {% csrf_token %}
             <button type="submit" class="text-xs text-red-600 hover:text-red-700 font-semibold">Delete</button>
