@@ -12,10 +12,13 @@ DEBUG = False
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = []
 
-# Add Render external hostname dynamically
 RENDER_EXTERNAL_HOSTNAME = env('RENDER_EXTERNAL_HOSTNAME', default=None)
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+EC2_HOST = env('EC2_HOST', default=None)
+if EC2_HOST:
+    ALLOWED_HOSTS.append(EC2_HOST)
 
 # Database — PostgreSQL via DATABASE_URL (set automatically by Render Blueprint)
 DATABASES = {
@@ -55,11 +58,14 @@ STORAGES["default"] = {
 # Tailwind CLI — do NOT auto-download in production (binary installed during build)
 TAILWIND_CLI_AUTOMATIC_DOWNLOAD = False
 
-# Security headers for production (Render terminates TLS upstream)
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+# HTTPS is available on Render but not on plain EC2 (no SSL cert).
+# Disable SSL enforcement when EC2_HOST is set.
+HTTPS_ENABLED = not bool(EC2_HOST)
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if HTTPS_ENABLED else None
+SESSION_COOKIE_SECURE = HTTPS_ENABLED
+CSRF_COOKIE_SECURE = HTTPS_ENABLED
+SECURE_SSL_REDIRECT = HTTPS_ENABLED
+SECURE_HSTS_SECONDS = 31536000 if HTTPS_ENABLED else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = HTTPS_ENABLED
+SECURE_HSTS_PRELOAD = HTTPS_ENABLED
