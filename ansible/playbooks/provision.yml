@@ -1,0 +1,59 @@
+---
+- name: Provision EC2 instance
+  hosts: ec2
+  become: true
+
+  tasks:
+    - name: Install Docker
+      dnf:
+        name:
+          - docker
+        state: present
+
+    - name: Install Docker Compose plugin
+      shell: |
+        mkdir -p /usr/local/lib/docker/cli-plugins
+        curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+        chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+      args:
+        creates: /usr/local/lib/docker/cli-plugins/docker-compose
+
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add ec2-user to docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: true
+
+    - name: Install Nginx
+      dnf:
+        name: nginx
+        state: present
+
+    - name: Copy Nginx config
+      copy:
+        src: ../../nginx/nginx.conf
+        dest: /etc/nginx/conf.d/laundry_advisor.conf
+
+    - name: Remove default Nginx config
+      file:
+        path: /etc/nginx/conf.d/default.conf
+        state: absent
+
+    - name: Start and enable Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Create app directory
+      file:
+        path: /home/ec2-user/app
+        state: directory
+        owner: ec2-user
+        mode: '0755'
