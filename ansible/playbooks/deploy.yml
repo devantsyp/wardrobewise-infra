@@ -1,0 +1,47 @@
+---
+- name: Deploy application
+  hosts: ec2
+  become: true
+
+  tasks:
+    - name: Write .env.prod
+      copy:
+        dest: /home/ec2-user/app/.env.prod
+        mode: '0600'
+        owner: ec2-user
+        content: |
+          DJANGO_SETTINGS_MODULE=laundry_advisor.settings.prod
+          SECRET_KEY={{ secret_key }}
+          EC2_HOST={{ ec2_host }}
+          DATABASE_URL=postgres://postgres:{{ postgres_password }}@db:5432/laundry_advisor
+          POSTGRES_DB=laundry_advisor
+          POSTGRES_USER=postgres
+          POSTGRES_PASSWORD={{ postgres_password }}
+          AWS_STORAGE_BUCKET_NAME={{ aws_bucket }}
+          AWS_ACCESS_KEY_ID={{ aws_access_key_id }}
+          AWS_SECRET_ACCESS_KEY={{ aws_secret_access_key }}
+          OPENAI_API_KEY={{ openai_api_key }}
+
+    - name: Copy docker-compose.prod.yml
+      copy:
+        src: ../../docker-compose.prod.yml
+        dest: /home/ec2-user/app/docker-compose.prod.yml
+        owner: ec2-user
+
+    - name: Log in to ECR
+      shell: >
+        aws ecr get-login-password --region us-east-1 |
+        docker login --username AWS --password-stdin {{ ecr_registry }}
+
+    - name: Pull latest image
+      command: docker pull {{ ecr_registry }}/laundryadvisor:{{ image_tag | default('latest') }}
+
+    - name: Start application
+      command: docker compose -f /home/ec2-user/app/docker-compose.prod.yml up -d
+      environment:
+        ECR_IMAGE: "{{ ecr_registry }}/laundryadvisor:{{ image_tag | default('latest') }}"
+
+    - name: Reload Nginx
+      systemd:
+        name: nginx
+        state: reloaded
