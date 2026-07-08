@@ -3,7 +3,7 @@ name: Build and Push to ECR
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-push:
@@ -27,3 +27,31 @@ jobs:
         run: |
           docker build -t 013121026988.dkr.ecr.us-east-1.amazonaws.com/laundryadvisor:latest .
           docker push 013121026988.dkr.ecr.us-east-1.amazonaws.com/laundryadvisor:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Ansible
+        run: pip install ansible
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/laundry-advisor.pem
+          chmod 600 ~/.ssh/laundry-advisor.pem
+
+      - name: Set up vault password file
+        run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ansible/.vault_pass
+
+      - name: Run deploy playbook
+        working-directory: ansible
+        run: |
+          ansible-playbook playbooks/deploy.yml \
+            -i inventory/hosts.ini \
+            --vault-password-file .vault_pass \
+            -e @vault.yml

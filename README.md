@@ -8,7 +8,7 @@ Self-hosted deployment of [WardrobeWise](https://github.com/camronpatel/LaundryA
 - **Docker + Docker Compose** — containerized Django/Gunicorn + PostgreSQL
 - **Nginx** — reverse proxy on port 80
 - **AWS ECR** — Docker image registry
-- **GitHub Actions** — builds and pushes image to ECR on every push to `master`
+- **GitHub Actions** — builds and pushes image to ECR on every push to `main`
 - **Ansible** — provisions the server and deploys the application
 
 ## Prerequisites
@@ -40,7 +40,7 @@ ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook playbooks/deploy.yml \
 
 ## Deploying Updates
 
-1. Push to `master` — GitHub Actions builds and pushes a new image to ECR automatically
+1. Push to `main` — GitHub Actions builds and pushes a new image to ECR automatically
 2. Run the deploy playbook (step 2 above) to pull the new image and restart the app
 
 ## Vault Setup

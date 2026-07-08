@@ -17,7 +17,7 @@ Developer (local machine)
         ▼
   GitHub (wardrobewise-infra repo)
         │
-        │  triggers GitHub Actions on every push to master
+        │  triggers GitHub Actions on every push to main
         ▼
   GitHub Actions Runner (temporary Ubuntu VM)
         │
@@ -73,7 +73,7 @@ Gunicorn is a Python WSGI server — it is not designed to handle raw internet t
 directly. Nginx handles that and passes clean requests through.
 
 ### GitHub Actions
-CI/CD pipeline defined in `.github/workflows/deploy.yml`. On every push to `master`:
+CI/CD pipeline defined in `.github/workflows/deploy.yml`. On every push to `main`:
 1. Checks out the code onto a temporary GitHub-hosted Ubuntu runner
 2. Authenticates to AWS using credentials stored as GitHub Secrets
 3. Builds a Docker image from the `Dockerfile`
@@ -136,7 +136,7 @@ restarted without losing any uploaded files.
 ## Deployment Flow (Day-to-Day)
 
 1. Make code changes locally
-2. `git push wardrobewise master` — GitHub Actions automatically builds and pushes a new
+2. `git push wardrobewise main` — GitHub Actions automatically builds and pushes a new
    Docker image to ECR (takes ~2-3 minutes)
 3. Run the Ansible deploy playbook to pull the new image and restart the app:
    ```
