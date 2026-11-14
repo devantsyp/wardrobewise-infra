@@ -11,16 +11,16 @@
         owner: ec2-user
         content: |
           DJANGO_SETTINGS_MODULE=laundry_advisor.settings.prod
-          SECRET_KEY={{ secret_key }}
+          SECRET_KEY={{ secret_key | replace('$', '$$') }}
           EC2_HOST={{ ec2_host }}
-          DATABASE_URL=postgres://postgres:{{ postgres_password }}@db:5432/laundry_advisor
+          DATABASE_URL=postgres://postgres:{{ postgres_password | replace('$', '$$') }}@db:5432/laundry_advisor
           POSTGRES_DB=laundry_advisor
           POSTGRES_USER=postgres
-          POSTGRES_PASSWORD={{ postgres_password }}
+          POSTGRES_PASSWORD={{ postgres_password | replace('$', '$$') }}
           AWS_STORAGE_BUCKET_NAME={{ aws_bucket }}
-          AWS_ACCESS_KEY_ID={{ aws_access_key_id }}
-          AWS_SECRET_ACCESS_KEY={{ aws_secret_access_key }}
-          OPENAI_API_KEY={{ openai_api_key }}
+          AWS_ACCESS_KEY_ID={{ aws_access_key_id | replace('$', '$$') }}
+          AWS_SECRET_ACCESS_KEY={{ aws_secret_access_key | replace('$', '$$') }}
+          OPENAI_API_KEY={{ openai_api_key | replace('$', '$$') }}
 
     - name: Copy docker-compose.prod.yml
       copy:
