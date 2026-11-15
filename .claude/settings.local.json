@@ -19,7 +19,10 @@
       "PowerShell(aws ec2 create-key-pair *)",
       "PowerShell($VPC_ID = aws ec2 describe-vpcs --filters \"Name=is-default,Values=true\" --query \"Vpcs[0].VpcId\" --output text; Write-Host \"VPC: $VPC_ID\"; $SG_ID = aws ec2 create-security-group --group-name laundry-advisor-sg --description \"LaundryAdvisor web server\" --vpc-id $VPC_ID --query \"GroupId\" --output text; Write-Host \"SG: $SG_ID\"; aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 22 --cidr 0.0.0.0/0; aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 80 --cidr 0.0.0.0/0; Write-Host \"Security group rules added\")",
       "PowerShell(wsl --list --verbose 2>&1)",
-      "PowerShell(wsl -d ITSC-3146 ansible --version 2>&1)"
+      "PowerShell(wsl -d ITSC-3146 ansible --version 2>&1)",
+      "Bash(cat)",
+      "Read(//tmp/**)",
+      "Bash(echo *)"
     ]
   }
 }
