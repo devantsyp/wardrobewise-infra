@@ -47,6 +47,36 @@
       environment:
         ECR_IMAGE: "{{ ecr_registry }}/laundryadvisor:{{ image_tag | default('latest') }}"
 
+    # ---------------------------------------------------------------- disk hygiene
+    # Each deploy pulls a new ~500 MB `latest` image and leaves the previous one
+    # behind untagged; on the 8 GB root disk these filled ~2.5 GB. Images in use
+    # by running containers are never removed, and every version stays in ECR.
+
+    - name: Remove old (dangling) Docker images
+      command: docker image prune -f
+      register: prune
+      changed_when: "'Total reclaimed space: 0B' not in prune.stdout"
+
+    - name: Create journald drop-in directory
+      file:
+        path: /etc/systemd/journald.conf.d
+        state: directory
+        mode: '0755'
+
+    - name: Cap systemd journal size
+      copy:
+        dest: /etc/systemd/journald.conf.d/size.conf
+        content: |
+          [Journal]
+          SystemMaxUse=200M
+      register: journald_conf
+
+    - name: Apply journal size cap
+      systemd:
+        name: systemd-journald
+        state: restarted
+      when: journald_conf.changed
+
     # ---------------------------------------------------------------- nginx / TLS
 
     - name: Create ACME challenge webroot
