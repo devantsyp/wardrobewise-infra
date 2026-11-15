@@ -3,6 +3,11 @@
   hosts: ec2
   become: true
 
+  vars:
+    # Set `domain` in inventory/hosts.ini to turn on HTTPS; leave empty for HTTP-only.
+    https_enabled: "{{ (domain | default('')) | length > 0 }}"
+    nginx_conf: /etc/nginx/conf.d/laundry_advisor.conf
+
   tasks:
     - name: Write .env.prod
       copy:
@@ -12,7 +17,8 @@
         content: |
           DJANGO_SETTINGS_MODULE=laundry_advisor.settings.prod
           SECRET_KEY={{ secret_key | replace('$', '$$') }}
-          EC2_HOST={{ ec2_host }}
+          EC2_HOST={{ inventory_hostname }}
+          DOMAIN={{ domain | default('') }}
           DATABASE_URL=postgres://postgres:{{ postgres_password | replace('$', '$$') }}@db:5432/laundry_advisor
           POSTGRES_DB=laundry_advisor
           POSTGRES_USER=postgres
@@ -40,6 +46,95 @@
       command: docker compose -f /home/ec2-user/app/docker-compose.prod.yml up -d
       environment:
         ECR_IMAGE: "{{ ecr_registry }}/laundryadvisor:{{ image_tag | default('latest') }}"
+
+    # ---------------------------------------------------------------- nginx / TLS
+
+    - name: Create ACME challenge webroot
+      file:
+        path: /var/www/certbot
+        state: directory
+        mode: '0755'
+
+    - name: Configure Nginx (HTTP only)
+      copy:
+        src: ../../nginx/nginx.conf
+        dest: "{{ nginx_conf }}"
+      when: not (https_enabled | bool)
+
+    - name: Set up HTTPS with Let's Encrypt
+      when: https_enabled | bool
+      block:
+        - name: Install certbot in a virtualenv
+          shell: python3 -m venv /opt/certbot && /opt/certbot/bin/pip install --upgrade pip certbot
+          args:
+            creates: /opt/certbot/bin/certbot
+
+        - name: Check for an existing certificate
+          stat:
+            path: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+          register: cert
+
+        - name: Serve the ACME challenge over HTTP for first issuance
+          copy:
+            src: ../../nginx/nginx.conf
+            dest: "{{ nginx_conf }}"
+          when: not cert.stat.exists
+
+        - name: Reload Nginx before first issuance
+          systemd:
+            name: nginx
+            state: reloaded
+          when: not cert.stat.exists
+
+        - name: Obtain certificate
+          command: >
+            /opt/certbot/bin/certbot certonly --webroot -w /var/www/certbot
+            -d {{ domain }} -d www.{{ domain }}
+            --non-interactive --agree-tos --register-unsafely-without-email
+          args:
+            creates: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+
+        - name: Configure Nginx (HTTPS)
+          template:
+            src: ../../nginx/nginx-https.conf.j2
+            dest: "{{ nginx_conf }}"
+
+        - name: Install certbot renewal service
+          copy:
+            dest: /etc/systemd/system/certbot-renew.service
+            content: |
+              [Unit]
+              Description=Renew Let's Encrypt certificates
+
+              [Service]
+              Type=oneshot
+              ExecStart=/opt/certbot/bin/certbot renew --quiet --deploy-hook "systemctl reload nginx"
+
+        - name: Install certbot renewal timer
+          copy:
+            dest: /etc/systemd/system/certbot-renew.timer
+            content: |
+              [Unit]
+              Description=Twice-daily Let's Encrypt renewal check
+
+              [Timer]
+              OnCalendar=*-*-* 03,15:00:00
+              RandomizedDelaySec=1h
+              Persistent=true
+
+              [Install]
+              WantedBy=timers.target
+
+        - name: Enable certbot renewal timer
+          systemd:
+            name: certbot-renew.timer
+            state: started
+            enabled: true
+            daemon_reload: true
+
+    - name: Validate Nginx config
+      command: nginx -t
+      changed_when: false
 
     - name: Reload Nginx
       systemd:

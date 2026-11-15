@@ -20,6 +20,12 @@ EC2_HOST = env('EC2_HOST', default=None)
 if EC2_HOST:
     ALLOWED_HOSTS.append(EC2_HOST)
 
+# Custom domain served over HTTPS by nginx + Let's Encrypt (set via Ansible).
+DOMAIN = env('DOMAIN', default='')
+if DOMAIN:
+    ALLOWED_HOSTS += [DOMAIN, f'www.{DOMAIN}']
+    CSRF_TRUSTED_ORIGINS = [f'https://{DOMAIN}', f'https://www.{DOMAIN}']
+
 # Database — PostgreSQL via DATABASE_URL (set automatically by Render Blueprint)
 DATABASES = {
     'default': dj_database_url.config(
@@ -58,14 +64,15 @@ STORAGES["default"] = {
 # Tailwind CLI — do NOT auto-download in production (binary installed during build)
 TAILWIND_CLI_AUTOMATIC_DOWNLOAD = False
 
-# HTTPS is available on Render but not on plain EC2 (no SSL cert).
-# Disable SSL enforcement when EC2_HOST is set.
-HTTPS_ENABLED = not bool(EC2_HOST)
+# HTTPS: always on Render; on EC2 only once a DOMAIN (and so a TLS cert) is configured.
+HTTPS_ENABLED = bool(DOMAIN) or not bool(EC2_HOST)
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if HTTPS_ENABLED else None
 SESSION_COOKIE_SECURE = HTTPS_ENABLED
 CSRF_COOKIE_SECURE = HTTPS_ENABLED
 SECURE_SSL_REDIRECT = HTTPS_ENABLED
-SECURE_HSTS_SECONDS = 31536000 if HTTPS_ENABLED else 0
-SECURE_HSTS_INCLUDE_SUBDOMAINS = HTTPS_ENABLED
-SECURE_HSTS_PRELOAD = HTTPS_ENABLED
+# HSTS makes browsers refuse plain HTTP for this long — start short (1 day) on a
+# fresh setup; raise HSTS_SECONDS to 31536000 once HTTPS has proven stable.
+SECURE_HSTS_SECONDS = env.int('HSTS_SECONDS', default=86400) if HTTPS_ENABLED else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
