@@ -1,0 +1,27 @@
+#!/bin/bash
+# Nightly PostgreSQL backup to S3. Installed by ansible/playbooks/deploy.yml,
+# run by the pg-backup.timer systemd unit. Logs: journalctl -u pg-backup
+set -euo pipefail
+
+BUCKET="{{ backup_bucket }}"
+REGION="{{ backup_bucket_region | default('us-east-1') }}"
+DB_CONTAINER="app-db-1"
+DB_NAME="laundry_advisor"
+
+TIMESTAMP="$(date -u +%Y-%m-%dT%H%M%SZ)"
+KEY="postgres/${DB_NAME}-${TIMESTAMP}.dump"
+TMP_FILE="$(mktemp /var/tmp/pg-backup.XXXXXX)"
+trap 'rm -f "$TMP_FILE"' EXIT
+
+# Custom format (-Fc): compressed, and restorable table-by-table with pg_restore.
+docker exec "$DB_CONTAINER" pg_dump -U postgres -d "$DB_NAME" -Fc > "$TMP_FILE"
+
+# Refuse to upload an empty or truncated dump.
+if [ ! -s "$TMP_FILE" ]; then
+    echo "Backup FAILED: pg_dump produced an empty file" >&2
+    exit 1
+fi
+
+aws s3 cp "$TMP_FILE" "s3://${BUCKET}/${KEY}" --region "$REGION" --only-show-errors
+
+echo "Backup uploaded: s3://${BUCKET}/${KEY} ($(stat -c %s "$TMP_FILE") bytes)"

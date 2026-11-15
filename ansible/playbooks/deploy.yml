@@ -77,6 +77,54 @@
         state: restarted
       when: journald_conf.changed
 
+    # ---------------------------------------------------------------- backups
+    # Nightly pg_dump to a private S3 bucket. Set `backup_bucket` in
+    # inventory/hosts.ini to enable; the EC2 instance role needs s3:PutObject on it.
+
+    - name: Set up nightly database backups to S3
+      when: (backup_bucket | default('')) | length > 0
+      block:
+        - name: Install backup script
+          template:
+            src: ../templates/pg-backup.sh.j2
+            dest: /usr/local/bin/pg-backup
+            mode: '0755'
+
+        - name: Install backup service
+          copy:
+            dest: /etc/systemd/system/pg-backup.service
+            content: |
+              [Unit]
+              Description=Back up PostgreSQL to S3
+              Requires=docker.service
+              After=docker.service
+
+              [Service]
+              Type=oneshot
+              ExecStart=/usr/local/bin/pg-backup
+
+        - name: Install backup timer
+          copy:
+            dest: /etc/systemd/system/pg-backup.timer
+            content: |
+              [Unit]
+              Description=Nightly PostgreSQL backup
+
+              [Timer]
+              OnCalendar=*-*-* 04:00:00 UTC
+              RandomizedDelaySec=15m
+              Persistent=true
+
+              [Install]
+              WantedBy=timers.target
+
+        - name: Enable backup timer
+          systemd:
+            name: pg-backup.timer
+            state: started
+            enabled: true
+            daemon_reload: true
+
     # ---------------------------------------------------------------- nginx / TLS
 
     - name: Create ACME challenge webroot
